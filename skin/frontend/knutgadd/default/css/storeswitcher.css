@@ -1,0 +1,241 @@
+.selreplace_scroll {
+	display: block;
+	width: 26px;
+}
+
+.selreplace_scrollbuttonup,.selreplace_scrollbuttondown {
+	display: block;
+	width: 26px;
+	height: 26px;
+}
+
+.selreplace_scrollbuttondown {
+}
+
+.selreplace_scrollbuttonup {
+}
+
+.selreplace_select {
+    color: #000;
+    display: block;
+    overflow: hidden;
+    height: 26px !important;
+    text-align: left;
+    z-index: 999999;
+    min-width: 130px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+}
+
+.selreplace_select:hover {
+    text-decoration: underline;
+}
+
+.selreplace_select.top-opened {
+    color: #000;
+    display: block;
+    overflow: hidden;
+    background-color: #fff;
+    height: 15px;
+    border-radius: 5px 5px 0 0;
+    border: 1px solid #aaa;
+    text-align: left;
+    z-index: 999999;
+    min-width: 130px;
+}
+
+.selreplace_select.top-opened:hover {
+    text-decoration: none;
+}
+
+.selreplace_selectbutton {
+	display: block;
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    right:0px;
+    top:0px;
+}
+
+.selreplace_optionsel {
+    height: 28px;
+    padding: 5px;
+    display: block;
+    cursor: pointer;
+    min-width: 130px;
+    overflow: hidden;
+    font-family: 'Tonis';
+    font-size: 16px;
+}
+
+.selreplace_optionimg {
+	float: left;
+    padding-right: 5px;
+    padding-top: 3px;
+    height: 18px;
+    width: auto;
+}
+
+.selreplace_option {
+    height: 28px;
+	padding: 5px;
+	display: block;
+    cursor: pointer;
+    min-width: 130px;
+    overflow: hidden;
+    font-family: 'Tonis';
+    font-size: 16px;
+}
+
+.selreplace_option:hover {
+    background-color: #E0FFFF;
+}
+
+.selreplace_selectinner{
+	margin: 1px 0 1px 3px;
+    font-family: 'Tonis';
+    font-size: 16px;
+    color: #000000  ;
+}
+
+.selreplace_selectinner:hover,
+.selreplace_selectinner:focus {
+    text-decoration: none !important;
+}
+
+.selreplace_selectbox {
+	background-color: #ffffff;
+    z-index: 1000000;
+	overflow: hidden;
+    text-align: left;
+    min-width: 130px;
+    padding-bottom: 7px;
+    border: 1px solid #aaa;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.cms-country-selector .main .std .row {
+    display: inline-block;
+    width: 100%;
+    border-top: 1px solid black;
+}
+
+.cms-country-selector .main-container {
+    padding: 0px;
+}
+
+.cms-country-selector .main-container .std h1 {
+    font-family: 'Tonis';
+    font-size: 48px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: none;
+    color: #000000;
+}
+
+.cms-country-selector .main-container .form-language {
+    padding: 40px 0 100px 0;
+    float: left;
+    width: 33%;
+    position: relative;
+    text-align: center;
+}
+
+.cms-country-selector .main-container .form-language .ddcommon {
+    margin: 100px auto 0 auto;
+    display: inline-block;
+    width: 90% !important;
+    position: relative;
+    z-index: 100;
+}
+
+.cms-country-selector .main-container .form-language .ddcommon img {
+    width: auto;
+    display: inline-block;
+}
+
+.cms-country-selector .main-container .form-language .enabled._msddli_ {
+    margin-left: 0px;
+    text-align: left;
+}
+.cms-country-selector .main-container .form-language .background {
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 75px;
+    width: 100%;
+    display: block;
+}
+
+.cms-country-selector .main-container .form-language .background div {
+    background-image: url("../images/countryselector.png");
+    display: block;
+    margin: auto !important;
+    position: relative;
+    top: 0px;
+}
+
+.cms-country-selector .main-container .form-language .background .africa {
+    background-position: -713px 0;
+    height: 127px;
+    width: 107px;
+}
+
+.cms-country-selector .main-container .form-language .background .europe {
+    background-position: -260px 0;
+    height: 130px;
+    width: 192px;
+}
+
+.cms-country-selector .main-container .form-language .background .asia {
+    background-position: -450px 0;
+    height: 185px;
+    width: 172px;
+}
+
+.cms-country-selector .main-container .form-language .background .north-am {
+    background-position: 0 0;
+    height: 156px;
+    width: 259px;
+}
+
+.cms-country-selector .main-container .form-language .background .south-am {
+    background-position: -623px 0;
+    height: 149px;
+    width: 91px;
+}
+
+.cms-country-selector .main-container .form-language #global {
+    margin-top: 100px;
+    display: inline-block;
+    height: 50px;
+    width: 60%;
+    line-height: 50px;
+    text-transform: uppercase;
+    padding: 0 10px;
+    background-color: #5E938B;
+    color: #FFFFFF;
+}
+
+.form-language label {
+    font-size: 14px !important;
+    font-family: 'Tonis';
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+}
+
+.form-language .geoip-country {
+    color: #EBBC58;
+}
+
+.form-language .geoip-country img {
+    padding-right: 5px;
+    padding-top: 3px;
+    height: 18px;
+    width: auto;
+}
+

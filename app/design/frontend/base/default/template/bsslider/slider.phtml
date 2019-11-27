@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Sreedarsh Bsslider
+ *
+ * @category      Sreedarsh
+ * @package       Sreedarsh_Bsslider
+ */
+?>
+
+
+<?php
+$width = Mage::getStoreConfig('bsslider/settings/width') ? Mage::getStoreConfig('bsslider/settings/width') : 'auto';
+
+$height = Mage::getStoreConfig('bsslider/settings/height') ? Mage::getStoreConfig('bsslider/settings/height') : 'auto';
+
+$sliderpause = Mage::getStoreConfig('bsslider/settings/sliderpause');
+$sliderpause = $sliderpause == 0 ? 'none' : 'hover';
+
+$sliderinterval = Mage::getStoreConfig('bsslider/settings/sliderinterval');
+
+$slidercontrol = Mage::getStoreConfig('bsslider/settings/control');
+$slidercontrol = $slidercontrol == 0 ? 'none' : '';
+
+$sliderindicator = Mage::getStoreConfig('bsslider/settings/indicators');
+$sliderindicator = $sliderindicator == 0 ? 'none' : '';
+?>
+<?php if (Mage::getStoreConfig('bsslider/settings/includejquery') == 1): ?>
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.min.js') ?>"></script>
+<?php endif; ?>
+<?php if (Mage::getStoreConfig('bsslider/settings/includeboot') == 1): ?>
+    <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/bootstrap.min.css') ?>" media="all" />
+    <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/bootstrap.min.js') ?>"></script>
+<?php endif; ?>
+<style>
+    .std ol li {
+        margin-left:0;
+    }
+</style>
+
+<?php
+$collection = $this->getSlider();
+?>
+
+<?php if (count($collection) >= 1): ?>
+    <!-- <div class="container"> -->
+        <!-- <div class="row"> -->
+            <!-- <div class="col-xs-12 col-sm-12 col-md-12" style="padding: 0px;"> -->
+                <br>
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width:<?php echo $width; ?>" >
+                    <!-- Indicators -->
+                    <?php if (count($collection) > 1): ?>
+                        <ol class="carousel-indicators" style="display:<?php echo $sliderindicator; ?>">
+                            <?php for ($i = 0; $i < count($collection); $i++): ?>
+                                <li data-target="#myCarousel" data-slide-to="<?php echo $i; ?>"></li>
+                            <?php endfor; ?>
+                        </ol>
+                    <?php endif; ?>
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+
+                        <?php foreach ($collection as $images): ?>
+                            <div class="item">
+                                <a href="http://<?php echo $images->getImageLink(); ?>">
+                                    <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . $images->getImageName(); ?>" alt="Flower" width="100%" height="<?php echo $height; ?>" >
+                                    <div class="carousel-caption">
+                                        <h3><?php echo $images->getImageTitle(); ?></h3>
+                                        <p><?php echo $images->getImageCaption(); ?></p>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <?php if (count($collection) > 1): ?>
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev" style="display:<?php echo $slidercontrol; ?>">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next" style="display:<?php echo $slidercontrol; ?>">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            <!-- </div> -->
+        <!-- </div> -->
+    <!-- </div> -->
+<?php else: ?>
+    <div class="alert alert-warning" role="alert">
+        <strong>Warning!</strong> No images available to display
+    </div>
+
+
+<?php endif; ?>
+<script>
+    var jq = $.noConflict();
+    jq(document).ready(function () {
+        jq('#myCarousel').carousel({
+            interval: "<?php echo $sliderinterval; ?>",
+            pause: "<?php echo $sliderpause; ?>"
+        });
+    });
+    jq(".carousel-inner div:nth-child(1)").addClass('active');
+    jq(".carousel-indicators li:nth-child(1)").addClass('active');
+</script>
+
+

@@ -1,0 +1,33 @@
+1.0.8 / 2014-08-07
+    - Removed the (not required) Unifaun related code (nwt_data), this is (will be) managed by Unifaun module
+
+1.0.7 / 2014-08-05
+    - Changed status options for KCO payment (now could choose from NEW & PROCESSING state, was only NEW)
+
+1.0.6 / 2014-07-31
+    - Fix NWT_KCO_Exception bug  ($previous params not exists/works in php 5.2)
+
+1.0.5 / 2014-07-28
+    - Fix responsive part for thankyou page
+
+1.0.4 / 2014-07-23
+    - Minor CSS fixes (rename .hide class to .nwtkco-hide, fix float bug)
+    - Add custom success.phtml template
+    - Set all configuration fields to be shown in store (show_in_store = 1)
+
+1.0.3 / 2014-07-23
+    - Add license information
+    - Add changelog (this file)
+
+1.0.2 / 2014-07-22
+    - Fix "Remove Checkout Buttons/Links" bug (even the "Add Klarna buttons" settings is no, the links/buttons are still removed)
+
+1.0.1 / 2014-07-22
+    - Implement push action (to register order/cancel reservation if an error occured when saving order)
+    - Refactoring the checkout sidebar (make fixed width)
+    - Add "Responsive Theme" flag (if No, the klarna checkout page will not be responsive)
+    - Disabled Nwt_Klarnakassan module from our module config file.
+
+1.0.0 / 2014-07-18
+    - first public release
+

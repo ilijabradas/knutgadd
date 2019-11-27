@@ -1,0 +1,38 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * (Subscribe to) Newsletter box template
+ */
+?>
+
+<?php
+    //check if user ask to subscribe or not, else, get default
+    $subscribe = Mage::helper('nwtkco')->subscribeNewsletter();
+?>
+
+<div class="nwtkco-block nwtkco-block-subscribe" id="nwtkco_newsletter">
+    <div class="nwtkco-title">
+        <h2><?php echo $this->__('Newsletter') ?></h2>
+    </div>
+    <form action="<?php echo Mage::helper('nwtkco')->getCheckoutUrl('updateNewsletter');?>" method="post" id="klarnakassan-newsletter">
+        <div class="nwtkco-content">
+            <ul>
+                <li>
+                    <input type="checkbox" name="newsletter" value="1" <?php echo $subscribe?'checked="checked"':'';?> id="newsletter" title="<?php echo $this->__('Sign Up for Our Newsletter') ?>" class="checkbox" onchange="KCO.updateNewsletter(this);"  />
+                    <label for="newsletter"><span class="tick"></span> <?php echo $this->__('Sign Up for Our Newsletter') ?></label>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>

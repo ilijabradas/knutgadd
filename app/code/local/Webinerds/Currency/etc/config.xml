@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Webinerds_Currency>
+            <version>0.1.0</version>
+        </Webinerds_Currency>
+    </modules>
+    <global>
+        <models>
+            <directory>
+                <rewrite>
+                    <currency>Webinerds_Currency_Model_Currency</currency>
+                </rewrite>
+            </directory>
+            <webinerds_currency>
+                <class>Webinerds_Currency_Model</class>
+            </webinerds_currency>
+        </models>
+        <helpers>
+            <webinerds_currency>
+                <class>Webinerds_Currency_Helper</class>
+            </webinerds_currency>
+        </helpers>
+    </global>
+</config>

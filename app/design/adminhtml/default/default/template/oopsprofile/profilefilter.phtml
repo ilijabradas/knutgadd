@@ -1,0 +1,156 @@
+<div class="entry-edit profile-generator oopsprofile-generator">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Profile Filters") ?></h4>
+    </div>
+    <fieldset>
+    		<legend><?php echo $this->__("Profile Filters") ?></legend>
+    		<span class="field-row">
+            <label for="profile_store_id"><?php echo $this->__("Store:") ?></label>
+            <span class="with-tip">
+                <select id="profile_store_id" name="store_id" onchange="exportUrlField();">
+                <option value="0"><?php echo $this->__('Default (Admin) Values') ?></option>
+                    <?php foreach ($this->getWebsiteCollection() as $_website): ?>
+                        <?php $_websiteShow=false; ?>
+                        <?php foreach ($this->getGroupCollection() as $_group): ?>
+                            <?php if ($_website->getId() != $_group->getWebsiteId()) continue; ?>
+                            <?php $_groupShow=false; ?>
+                            <?php foreach ($this->getStoreCollection() as $_store): ?>
+                                <?php if ($_group->getId() != $_store->getGroupId()) continue; ?>
+                                <?php if (!$_websiteShow): ?>
+                                    <?php $_websiteShow=true; ?>
+                                    <optgroup label="<?php echo $_website->getName() ?>"></optgroup>
+                                <?php endif; ?>
+                                <?php if (!$_groupShow): ?>
+                                    <?php $_groupShow=true; ?>
+                                    <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_group->getName() ?>">
+                                <?php endif; ?>
+                                <option value="<?php echo $_store->getId() ?>" <?php echo $this->getSelected('store_id', $_store->getId()) ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $_store->getName() ?></option>
+                            <?php endforeach; ?>
+                            <?php if ($_groupShow): ?>
+                                </optgroup>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </select>
+                <small class="profile_direction_import profile_entity_type_product">
+                        <?php echo $this->__("(Products will be added/updated to this store if 'store' column is blank or missing in the import file.)") ?>
+                </small>
+            </span>
+        </span>
+        <div id="filters-for-product">
+				    <span class="field-row profile_direction_export">
+								<label for="filter_fromdate_img"><?php echo $this->__("Export Product from date") ?></label>
+								<span class="with-tip">
+										<input class="input-text" id="filter_fromdate" name="gui_data[filter][fromdate]" value="<?php echo $this->getValue('gui_data/filter/fromdate') ?>"/>
+										<img style="" title="Select Date" id="filter_fromdate_img" class="v-middle" alt="" src="<?php echo $this->getSkinUrl('images/grid-cal.gif');?> "/>
+								</span>
+								<script type="text/javascript">
+								    //<![CDATA[
+								        Calendar.setup({
+								            inputField: "filter_fromdate",
+												ifFormat: "%m/%e/%Y",
+												showsTime: false,
+												button: "filter_fromdate_img",
+												align: "Bl",
+												singleClick : true
+								        });
+								    //]]>
+								    </script>
+						</span>
+						<span class="field-row profile_direction_export">
+								<label for="filter_todate_img"><?php echo $this->__("Export Product to date") ?></label>
+								<span class="with-tip">
+										<input class="input-text" id="filter_todate" name="gui_data[filter][todate]" value="<?php echo $this->getValue('gui_data/filter/todate') ?>"/>
+										<img style="" title="Select Date" id="filter_todate_img" class="v-middle" alt="" src="<?php echo $this->getSkinUrl('images/grid-cal.gif');?> "/>
+								</span>
+								<script type="text/javascript">
+						    //<![CDATA[
+						        Calendar.setup({
+						            inputField: "filter_todate",
+						            ifFormat: "%m/%e/%Y",
+						            showsTime: false,
+						            button: "filter_todate_img",
+						            align: "Bl",
+						            singleClick : true
+						        });
+						    //]]>
+						    </script>
+						</span>
+						<?php $productTypes = Mage::getModel('catalog/product_type')->getOptionArray();?>
+						<span class="field-row profile_direction_export">
+								<label for="filter_todate_img"><?php echo $this->__("Hidden Product Types") ?></label>
+								<span class="with-tip">
+										<select id="profile_data_transfer" name="gui_data[filter][hiddentype][]" onchange="showOption(this);updateRun(this)" class="option-control" multiple="multiple">
+								        <?php foreach($productTypes as $key=>$value):?>
+								        		<option value="<?php echo $key?>" <?php echo $this->getMultipleSelect('gui_data/filter/hiddentype',$key);?>><?php echo $value ?></option>
+								        <?php endforeach;?>
+								        <option value=""></option>
+								    </select>
+								    <small>
+				                    <?php echo $this->__("(Selected product types won't be exported)") ?>
+				            </small>
+								</span>
+						</span>
+				</div>
+    </fieldset>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+    $$('.option-control').each(showOption);
+    changeEntityType();
+    
+
+    function showFeildMapping() {
+        var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
+        var value = $('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value;
+        var map = $('map_only_specified').options[$('map_only_specified').options.selectedIndex].value;
+
+        if (direction == 'export') {
+            if (map) {
+                Element.show($('__fieldmapping'));
+            } else {
+                deleteAllAddedMappingFields();
+                Element.hide($('__fieldmapping'));
+            }
+        } else {
+            if (value) {
+                Element.hide($('__fieldmapping'));
+                deleteAllAddedMappingFields();
+            } else {
+                Element.show($('__fieldmapping'));
+            }
+        }
+
+    }
+
+    function deleteAllAddedMappingFields()
+    {
+        var type = $('profile_entity_type').options[$('profile_entity_type').options.selectedIndex].value;
+
+        var elems = $('map_container_'+type).childElements();
+        if (elems.length > 0) for (var idx in elems) {
+            if (elems[idx] != undefined && elems[idx].tagName != undefined) {
+                elems[idx].remove();
+            }
+        }
+    }
+    var direction = $('profile_direction').options[$('profile_direction').options.selectedIndex].value;
+    if (direction == 'import') {
+        //if ($('parse_fieldnames').options[$('parse_fieldnames').options.selectedIndex].value) {
+       //     Element.hide($('__fieldmapping'));
+        //    deleteAllAddedMappingFields();
+       // } else {
+            Element.show($('__fieldmapping'));
+        //}
+    } else {
+        var map = $('map_only_specified').options[$('map_only_specified').options.selectedIndex].value;
+        if (map) {
+            Element.show($('__fieldmapping'));
+        } else {
+            deleteAllAddedMappingFields();
+            Element.hide($('__fieldmapping'));
+        }
+    }
+//]]>
+</script>

@@ -1,0 +1,19 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+
+/**
+ * "Back to Klarna Checkout" button template
+ */
+?>
+<ul class="add-to-links">
+    <li><a href="<?php echo $this->helper('nwtkco')->getCheckoutUrl();?>"><?php echo $this->__('Back to &raquo;&raquo;<br />Klarna Checkout');?></a>
+</ul>

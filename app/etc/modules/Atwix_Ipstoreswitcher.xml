@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Atwix_Ipstoreswitcher>
+			<active>true</active>
+			<codePool>community</codePool>
+		</Atwix_Ipstoreswitcher>
+	</modules>
+</config>

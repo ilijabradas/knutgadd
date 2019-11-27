@@ -1,0 +1,73 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+<header id="header" class="page-header">
+    <?php
+    $storeCode = Mage::app()->getStore()->getCode();
+    if($storeCode <> 'se'):
+        ?>
+    <div class="accordion-heading">
+        <div class="mobile-top-menu">
+            <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse">
+        <div class="accordion-inner">
+            <div class="language">
+                <div class="form-language">
+                    <div class="langs-wrapper">
+                        <a class="lang-flag" href="/se"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'se' . '.png');?>" alt="Sweden"></a>
+                        <a class="lang-flag" href="/"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'us' . '.png');?>" alt="English"></a>
+                        <a class="lang-flag" href="/eu"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'eu' . '.png');?>" alt="Europe"></a>
+                        <a class="lang-flag" href="/fr"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'fr' . '.png');?>" alt="France"></a>
+                        <a class="lang-flag" href="/cn"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'cn' . '.png');?>" alt="China"></a>
+                        <a class="lang-flag" href="/tw"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'tw' . '.png');?>" alt="Taiwan"></a>
+                        <a class="lang-flag" href="/jp"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'jp' . '.png');?>" alt="Japan"></a>
+                        <a class="lang-flag" href="/kr"><img src="<?php echo $this->getSkinUrl('images/new-flags/' . 'kr' . '.png');?>" alt="North Korea"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<div class="page-header-container">
+    <?php $title = $this->getLayout()->getBlock('head')->getTitle(); ?>
+    <?php if($title == 'Knut Gadd' || $title == 'Checkout') { ?>
+    <a class="logo" href="<?php echo $this->getUrl('') ?>">
+        <img src="<?php echo $this->getLogoSrcSmall() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
+    </a>
+    <?php } ?>
+</div>
+</header>
+
+
+<?php echo $this->getChildHtml('topContainer'); ?>

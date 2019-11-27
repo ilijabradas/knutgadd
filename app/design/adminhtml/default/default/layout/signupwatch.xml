@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <signupwatch_adminhtml_signupwatch_index>
+        <reference name="content">
+            <block type="signupwatch/adminhtml_signupwatch" name="signupwatch" />
+        </reference>
+    </signupwatch_adminhtml_signupwatch_index>
+</layout>

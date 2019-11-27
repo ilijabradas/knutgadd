@@ -1,0 +1,15 @@
+<?php
+$helper = Mage::helper("cadence_fbpixel");
+if (!$helper->isConversionPixelEnabled()) {
+    return;
+}
+$id = $helper->getVisitorPixelId();
+?>
+<?php
+$grand_total = Mage::getSingleton('checkout/cart')->getQuote()->getGrandTotal();
+$currency_code = Mage::app()->getStore()->getCurrentCurrencyCode();
+?>
+<!-- Facebook Conversion Code for Conversions -->
+<script>
+    fbq('track', 'AddToCart', {value: '<?php echo $grand_total ?>', currency: '<?php echo $currency_code ?>'});
+</script>

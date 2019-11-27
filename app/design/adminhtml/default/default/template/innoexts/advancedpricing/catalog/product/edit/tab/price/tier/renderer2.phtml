@@ -1,0 +1,282 @@
+<?php
+/**
+ * Innoexts
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the InnoExts Commercial License
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://innoexts.com/commercial-license-agreement
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@innoexts.com so we can send you a copy immediately.
+ * 
+ * @category    Innoexts
+ * @package     Innoexts_AdvancedPricing
+ * @copyright   Copyright (c) 2014 Innoexts (http://www.innoexts.com)
+ * @license     http://innoexts.com/commercial-license-agreement  InnoExts Commercial License
+ */
+?>
+<?php $helper             = $this->helper('advancedpricing'); ?>
+<?php $element            = $this->getElement(); ?>
+<?php $elementHtmlId      = $element->getHtmlId(); ?>
+<?php $elementName        = $element->getName(); ?>
+<?php $elementClass       = $element->getClass(); ?>
+<?php $elementReadonly    = $element->getReadonly(); ?>
+<?php $isShowWebsite      = $this->isShowWebsiteColumn(); ?>
+<?php $isShowStore        = $this->isShowStoreColumn(); ?>
+<?php $isGroupPriceFixed    = $this->isGroupPriceFixed(); ?>
+<?php $websites           = $helper->getCoreHelper()->getWebsites(); ?>
+<?php $priceValidator     = $this->getPriceValidation('validate-greater-than-zero'); ?>
+<?php $argumentsCount     = (!$isGroupPriceFixed) ? 5 : 6; ?>
+<?php $tableColSpan       = (!$isGroupPriceFixed) ? 4 : 5; ?>
+<?php if (!$isShowWebsite)  $tableColSpan++;  ?>
+<?php if (!$isShowStore)    $tableColSpan++;  ?>
+
+<tr>
+    <td class="label"><?php echo $element->getLabel() ?></td>
+    <td colspan="10" class="grid tier-price-grid">
+    <table cellspacing="0" class="data border" id="tier_price_table">
+        <?php if ($isShowWebsite): ?><col width="190" /><?php endif; ?>
+        <?php if ($isShowStore) : ?><col width="165" /><?php endif; ?>
+        <col width="110" />
+        <col width="75" />
+        <col width="130" />
+        <?php if ($isGroupPriceFixed) : ?>
+        <col width="80" />
+        <?php endif; ?>
+        <col width="1" />
+        <thead>
+            <tr class="headings">
+                <th<?php if (!$isShowWebsite): ?> style="display:none"<?php endif; ?>><?php echo Mage::helper('sales')->__('Website') ?></th>
+                <th<?php if (!$isShowStore): ?> style="display:none"<?php endif; ?>><?php echo $helper->__('Store View') ?></th>
+                <th><?php echo Mage::helper('catalog')->__('Customer Group') ?></th>
+                <th><?php echo Mage::helper('catalog')->__('Qty') ?></th>
+                <th><?php echo $this->getPriceColumnHeader(Mage::helper('catalog')->__('Price')) ?></th>
+                <?php if ($isGroupPriceFixed) : ?>
+                <th><?php echo $helper->__('Currency') ?></th>
+                <?php endif; ?>
+                <th class="last"><?php echo Mage::helper('catalog')->__('Action') ?></th>
+            </tr>
+        </thead>
+        <tbody id="<?php echo $elementHtmlId ?>_container"></tbody>
+        <tfoot>
+            <tr>
+                <td<?php if (!$isShowWebsite): ?> style="display:none"<?php endif; ?>></td>
+                <td<?php if (!$isShowStore): ?> style="display:none"<?php endif; ?>></td>
+                <td colspan="<?php echo $tableColSpan ?>" class="a-right"><?php echo $this->getAddButtonHtml() ?></td>
+            </tr>
+        </tfoot>
+    </table>
+
+<script type="text/javascript">
+//<![CDATA[
+var tierPriceRowTemplate = '<tr>'
+    /* Website */
+    + '<td<?php if (!$isShowWebsite): ?> style="display:none"<?php endif; ?>>'
+    + '<select class="<?php echo $elementClass ?> website required-entry" name="<?php echo $elementName ?>[{{index}}][website_id]" id="tier_price_row_{{index}}_website" onchange="return tierPriceControl.onChangeWebsite(event)">'
+    <?php foreach ($this->getWebsites() as $_websiteId => $_info): ?>
+    + '<option value="<?php echo $_websiteId ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($_info['name'])) ?><?php if (!empty($_info['currency'])): ?> [<?php echo $this->htmlEscape($_info['currency']) ?>]<?php endif; ?></option>'
+    <?php endforeach ?>
+    + '</select></td>'
+    /* Store */
+    + '<td<?php if (!$isShowStore): ?> style="display:none"<?php endif; ?>><select class="<?php echo $elementClass ?> store required-entry" name="<?php echo $elementName ?>[{{index}}][store_id]" id="tier_price_row_{{index}}_store">'
+    + '<option value="0" store:id="0" website:id="0"><?php echo $this->jsQuoteEscape($helper->__('All Store Views')) ?></option>'
+    <?php foreach ($websites as $website) : ?>
+    <?php $websiteId = $website->getId() ?>
+    + '<optgroup label="<?php echo $this->jsQuoteEscape($website->getName()) ?>" website:id="<?php echo $websiteId ?>">'
+        <?php foreach ($website->getGroups() as $group): ?>
+        + '<optgroup label="&nbsp;&nbsp;&nbsp;<?php echo $this->jsQuoteEscape($group->getName()) ?>" website:id="<?php echo $websiteId ?>">'
+            <?php foreach ($group->getStores() as $store): ?>
+            <?php $storeId = $store->getId() ?>
+            + '<option value="<?php echo $storeId ?>" store:id="<?php echo $storeId ?>" website:id="<?php echo $websiteId ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->jsQuoteEscape($store->getName()) ?></option>'
+            <?php endforeach ?>
+        + '</optgroup>'
+        <?php endforeach ?>
+    + '</optgroup>'
+    <?php endforeach ?>
+    + '</select></td>'
+    /* Customer Group */
+    + '<td><select class="<?php echo $elementClass ?> custgroup required-entry" name="<?php echo $elementName ?>[{{index}}][cust_group]" id="tier_price_row_{{index}}_cust_group">'
+    <?php foreach ($this->getCustomerGroups() as $_groupId=>$_groupName): ?>
+    + '<option value="<?php echo $_groupId ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($_groupName)) ?></option>'
+    <?php endforeach ?>
+    + '</select></td>'
+    /* Qty */
+    + '<td class="nobr"><input class="<?php echo $elementClass ?> qty required-entry validate-greater-than-zero" type="text" name="<?php echo $elementName ?>[{{index}}][price_qty]" value="{{qty}}" id="tier_price_row_{{index}}_qty" />'
+    + ' <small class="nobr"><?php echo $helper->__("+")?></small></td>'
+    /* Price */
+    + '<td><input class="<?php echo $elementClass ?> required-entry <?php echo $priceValidator ?>" type="text" name="<?php echo $elementName ?>[{{index}}][price]" value="{{price}}" id="tier_price_row_{{index}}_price" /></td>'
+    /* Currency */
+    <?php if ($isGroupPriceFixed) : ?>
+    + '<td><select class="<?php echo $elementClass ?> currency" name="<?php echo $elementName ?>[{{index}}][currency]" id="tier_price_row_{{index}}_currency">'
+    + '<option value=""><?php echo $this->jsQuoteEscape($helper->__('All Currencies')) ?></option>'
+    <?php foreach ($this->getCurrencyCodes() as $currency): ?>
+    + '<option value="<?php echo $currency ?>"><?php echo $this->jsQuoteEscape($this->htmlEscape($currency)) ?></option>'
+    <?php endforeach ?>
+    + '</select></td>'
+    <?php endif; ?>
+    /* Delete */
+    + '<td class="last"><input type="hidden" name="<?php echo $elementName ?>[{{index}}][delete]" class="delete" value="" id="tier_price_row_{{index}}_delete" />'
+    + '<button title="<?php echo Mage::helper("catalog")->__("Delete Tier") ?>" type="button" class="scalable delete icon-btn delete-product-option" id="tier_price_row_{{index}}_delete_button" onclick="return tierPriceControl.onDeleteItem(event);">'
+    + '<span><?php echo Mage::helper("catalog")->__("Delete") ?></span></button></td>'
+
+    + '</tr>';
+
+var tierPriceControl = {
+    template: new Template(tierPriceRowTemplate, new RegExp('(^|.|\\r|\\n)({{\\s*(\\w+)\\s*}})', "")),
+    itemsCount: 0,
+    addItem : function () {
+        <?php if ($elementReadonly): ?>
+        if (arguments.length < <?php echo $argumentsCount ?>) {
+            return;
+        }
+        <?php endif; ?>
+        var data = {
+            website_id:     '<?php echo $this->getDefaultWebsite() ?>', 
+            store_id:       '<?php echo $this->getDefaultStore() ?>', 
+            group:          '<?php echo $this->getDefaultCustomerGroup() ?>', 
+            qty:            '', 
+            price:          '', 
+            <?php if ($isGroupPriceFixed) : ?>
+            currency:       '<?php echo $this->getDefaultCurrencyCode() ?>', 
+            <?php endif; ?>
+            readOnly:       false, 
+            index:          this.itemsCount++
+        };
+        if (arguments.length >= <?php echo $argumentsCount ?>) {
+            data.website_id     = arguments[0];
+            data.store_id       = arguments[1];
+            data.group          = arguments[2];
+            data.qty            = arguments[3];
+            data.price          = arguments[4];
+            <?php if ($isGroupPriceFixed) : ?>
+            data.currency_id    = arguments[5];
+            <?php endif; ?>
+        }
+        if (arguments.length == <?php echo $argumentsCount + 1 ?>) {
+            data.readOnly = arguments[<?php echo $argumentsCount ?>];
+        }
+        var container = $('<?php echo $elementHtmlId ?>_container');
+        var item = this.template.evaluate(data);
+        container.insert({ bottom : item });
+        var elementIdPrefix = 'tier_price_row_' + data.index + '_';
+        var customerGroup = $(elementIdPrefix + 'cust_group');
+        var website = $(elementIdPrefix + 'website');
+        var store = $(elementIdPrefix + 'store');
+        <?php if ($isGroupPriceFixed) : ?>
+        var currency = $(elementIdPrefix + 'currency');
+        <?php endif; ?>
+        customerGroup.setValue(data.group);
+        website.setValue(data.website_id);
+        store.setValue(data.store_id);
+        <?php if ($isGroupPriceFixed) : ?>
+        currency.setValue(data.currency_id);
+        <?php endif; ?>
+        this.changeWebsite(website);
+        <?php if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()) : ?>
+        var websiteName = website.options[website.selectedIndex].text;
+        website.insert( { after:'<span class="website-name">' + websiteName + '</span>' } );
+        website.hide();
+        <?php endif;?>
+        <?php if ($this->isShowStoreColumn() && !$this->isAllowChangeStore()) : ?>
+        var storeName = store.options[store.selectedIndex].text;
+        store.insert( { after:'<span class="store-name">' + storeName + '</span>' } );
+        store.hide();
+        <?php endif;?>
+        if (data.readOnly == '1') {
+            <?php if (!$isGroupPriceFixed) : ?>
+            var disableInputs = ['website', 'store', 'cust_group', 'qty', 'price', 'delete'];
+            <?php else : ?>
+            var disableInputs = ['website', 'store', 'cust_group', 'qty', 'price', 'currency', 'delete'];
+            <?php endif; ?>
+            disableInputs.each(function(elementName) {
+                $(elementIdPrefix + elementName).disable();
+            });
+            $(elementIdPrefix + 'delete_button').hide();
+        }
+        <?php if ($elementReadonly): ?>
+        container.select('input', 'select').each(this.disableElement);
+        container.up('table').select('button').each(this.disableElement);
+        <?php else: ?>
+        container.select('input', 'select').each(function(el) { 
+            Event.observe(el, 'change', el.setHasChanges.bind(el)); 
+        });
+        <?php endif; ?>
+    }, 
+    changeWebsite: function(websiteElement) {
+        var websiteId = $(websiteElement).getValue();
+        $(websiteElement).up('tr').select('select.store').each(function(storeElement) { 
+            var optionWebsiteId = null;
+            var optionStoreId = null;
+            var storeId = $(storeElement).getValue();
+            $(storeElement).select('optgroup,option').each(function(optionElement) {
+                optionWebsiteId = $(optionElement).readAttribute('website:id');
+                if (optionWebsiteId > 0) {
+                    if (websiteId > 0) {
+                        if (optionWebsiteId == websiteId) {
+                            $(optionElement).show();
+                        } else {
+                            $(optionElement).hide();
+                        }
+                    } else {
+                        $(optionElement).hide();
+                    }
+                }
+                if (String(optionElement.tagName).toLowerCase() == 'option') {
+                    optionStoreId = $(optionElement).readAttribute('store:id');
+                    if (optionStoreId == storeId) {
+                        if (optionWebsiteId != websiteId) {
+                            storeId = 0;
+                        }
+                    }
+                }
+            });
+            $(storeElement).setValue(storeId);
+        });
+    }, 
+    onChangeWebsite: function(event) {
+        var tr = event.findElement('tr');
+        if (tr) {
+            var self = this;
+            tr.select('select.website').each(function(websiteElement) { self.changeWebsite(websiteElement) });
+        }
+        return false;
+    }, 
+    disableElement: function(el) { 
+        $(el).disable(); 
+        $(el).addClassName('disabled'); 
+    }, 
+    deleteItem: function(itemElement) {
+        itemElement.select('input.delete').each(function(el) { 
+            $(el).setValue('1'); 
+        });
+        itemElement.select(['input', 'select']).each(function(el) {
+            $(el).hide(); 
+        });
+        itemElement.hide();
+        itemElement.addClassName('no-display template');
+    }, 
+    onDeleteItem: function(event) {
+        var tr = event.findElement('tr');
+        if (tr) {
+            this.deleteItem(tr);
+        }
+        return false;
+    }
+};
+
+<?php foreach ($this->getValues() as $item): ?>
+<?php if (!$isGroupPriceFixed) : ?>
+tierPriceControl.addItem('<?php echo $item['website_id'] ?>', '<?php echo $item['store_id'] ?>', '<?php echo $item['cust_group'] ?>', '<?php echo $item['price_qty']*1 ?>', '<?php echo sprintf('%.2f', $item['price']) ?>', <?php echo (int)!empty($item['readonly'])?>);
+<?php else : ?>
+tierPriceControl.addItem('<?php echo $item['website_id'] ?>', '<?php echo $item['store_id'] ?>', '<?php echo $item['cust_group'] ?>', '<?php echo $item['price_qty']*1 ?>', '<?php echo sprintf('%.2f', $item['price']) ?>', '<?php echo $item['currency'] ?>', <?php echo (int)!empty($item['readonly'])?>);
+<?php endif; ?>
+<?php endforeach; ?>
+<?php if ($elementReadonly): ?>
+$('<?php echo $elementHtmlId ?>_container').up('table').select('button').each(tierPriceControl.disableElement);
+<?php endif; ?>
+//]]>
+</script>
+</td></tr>

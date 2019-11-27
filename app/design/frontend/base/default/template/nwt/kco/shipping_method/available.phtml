@@ -1,0 +1,70 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+
+/**
+ * Available shipping methods template
+ */
+?>
+
+<?php
+// @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available
+    $_shippingRateGroups = $this->getShippingRates();
+?>
+
+<?php if (!$_shippingRateGroups): ?>
+
+    <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
+
+<?php else: ?>
+
+    <ul>
+    <?php foreach ($_shippingRateGroups as $code => $_rates): $_carrier = $this->getCarrierName($code);$cnt = count($_rates);?>
+        <?php if($cnt>1): ?>
+            <li><strong><?php echo $this->escapeHtml($_carrier); ?></strong>
+            <ul  style="margin-left:20px;">
+        <?php endif; ?>
+        <?php
+            foreach ($_rates as $_rate):
+                $_title = $_rate->getMethodTitle();
+                $_fullTitle = trim($_carrier.' - '.$_title,' -');
+                //if empty method name
+                if(!$_title) {
+                    $_title = $_carrier;
+                }
+        ?>
+            <li>
+                <?php if ($_rate->getErrorMessage()): ?>
+                <ul class="messages"><li class="error-msg"><ul><li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li></ul></li></ul>
+                <?php else: ?>
+                    <input name="shipping_method" type="radio" class="radio" value="<?php echo $_rate->getCode() ?>" id="s_method_<?php echo $_rate->getCode() ?>"<?php if($_rate->getCode()===$this->getAddressShippingMethod()) echo ' checked="checked"' ?> onchange="KCO.changeShippingMethod(this);return false;" />
+                    <label for="s_method_<?php echo $_rate->getCode() ?>">
+                        <span class="tick"></span>
+                        <?php  echo $this->escapeHtml($cnt>1?$_title:$_fullTitle); ?>,
+                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                        <?php echo $_excl; ?>
+                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                            (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                        <?php endif; ?>
+                    </label>
+                <?php endif ?>
+            </li>
+        <?php endforeach; ?>
+        <?php if($cnt>1): ?>
+            </ul>
+            </li>
+        <?php endif; ?>
+
+    <?php endforeach; ?>
+    </ul>
+
+<?php endif; ?>

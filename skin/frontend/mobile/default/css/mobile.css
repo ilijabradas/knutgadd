@@ -1,0 +1,387 @@
+﻿/*GLOBALS*/
+
+html body {
+  font-family: "Quicksand", "Helvetica Neue", Verdana, Arial, sans-serif !important;
+  max-width: 767px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h3 {
+  text-align: center !important;
+  padding: 6px 0 !important;
+  margin: 0 !important;
+  color: #636363 !important;
+  font-family: "Quicksand", "Helvetica Neue", Verdana, Arial, sans-serif !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  line-height: 1.4 !important;
+  text-rendering: optimizeSpeed !important;
+  text-transform: uppercase !important;
+}
+
+a {
+  text-decoration: none !important;
+  /*color: #636363 !important;*/
+}
+
+a:focus, a:hover {
+  text-decoration: none !important;
+  color: #0c5b4d !important;
+}
+
+.button {
+  min-width: 146px;
+}
+
+.block-customer-address {
+  display: none;
+}
+
+label {
+  font-weight: 100 !important;
+}
+
+/*HEADER*/
+
+.page-header {
+  border: none !important;
+}
+
+.page-header-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 110px;
+}
+
+.page-header li {
+  margin: 10px 5px;
+}
+
+.page-header .accordion-inner {
+  margin: 0 10px 30px 10px;
+  border-bottom: 1px solid #e2e2e2;
+  display: flex;
+}
+
+.page-header .accordion-toggle {
+  font-size: 20px;
+}
+
+.mobile-top-menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.language {
+  text-align: center;
+}
+
+.form-language .langs-wrapper a {
+    display: inline-block;
+}
+
+.langs-wrapper .lang-flag img {
+  width: 16px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #d0d0d0;
+}
+
+/*Logo*/
+
+.logo img {
+  max-width: 110px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer .logo img {
+  max-width: 26%;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+  padding-top: 10px;
+}
+
+/*HOME PAGE PRODUCTS*/
+
+.mobile-home-page-products li {
+  width: 100% !important;
+}
+
+/*CATEGORY PAGE*/
+
+.toolbar {
+  display: none;
+}
+
+.category-products .product-name {
+  font-size: 10px !important;
+}
+
+.category-products .price-box .price {
+  font-size: 14px;
+}
+
+.category-product-image {
+  background-size: 280px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 280px;
+  display: block;
+  margin-bottom: 
+  5px;
+}
+.mobile-home-page-products .category-product-image {
+  background-size: 400px;
+  height: 400px;
+}
+
+.item-box-shadow {
+  -webkit-box-shadow: -5px -5px 2px -2px rgba(0,0,0,0.1);
+  -moz-box-shadow: -5px -5px 2px -2px rgba(0,0,0,0.1);
+  box-shadow: -5px -5px 2px -2px rgba(0,0,0,0.1);
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+
+.mobile-home-page-products .item-box-shadow {
+  box-shadow: none;
+}
+
+.ias-trigger {
+  text-align: center;
+  cursor: pointer;
+  height: 40px;
+  border: 1px solid #ccc;
+  line-height: 37px;
+}
+
+/*INSTAGRAM*/
+
+.homepage-instgram {
+  position: relative;
+  height: auto;
+  min-height: 320px;
+}
+
+.homepage-instgram .instagram-title {
+  position: relative;
+  text-align: center;
+}
+
+.homepage-instgram .instagram-title h2 {
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 44px;
+  font-weight: 500;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-top: 41%;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.homepage-instgram .instagram-grid {
+  display: table;
+  width: 100%;
+}
+
+.homepage-instgram img {
+  width: 50%;
+  float: left;
+  padding: 0;
+}
+
+/*PRODUCT PAGE*/
+
+.product-img-box .product-image {
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.product-view .product-image-thumbs {
+  text-align: center;
+}
+
+.product-view .product-image-thumbs li {
+  width: 30%;
+}
+
+.product-view .product-shop {
+  padding-top: 30px;
+}
+
+.product-view .belt-type {
+  width: 100%;
+  display: table;
+}
+
+.product-view h1 {
+  font-size: 38px;
+}
+
+.product-view h2 {
+  margin-bottom: 0;
+}
+
+.product-view .qty-wrapper {
+  width: 100%;
+  display: block;
+}
+
+.product-view .add-to-cart-buttons {
+  width: 100%;
+  margin: 0;
+}
+
+.product-view .add-to-cart .qty-wrapper .qty {
+  width: 80px;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.product-view label {
+  text-transform: uppercase;
+  font-size: 140%;
+}
+
+.product-view .price-box {
+  margin: 0;
+}
+
+.product-view .price-box span {
+  font-size: 25px !important;
+}
+
+/*THE STORY*/
+
+.cms-our-story td {
+  width: 100% !important;
+}
+
+/*FOOTER*/
+
+.currency-switcher {
+  display: none !important;
+}
+
+/*MY ACCOUNT*/
+
+/*My Dashboard*/
+
+.my-account th.total {
+  min-width: 125px;
+}
+
+/*CHECKOUT*/
+
+.opc-wrapper-opc * {
+  font-family: "Quicksand", "Helvetica Neue", Verdana, Arial, sans-serif !important;
+}
+
+.opc-wrapper-opc .opc-login-trigger, .review-menu-block a.review-total {
+  background: #0c5b4d !important;
+  border: none;
+}
+
+.review-menu-block a.review-total:hover, .review-menu-block a.review-total.open {
+  background: #2d7165 !important;
+  border: none;
+}
+
+.adyen_payment_creditcard_labels {
+  display: none;
+}
+
+.opc-wrapper-opc .discount-block .button, .opc-wrapper-opc .discount-block .button span {
+  height: 40px !important;
+  line-height: 40px !important;
+  background: #0c5b4d !important;
+}
+
+.expand_plus {
+  color: #0c5b4d !important;
+  margin-top: 4px !important;
+}
+
+.discount-block h3:hover .expand_plus, .signature-block h3:hover .expand_plus, .comment-block h3:hover .expand_plus, .giftcard h3:hover .expand_plus, .discount-block h3.open-block .expand_plus, .signature-block h3.open-block .expand_plus, .comment-block h3.open-block .expand_plus, .giftcard h3.open-block .expand_plus {
+  color: #0c5b4d !important;
+}
+
+label[for="p_method_adyen_cc"] {
+  display: flex !important;
+  color: #fff;
+}
+
+label[for="p_method_adyen_cc"] span {
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_cup"] {
+  display: flex !important;
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_unionpay"] span {
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_unionpay"] {
+  display: flex !important;
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_cup"] span {
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_alipay"] {
+  display: flex !important;
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_alipay"] span {
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_wechatpay"] {
+  display: flex !important;
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_wechatpay"] span {
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_tenpay"] {
+  display: flex !important;
+  color: #fff;
+}
+
+label[for="p_method_adyen_hpp_tenpay"] span {
+  color: #fff;
+}
+
+.opc-wrapper-opc .payment-block dt {
+  background: #0c5b4d !important;
+}
+
+.opc-wrapper-opc .payment-block dt.active {
+  background: #2d7165 !important;
+}
+
+.opc-wrapper-opc .opc-login-trigger:hover {
+  background: #2d7165 !important;
+}
+
+.review-menu-block a.review-total:hover {
+  background: #2d7165 !important;  
+}

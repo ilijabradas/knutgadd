@@ -1,0 +1,31 @@
+<?php
+/**
+ * Language switcher template
+ *
+ * @see Mage_Page_Block_Switch
+ */
+?>
+<?php $url = Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_SECURE_URL); ?>
+<?php if (Mage::helper('nebojsa_ipredirect')->getLocationInfoByIp() != "TW"): ?>
+    <div class="header-languages">
+        <div class="change">Choose Language:</div>
+        <i class="fa fa-globe language-list" aria-hidden="true"></i>
+        <div class="languages-selector">
+            <ul>
+                <?php
+                foreach (Mage::app()->getStores() as $store) {
+                    if ($store->getIsActive() == 1) {
+                        echo '<li>' . '<a class="black" href="' . $url . $store->getCode() . '">' . $store->getName() . '</a>' . '</li>';
+                    }
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>
+
+<script>
+    jQuery('.language-list').click(function () {
+        jQuery('.languages-selector').toggleClass('active');
+    });
+</script>

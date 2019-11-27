@@ -1,0 +1,64 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+
+/**
+ * Country selector template
+ */
+?>
+<?php
+    $options = $this->getCountryOptions();
+    $empty   = array_shift($options);
+    $allow   = $this->getAllowCountries();
+    if(count($options)<=1) return; //do not show country if only one country is available
+?>
+<div class="nwtkco-block" id="nwtkco_country">
+  <form id="klarnakassan-country" action="<?php echo  Mage::helper('nwtkco')->getCheckoutUrl('saveCountry');?>" method="post">
+
+  <div class="nwtkco-title">
+    <h2><label for="country"><?php echo $this->__('Country') ?></label></h2>
+  </div>
+    <div class="nwtkco-content">
+        <select name="country" if="country" onchange="return KCO.changeCountry(this);">
+
+    <?php
+
+        $selected = false;
+        $country  =$this->getAddress()->getCountryId();
+
+        foreach($options as $option):
+            $extra = array();
+            if(!in_array($option['value'],$allow)) {
+                $extra[] = 'disabled="disabled"';
+                $option['label'] = $option['label'].' ('.$this->__('not available with Klarna').')';
+            }
+            if($option['value'] == $country) {
+                $extra[] = 'selected="selected"';
+                $selected = true;
+            }
+            $extra = implode(' ',$extra);
+
+    ?>
+
+            <option value="<?php echo $option['value']; ?>" <?php echo $extra;?>><?php echo $option['label']; ?></option>
+    <?php
+            endforeach;
+            if(!$selected):
+    ?>
+            <option value="" disabled="disabled" selected="selected"><?php echo $country?"Invalid [$country]":'';?></option>
+    <?php
+            endif;
+    ?>
+        </select>
+    </div>
+  </form>
+
+</div>

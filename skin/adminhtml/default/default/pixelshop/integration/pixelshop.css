@@ -1,0 +1,10 @@
+ul.tabs a.pixelshop {
+	border-bottom:1px dotted;
+}
+ul.tabs a.pixelshop span,
+ul.tabs a.pixelshop:hover span {
+	background-image:url(pixelshop-icon.png) !important;
+	background-repeat:no-repeat;
+	background-position:18px center;
+	padding-left:40px;
+}

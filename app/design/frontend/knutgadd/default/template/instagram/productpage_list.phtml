@@ -1,0 +1,71 @@
+<?php
+function fetchData($url){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+	$result = curl_exec($ch);
+	curl_close($ch);
+	return $result;
+}
+
+$result = fetchData("https://api.instagram.com/v1/users/1534086686/media/recent/?access_token=1534086686.1677ed0.2b770b97be884e279d74cc0d740dfec4");
+$result = json_decode($result, true);
+$image_default = "/media/wysiwyg/instagram_default.jpg";
+?>
+
+<style type="text/css">
+.cms-inspiration .std h1 {
+	color: #504d56;
+	text-align: center;
+	font-size: 140%;
+	margin-top: 24px;
+}
+
+.item {
+	padding: 4px;
+}
+
+@media screen and (min-width: 768px) {
+	.item {
+		width: 33%;
+		float: left;
+		padding: 4px;
+	}
+}
+</style>
+
+<div class="instagram-wrapper">
+	<div class="instagram-content">
+		<div class="instagram-grid">
+			<?php if(!isset($result['data'])) { ?>
+			<div class="item" style="width: 100%;">
+				<div class="item-inner">
+					<div class="box-img">
+						<img style="width: 100%;" alt="knutgadd instagram" src="<?php echo $image_default; ?>" />
+					</div>
+				</div>
+			</div>
+			<?php } else { ?>
+			<?php $i=0; foreach ($result['data'] as $post):
+			$image   = $post['images']['standard_resolution']['url'];
+			$caption = $post['caption']['text'];
+			$text    = substr($caption, 0, strpos($caption, '#'));
+			$likes   = $post['likes']['count'];
+			$link    = $post['link'];
+			?>
+			<div class="item">
+				<div class="item-inner">
+					<div class="box-img">
+						<a href="<?php echo $link; ?>" target="_blank">
+							<img style="display: inline;" alt="knutgadd instagram" src="<?php echo $image; ?>" />
+						</a>
+					</div>
+				</div>
+			</div>
+			<?php $i++; if ($i == 12) break; ?>
+		<?php endforeach; ?>
+		<?php } ?>
+	</div>
+</div>
+</div>

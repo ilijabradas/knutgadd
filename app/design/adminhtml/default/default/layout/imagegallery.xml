@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+	<layout version="0.1.0">
+	    <imagegallery_adminhtml_category_index>
+			<reference name="content">
+				<block type="imagegallery/adminhtml_category" name="category"></block>
+			</reference>
+		</imagegallery_adminhtml_category_index>
+		<imagegallery_adminhtml_image_index>
+			<reference name="content">
+				<block type="imagegallery/adminhtml_image" name="image"></block>
+			</reference>
+		</imagegallery_adminhtml_image_index>
+    <!-- Below are the necessary JS files for the WYSIWYG editor -->
+		<default>
+			<reference name="head">
+				<action method="setCanLoadExtJs">
+					<flag>1</flag>
+				</action>
+				<action method="addJs">
+					<script>mage/adminhtml/variables.js</script>
+				</action>
+				<action method="addJs">
+					<script>mage/adminhtml/wysiwyg/widget.js</script>
+				</action>
+				<action method="addJs">
+					<script>lib/flex.js</script>
+				</action>
+				<action method="addJs">
+					<script>lib/FABridge.js</script>
+				</action>
+				<action method="addJs">
+					<script>mage/adminhtml/flexuploader.js</script>
+				</action>
+				<action method="addJs">
+					<script>mage/adminhtml/browser.js</script>
+				</action>
+				<action method="addJs">
+					<script>prototype/window.js</script>
+				</action>
+				<action method="addItem">
+					<type>js_css</type>
+					<name>prototype/windows/themes/default.css</name>
+				</action>
+				<action method="addItem">
+					<type>js_css</type>
+					<name>prototype/windows/themes/magento.css</name>
+				</action>
+				<action method="addCss">
+					<stylesheet>lib/prototype/windows/themes/magento.css</stylesheet>
+				</action>
+			</reference>
+		</default>
+    </layout> 

@@ -1,0 +1,29 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * Klarna Checkout sidebar template
+ */
+?>
+<div class="kco-left nwtkco-hide">
+    <div id="nwt_checkout">
+        <?php echo $this->getChildHtml(); ?>
+    </div>
+    <div class="section-toggler show-tablet">
+        <a id="nwtToggleSection" onclick="KCO.toggleSidebar(this.up('.kco-left'))">
+            <span class="toggled"><?php echo $this->__('Collapse All'); ?> <span></span></span>
+            <span class="not-toggled"><?php echo $this->__('Expand All'); ?> <span></span></span>
+        </a>
+    </div>
+    <div id="nwt_overlay" style="display:none"></div>
+</div>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout>
+	<checkout_onepage_success translate="label">
+        <reference name="content">
+        	<block type="pixelshop/index" name="pixelshop_index" template="pixelshop/index.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+</layout>

@@ -1,0 +1,16 @@
+<?php $helper = Mage::helper('nebojsa_blackfriday');
+
+?>
+<?php if ($helper->isActive()): ?>
+<div class="modal fade" id="blackFriday" tabindex="-1" role="dialog" aria-labelledby="blackFridayLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <a class="closeBlack" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </a>
+        <div class="modal-content">
+            <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . "upload/banner/black/" . trim($helper->getBannerBackgroundImage()); ?>"/>
+        </div>
+    </div>
+</div>
+<?php endif; ?>

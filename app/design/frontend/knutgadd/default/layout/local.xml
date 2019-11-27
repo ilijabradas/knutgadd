@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <STORE_jp>
+        <reference name="head">
+            <block type="core/text" name="a8fly">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<script src="//statics.a8.net/a8sales/a8sales.js"></script>]]>
+                    </text>
+                </action>
+            </block>
+        </reference>
+        <reference name="after_body_start">
+            <block type="core/text" name="a8fly_id">
+                <action method="setText">
+                    <text>
+                        <![CDATA[<span id="a8sales"></span>]]>
+                    </text>
+                </action>
+            </block>
+        </reference>
+    </STORE_jp>
+    <checkout_onepage_success>
+        <reference name="after_body_start">
+            <block type="core/template" name="a8fly.conversion" template="page/html/a8fly_conversion.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+
+    <STORE_default>
+        <reference name="after_body_start">
+            <remove name="a8fly.conversion" />
+        </reference>
+    </STORE_default>
+    <STORE_se>
+        <reference name="after_body_start">
+            <remove name="a8fly.conversion" />
+        </reference>
+    </STORE_se>
+    <STORE_fr>
+        <reference name="after_body_start">
+            <remove name="a8fly.conversion" />
+        </reference>
+    </STORE_fr>
+    <STORE_tw>
+        <reference name="after_body_start">
+            <remove name="a8fly.conversion" />
+        </reference>
+    </STORE_tw>
+</layout>

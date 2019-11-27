@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <news_adminhtml_news_index>
+        <reference name="content">
+            <block type="news/adminhtml_news" name="news" />
+        </reference>
+    </news_adminhtml_news_index>
+	<news_adminhtml_news_edit>
+        <update handle="editor"/>
+    </news_adminhtml_news_edit>
+</layout>

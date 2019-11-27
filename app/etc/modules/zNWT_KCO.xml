@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_Base
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ */
+ -->
+<config>
+    <modules>
+
+        <!-- Disable Klarnakassan (old module) -->
+        <Nwt_Klarnakassan>
+            <active>false</active>
+        </Nwt_Klarnakassan>
+
+        <NWT_KCO>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <NWT_Base />
+                <Mage_Checkout />
+            </depends>
+        </NWT_KCO>
+    </modules>
+</config>

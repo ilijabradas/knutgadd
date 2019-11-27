@@ -1,0 +1,8 @@
+app/code/local/NWT/KCO
+app/etc/modules/zNWT_KCO.xml
+app/design/frontend/base/default/layout/nwt/kco.xml
+app/design/frontend/base/default/template/nwt/kco
+app/design/adminhtml/default/default/template/nwt/kco
+skin/frontend/base/default/nwt/kco
+app/locale/en_US/NWT_KCO.csv
+app/locale/sv_SE/NWT_KCO.csv

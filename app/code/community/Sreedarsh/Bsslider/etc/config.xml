@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<!--
+ * Sreedarsh Bsslider
+ *
+ * @category      Sreedarsh
+ * @package       Sreedarsh_Bsslider
+ *
+ -->
+
+<config>
+    <default>
+        <bsslider>
+	        <settings>
+                    <sliderinterval>5000</sliderinterval> 
+                    <control>1</control> 
+                    <indicators>1</indicators>              
+                    <includeboot>1</includeboot>
+                    <includejquery>1</includejquery>
+	        </settings>      
+	    </bsslider>
+        
+    </default>
+    <modules>
+        <Sreedarsh_Bsslider>
+            <version>1.0.3</version>
+        </Sreedarsh_Bsslider>
+    </modules>
+    
+    <global>
+        
+        <resources>
+            <bsslider_setup>
+                <setup>
+                    <module>Sreedarsh_Bsslider</module>
+                    <class>Sreedarsh_Bsslider_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </bsslider_setup>
+        </resources>
+        
+        <models>
+            <bsslider>
+                <class>Sreedarsh_Bsslider_Model</class>
+                <resourceModel>bsslider_resource</resourceModel>              
+            </bsslider>
+
+            <bsslider_resource>
+                <class>Sreedarsh_Bsslider_Model_Resource</class>
+                <entities>
+                    <bsslider>
+                        <table>bsslider_entity</table>
+                    </bsslider>
+                </entities>
+            </bsslider_resource>
+        </models>
+        
+        <blocks>
+            <bsslider>
+                <class>Sreedarsh_Bsslider_Block</class>
+            </bsslider>          
+        </blocks>
+        <helpers>
+            <bsslider>
+                <class>Sreedarsh_Bsslider_Helper</class>
+            </bsslider>
+        </helpers>
+    </global>
+    
+    <frontend>
+        <routers>
+            <bsslider>
+                <use>standard</use>
+                <args>
+                    <module>Sreedarsh_Bsslider</module>
+                    <frontName>bsslider</frontName>
+                </args>
+            </bsslider>
+        </routers>
+        <layout>
+            <updates>
+                <bsslider>
+                    <file>bsslider.xml</file>
+                </bsslider>
+            </updates>
+        </layout>
+    </frontend>
+    
+    <admin>
+        <routers>
+            <bsslider>
+                <use>admin</use>
+                <args>
+                    <module>Sreedarsh_Bsslider</module>
+                    <frontName>bsslider</frontName>
+                </args>
+            </bsslider>
+        </routers>      
+    </admin>
+    
+    <adminhtml>
+        <layout>
+            <updates>
+                <bsslider>
+                    <file>bsslider.xml</file>
+                </bsslider>
+            </updates>
+        </layout>
+    </adminhtml>
+    
+</config>

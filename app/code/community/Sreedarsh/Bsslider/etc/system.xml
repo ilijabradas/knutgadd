@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<!--
+ * Sreedarsh Bsslider
+ *
+ * @category      Sreedarsh
+ * @package       Sreedarsh_Bsslider
+ *
+ -->
+ 
+<config>
+    <tabs>
+        <bssliderconf translate="label">
+            <label>Bsslider</label>
+            <sort_order>10</sort_order>
+        </bssliderconf>
+    </tabs>
+    <sections>
+        <bsslider translate="label" module="adminhtml">
+            <label>Bootstrap Slider Settings</label>
+            <tab>bssliderconf</tab>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label comment">
+                    <label>Slider settings</label>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>                      
+                        <width translate="bsslider">
+                            <label>Slider Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Width of the banner slider</comment>
+                        </width>
+                        <height translate="bsslider">
+                            <label>Slider Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Height of the banner slider</comment>
+
+                        </height>
+                        
+                        <sliderpause translate="bsslider">
+                            <label>Pause slider on hover</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bsslider/system_dropdown_values</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Pauses the cycling of the carousel on mouseenter and resumes the cycling of the carousel on mouseleave.</comment>
+                        </sliderpause>
+                        
+                        <sliderinterval translate="bsslider">
+                            <label>Slide Interval</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>The amount of time to delay between automatically cycling an item(in milliseconds).</comment>
+                        </sliderinterval>
+                        
+                        <control translate="label">
+                            <label>Display Controls</label>
+                            <frontend_type>radios</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show/hide Previous and Next buttons/arrows</comment>
+                        </control>
+                        
+                        <indicators translate="label">
+                            <label>Display Indicators</label>
+                            <frontend_type>radios</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Show/hide Indicators</comment>
+                        </indicators> 
+                        
+                        <includeboot translate="label">
+                            <label>Include bootstrap CSS and javascript files</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bsslider/system_dropdown_values</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Select Yes only if bootstrap's javascript and css files are not included in your theme.</comment>
+                        </includeboot>
+                        
+                        <includejquery translate="label">
+                            <label>Include Jquery library</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>bsslider/system_dropdown_values</source_model>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Must select No if jquery library is already included in your theme.</comment>
+                        </includejquery>
+                    </fields>
+                </settings>
+            </groups>
+        </bsslider>
+        
+    </sections>
+    
+</config>

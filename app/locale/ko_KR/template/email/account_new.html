@@ -1,0 +1,44 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"htmlescape var=$customer.name":"Customer Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var customer.email":"Customer Email",
+"htmlescape var=$customer.password":"Customer Password"}
+@-->
+
+<!--@styles
+@-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td class="action-content">
+            <h1>어서오세요 {{var store.getFrontendName()}}.</h1>
+            <p>인터넷에 접속할때 상륙 하고싶은면 클릭<a href="{{store url="customer/account/"}}">로그인  </a> or <a href="{{store url="customer/account/"}}">나의 계좌 </a> 페이지의 상단에 메일주소과  비밀번호 입력해 주세요 .</p>
+            <p class="highlighted-text">
+                로그인할때 아래의 정보를 사용하기:<br/>
+                <strong>메일 주소</strong>: {{var customer.email}}<br/>
+                <strong>비밀번호</strong>: {{htmlescape var=$customer.password}}
+            </p>
+            <p>로그인 후에 실시되 가능한 사항을 아래와 같습니다:</p>
+            <ul>
+                <li>주문후 간편 결제</li>
+                <li>주문상태 확인</li> 
+                <li>역사 주문서 보기</li>
+                <li>계정 정보 변경</li>
+                <li>비밀번호 변경</li>
+                <li>수취주소  추가</li> 
+            </ul>
+            <p>
+               문제 있으면 언제든지 연락주세요 请发邮件至여기로  메일 주시기.  <a href="mailto:{{var store_email}}">{{var store_email}}</a>
+                {{depend store_phone}} 혹 전화 주시기 <a href="tel:{{var phone}}">{{var store_phone}}</a>{{/depend}}.
+            </p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

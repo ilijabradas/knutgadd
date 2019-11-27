@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <page>
+            <layouts>
+                <altona_one_column_page>
+                    <label>Altona One Column Page</label>
+                    <template>page/altona-1column.phtml</template>
+                </altona_one_column_page>
+            </layouts>
+            <!--<layouts>-->
+                <!--<country_selector>-->
+                    <!--<label>Country Selector</label>-->
+                    <!--<template>page/country-selector.phtml</template>-->
+                <!--</country_selector>-->
+
+            <!--</layouts>-->
+        </page>
+
+        <!--<models>-->
+            <!--<additionalcmspagelayuots>-->
+                <!--<class>Webinerds_Additionalcmspagelayuots_Model</class>-->
+                <!--<resourceModel>additionalcmspagelayuots_resource</resourceModel>-->
+            <!--</additionalcmspagelayuots>-->
+            <!--<additionalcmspagelayuots_resource>-->
+                <!--<class>Webinerds_Additionalcmspagelayuots_Model_Resource</class>-->
+                <!--<entities>-->
+                    <!--<additionalcmspagelayuots>-->
+                        <!--<table>continents</table>-->
+                    <!--</additionalcmspagelayuots>-->
+                <!--</entities>-->
+            <!--</additionalcmspagelayuots_resource>-->
+        <!--</models>-->
+        <!--<resources>-->
+            <!--<additionalcmspagelayuots_setup>-->
+                <!--<setup>Webinerds_Additionalcmspagelayuots</setup>-->
+                <!--<connection>-->
+                    <!--<use>core_setup</use>-->
+                <!--</connection>-->
+            <!--</additionalcmspagelayuots_setup>-->
+            <!--<additionalcmspagelayuots_read>-->
+                <!--<connection>-->
+                    <!--<use>core_read</use>-->
+                <!--</connection>-->
+            <!--</additionalcmspagelayuots_read>-->
+            <!--<additionalcmspagelayuots_write>-->
+                <!--<connection>-->
+                    <!--<use>core_write</use>-->
+                <!--</connection>-->
+            <!--</additionalcmspagelayuots_write>-->
+        <!--</resources>-->
+    </global>
+</config>

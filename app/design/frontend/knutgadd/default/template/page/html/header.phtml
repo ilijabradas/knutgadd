@@ -1,0 +1,119 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+?>
+
+<!-- Remove after new pages are set -->
+<head>
+  <?php if (Mage::app()->getStore()->getCode() == 'cn' || Mage::app()->getStore()->getCode() == 'tw' || Mage::app()->getStore()->getCode() == 'kr') { ?>
+    <style>
+    body {
+      background: #eaf3ff !important;
+    }
+    </style>
+  <?php }; ?>
+</head>
+
+<header id="header" class="page-header">
+  <div class="page-header-container">
+    <?php
+    if(!$this->getIsHomePage()) { ?>
+        <a class="logo" href="<?php echo $this->getUrl('') ?>">
+          <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" class="large" />
+        </a>
+      <?php } else { ?>
+        <a class="logo" href="<?php echo $this->getUrl('') ?>">
+          <img src="/skin/frontend/knutgadd/default/images/logo-white.png" alt="<?php echo $this->getLogoAlt() ?>" class="large" />
+        </a>
+    <?php } ?>
+
+    <!-- In order for the language switcher to display next to logo on smaller viewports, it will be moved here. See app.js for details. -->
+
+    <div class="header-cart">
+      <?php echo $this->getChildHtml('headerCart'); ?>
+    </div>
+
+    <!-- Skip Links -->
+
+    <?php echo $this->getChildHtml('store_language'); ?>
+    <!-- <div class="currency-switcher">
+    <?php echo $this->getChildHtml('currency') ?>
+    </div>
+ -->
+    <div class="skip-links">
+      <a href="#header-nav" class="skip-link skip-nav">
+        <span class="label"><?php echo $this->__('Menu'); ?></span>
+      </a>
+      <div class="fixed-menu left">
+        <p>Knut Gadd</p>
+      </div>
+      <div class="fixed-menu right">
+        <a href="<?php echo $this->helper('checkout/cart')->getCartUrl(); ?>" class="header-minicart">
+          <img src="<?php echo $this->getSkinUrl('images/header-cart-small.png');?>" alt="cart" width="25" height="25">
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+
+    <div id="header-nav" class="skip-content">
+        <a class="header-nav-close">
+            <i class="fa fa-close" aria-hidden="true"></i>
+        </a>
+      <?php echo $this->getChildHtml('primaryNav') ?>
+    </div>
+
+  </div>
+
+</header>
+<!-- Cart -->
+<div class="header-minicart">
+ <?php echo $this->getChildHtml('minicart_head'); ?>
+</div>
+
+<?php echo $this->getChildHtml('topContainer'); ?>
+
+<script type="text/javascript">
+jQuery(window).scroll(function(){
+  if (jQuery(this).scrollTop() > 135) {
+    jQuery('#header-nav').addClass('fixed');
+    jQuery('.skip-links').addClass('fixed');
+  } else {
+    jQuery('#header-nav').removeClass('fixed');
+    jQuery('.skip-links').removeClass('fixed');
+  }
+});
+jQuery(document).ready(function(){
+    jQuery('.header-nav-close').on('click', function () {
+        jQuery('#header-nav').removeClass('skip-active');
+        jQuery('.skip-link.skip-nav').removeClass('skip-active');
+    });
+
+
+});
+</script>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <nebojsa_blackfriday translate="label" module="nebojsa_blackfriday">
+            <label>Black Friday Banner</label>
+            <sort_order>801</sort_order>
+        </nebojsa_blackfriday>
+    </tabs>
+    <sections>
+        <nebojsa_blackfriday translate="label" module="nebojsa_blackfriday">
+            <label>Settings</label>
+            <tab>nebojsa_blackfriday</tab>
+            <frontend_type>text</frontend_type>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>Black Friday </label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>2</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <comment><![CDATA[This is where you can <strong>adjust settings</strong> for <em>BLACK FRIDAY banner</em>.]]></comment>
+                    <fields>
+                        <active translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <banner_background_image>
+                            <label>Banner Image</label>
+                            <comment><![CDATA[File saved in <strong><span style="color: red;">media/upload/banner/black</span></strong> folder.]]></comment>
+                            <frontend_type>file</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_file</backend_model>
+                            <upload_dir>media/upload/banner/black</upload_dir>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </banner_background_image>
+                    </fields>
+                </settings>
+            </groups>
+        </nebojsa_blackfriday>
+    </sections>
+</config>

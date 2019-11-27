@@ -1,0 +1,44 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"htmlescape var=$customer.name":"Customer Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var customer.email":"Customer Email",
+"htmlescape var=$customer.password":"Customer Password"}
+@-->
+
+<!--@styles
+@-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td class="action-content">
+            <h1>いらっしゃいませ {{var store.getFrontendName()}}.</h1>
+            <p>会員登録はこちら<a href="{{store url="customer/account/"}}">　ログイン</a> or <a href="{{store url="customer/account/"}}">マイアカウント</a> ユーザID/メールアドレス、パスワードを入力してください</p>
+            <p class="highlighted-text">
+                こちらをご利用ください<br/>
+                <strong>メールアドレス</strong>: {{var customer.email}}<br/>
+                <strong>パスワード</strong>: {{htmlescape var=$customer.password}}
+            </p>
+            <p>会員登録したら以下のサービスをご利用いただける：</p>
+            <ul>
+                <li>注文後、より便利で簡単にお支払いいただける</li>
+                <li>注文内容の確認</li>
+                <li>購入履歴の確認</li>
+                <li>アカウント情報変更</li>
+                <li>パスワードの変更</li>
+                <li>新規配送先追加</li>
+            </ul>
+            <p>
+                また何かご質問がありましたら、こちらにお問い合わせt<a href="mailto:{{var store_email}}">{{var store_email}}</a>
+                {{depend store_phone}} お問い合わせ <a href="tel:{{var phone}}">{{var store_phone}}</a>{{/depend}}.
+            </p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

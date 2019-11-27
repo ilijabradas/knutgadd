@@ -1,0 +1,143 @@
+<?php
+function fetchData($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+
+$result = fetchData("https://api.instagram.com/v1/users/1534086686/media/recent/?access_token=1534086686.1677ed0.2b770b97be884e279d74cc0d740dfec4");
+$result = json_decode($result, true);
+$image_default = "/media/wysiwyg/instagram_default.jpg";
+?>
+
+<style type="text/css">
+/* Instagram */
+
+.cms-home .most-popular-title p {
+    padding-bottom: 20px;
+}
+
+.cms-home .instagram-content {
+    position: relative;
+    height: auto;
+    width: auto;
+}
+
+.cms-home .instagram-content .item.default {
+    width: 100% !important;
+    height: 100% !important;
+}
+.cms-home .instagram-grid .item.default img {
+    width: 100% !important;
+    max-width: 970px;
+    height: 100% !important;
+    max-height: 480px;
+}
+
+.cms-home .instagram-content .item-inner .box-img {
+    margin: 0px;
+}
+.cms-home .instagram-content .instagram-title h2 {
+    display: none;
+}
+
+.cms-home .instagram-content .item {
+    width: 50% !important;
+    float: left;
+}
+.cms-home .instagram-content .instagram-grid .item img {
+    width: 100% !important;
+    height: 100% !important;
+    float: left;
+    padding: 2px 4px 2px 0;
+}
+.cms-home .instagram-content .instagram-grid {
+    margin-bottom: 40px;
+    display: table;
+    width: 100%;
+}
+@media screen and (min-width: 768px) {
+
+    .cms-home .instagram-content {
+        width: 750px;
+        margin: 0 auto;
+    }
+    .cms-home .instagram-content .instagram-grid {
+        margin-bottom: 0px;
+        display: table;
+        width: 100%;
+    }
+    .cms-home .instagram-content .item {
+        width: 25% !important;
+        float: left;
+    }
+
+
+
+}
+@media screen and (min-width: 1023px) {
+
+    .cms-home .instagram-content {
+        width: 970px;
+        margin: 0 auto 3px;
+    }
+    .cms-home .instagram-content .instagram-title h2 {
+        display: block;
+        font-family: 'Tonis', Arial;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 190px;
+        color: #fff;
+        font-size: 80px;
+        text-shadow: 2px 2px rgba(0, 0, 0, 0.3);
+    }
+    .cms-home .instagram-content .instagram-grid .item img {
+        margin: 1px;
+        padding: 2px 4px 0px 0;
+    }
+
+}
+
+</style>
+
+<div class="instagram-wrapper">
+	<div class="instagram-content">
+		<div class="instagram-grid">
+			<?php if (!isset($result['data'])) { ?>
+                <div class="item default">
+				<div class="item-inner default">
+					<div class="box-img default">
+						<img alt="knutgadd instagram default" src="<?php echo $image_default; ?>"/>
+					</div>
+				</div>
+			</div>
+            <?php } else { ?>
+                <?php $i = 0;
+                foreach ($result['data'] as $post):
+                    $image = $post['images']['standard_resolution']['url'];
+                    $caption = $post['caption']['text'];
+                    $text = substr($caption, 0, strpos($caption, '#'));
+                    $likes = $post['likes']['count'];
+                    $link = $post['link'];
+                    ?>
+                    <div class="item">
+				<div class="item-inner">
+					<div class="box-img">
+						<img alt="knutgadd instagram" src="<?php echo $image; ?>"/>
+					</div>
+				</div>
+			</div>
+                    <?php $i++;
+                    if ($i == 8) break; ?>
+                <?php endforeach; ?>
+            <?php } ?>
+            <div class="instagram-title"><h2><?php echo $this->__('Be Social') ?></h2></div>
+	</div>
+</div>
+</div>

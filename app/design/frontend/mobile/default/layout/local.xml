@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<layout>
+	<default>
+		<remove name="catalog.topnav" />
+		<remove name="top.links" />
+		<remove name="right.poll" />
+		<remove name="product.info.sharing" />
+		<remove name="product.info.addto" />
+		<remove name="product.info.availability" />
+		<remove name="catalog.product.related" />
+		<remove name="left.newsletter" />
+		<remove name="left.reports.product.viewed" />
+
+		<reference name="header">
+			<remove name="top.search" />
+			<remove name="minicart_head" />
+			<remove name="store_language" />
+			<remove name="currency" />
+		</reference>
+
+		<checkout_cart_index>
+			<remove name="checkout.cart.shipping" />
+		</checkout_cart_index>
+
+		<reference name="footer">
+			<block type="cms/block" name="mobile-links" after="-">
+				<action method="setBlockId"><block_id>mobile-links</block_id></action>
+			</block>
+			<remove name="store_switcher" />
+			<remove name="footer_links" />
+			<remove name="footer_links2" />
+			<remove name="currency" />
+		</reference>
+
+		<reference name="product_list_toolbar">
+			<block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+				<action method="setData"><key>_current_grid_mode</key><value>list</value></action>
+				<block type="page/html_pager" name="product_list_toolbar_pager"/>
+			</block>
+		</reference>
+	</default>
+</layout>

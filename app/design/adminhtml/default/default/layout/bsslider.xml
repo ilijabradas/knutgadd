@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<!--
+ * Sreedarsh Bsslider
+ *
+ * @category      Sreedarsh
+ * @package       Sreedarsh_Bsslider
+ *
+ -->
+
+<layout version="1.0.2">
+    <bsslider_adminhtml_bsslider_index>
+        <reference name="content">
+            <block type="bsslider/adminhtml_bsslider" name="bsslider.grid.container" />
+        </reference>
+    </bsslider_adminhtml_bsslider_index>
+    
+    <bsslider_adminhtml_bsslider_new>
+        <reference name="content">
+            <block type="bsslider/adminhtml_edit" name="bsslider_edit" />
+        </reference>
+    </bsslider_adminhtml_bsslider_new>
+    
+    <bsslider_adminhtml_bsslider_edit>
+        <reference name="content">
+            <block type="bsslider/adminhtml_edit" name="bsslider_edit" />
+        </reference>
+    </bsslider_adminhtml_bsslider_edit>
+</layout>

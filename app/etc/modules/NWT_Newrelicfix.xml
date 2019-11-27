@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <NWT_Newrelicfix>
+            <active>true</active>
+            <codePool>local</codePool>
+        </NWT_Newrelicfix>
+    </modules>
+</config>

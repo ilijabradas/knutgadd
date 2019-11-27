@@ -1,0 +1,91 @@
+
+<style type="text/css">
+.full-width{
+	width:100% !important;
+}
+</style>
+
+<?php
+$profile = Mage::registry('current_convert_profile');
+$oopsProfile = Mage::getModel('oopsprofile/oopsprofile')->loadByProfile($profile);
+$isTokenAvailable = $oopsProfile->getIsTokenAvailable();
+$authUrl = $oopsProfile->getOauthUrl();
+?>
+
+<div class="entry-edit profile-generator oopsprofile-generator">
+    <div class="entry-edit-head">
+    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("File Information") ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__("File Information") ?></legend>
+        <span class="field-row">
+            <label for="profile_data_transfer"><?php echo $this->__("Profile Way:") ?></label>
+            <?php $wayTypes = Mage::helper('oopsprofile')->wayTypeArray()?>
+            <select id="profile_data_transfer" name="data_transfer" onchange="showOption(this);updateRun(this)" class="option-control">
+                <?php foreach($wayTypes as $waykey=>$wayvalue):?>
+                		<option value="<?php echo $waykey?>" <?php echo $this->getSelected('data_transfer', $waykey) ?>><?php echo $wayvalue ?></option>
+                <?php endforeach;?>
+            </select>
+        </span>
+
+
+				<?php
+						$id = $profile->getId();//Current Profile Id
+						$format = $this->getValue('gui_data/parse/type');
+						$entityType = $this->getValue('entity_type');
+				?>
+
+				<?php $exportFile = Mage::getBaseDir().'/httpexport/export_'.$entityType.'_'.$id.'.'.$format;?>
+
+				<!--If profile way is Http-->
+				<div class="profile_data_transfer_http" style="display:none;">
+						<span class="field-row">
+				        <label for="file_type"><?php echo $this->__("Export Data:") ?></label>
+				        <?php if(glob($exportFile)):?>
+				        		<a target ="_blank" href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'httpexport/export_'.$entityType.'_'.$id.'.'.$format?>"><?php echo $this->__('Click to export')?></a>
+				        <?php else:?>
+										<small>
+								        <?php echo $this->__('(First you need to save and run the profile in order to export it)') ?>
+								    </small>
+				        <?php endif;?>
+				    </span>
+				    <span class="field-row">
+				    		<?php if(glob($exportFile)):?>
+										<small>
+								        <?php echo $this->__('(First you need to save and run the profile in order to export new data)') ?>
+								    </small>
+								<?php endif;?>
+				    </span>						
+				</div>
+				
+			
+				<!--File Type Local/FTP/SFTP-->
+				<div class="profile_data_transfer_file">
+            <span class="field-row">
+                <label for="file_type"><?php echo $this->__("Type:") ?></label>
+                <select id="file_type" name="gui_data[file][type]" onchange="showOption(this)" class="option-control">
+                    <option value="file" <?php echo $this->getSelected('gui_data/file/type', 'file') ?>><?php echo $this->__("Local Server") ?></option>
+                    <!--option value="ftp" <?php //echo $this->getSelected('gui_data/file/type', 'ftp') ?>><?php echo $this->__("Remote FTP") ?></option>
+                    <option value="sftp" <?php //echo $this->getSelected('gui_data/file/type', 'sftp') ?>><?php echo $this->__("Remote SFTP") ?></option-->
+                </select>
+            </span>
+            <span class="field-row">
+                <label for="file_filename"><?php echo $this->__("File name:") ?></label>
+                <input class="input-text" id="file_filename" name="gui_data[file][filename]" value="<?php echo $this->getValue('gui_data/file/filename') ?>"/>
+            </span>
+            <span class="field-row">
+                <label for="file_path"><?php echo $this->__("Path:") ?></label>
+                <span class="with-tip">
+                    <input class="input-text" id="file_path" name="gui_data[file][path]" value="<?php echo $this->getValue('gui_data/file/path') ?>"/>
+                    <small class="file_type_file">
+                        <?php echo $this->__('(For Type "Local Server" need to use relative path to Magento install var/export or var/import, e.g. var/export, var/import, var/export/some/dir, var/import/some/dir)') ?>
+                    </small>
+                </span>
+            </span>
+
+            
+            
+        </div>
+
+		</fieldset>
+</div>

@@ -1,0 +1,59 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * Coupon form template
+ */
+?>
+
+  <form id="klarnakassan-coupon" action="<?php echo Mage::helper('nwtkco')->getCheckoutUrl('saveCoupon');?>" method="post">
+  <div class="nwtkco-content" >
+    <!--<p class="block-subtitle"><?php echo $this->__('Coupon') ?></p>-->
+   
+    <input type="hidden" name="remove" id="remove-coupone" value="0" />
+    <div class="input-box">
+        <?php if(strlen($this->getCouponCode())): ?>
+            <a href="#" onclick="discountForm.submit(true);return false;" class="nwtkco-btn-remove"><?php echo $this->__('Remove Coupon'); ?></a>
+        <?php endif;?>
+       <!-- <span class="label"><label for="coupon_code"><?php echo $this->__('Code') ?></label></span>-->
+        <button type="button" title="<?php echo $this->__('Apply') ?>" class="btn-kco" onclick="discountForm.submit(false)" value="<?php echo $this->__('Apply') ?>"><span><span><?php echo $this->__('Apply') ?></span></span></button>
+        <input class="input-text" id="coupon_code" name="coupon_code" placeholder="<?php echo $this->__('Coupon Code'); ?>" value="<?php echo $this->escapeHtml($this->getCouponCode()) ?>" />
+    </div>
+    
+  </div>
+  </form>
+
+
+<script type="text/javascript">
+//<![CDATA[
+window.discountForm = new VarienForm('klarnakassan-coupon');
+window.discountForm.submit = function (isRemove) {
+    if (isRemove) {
+        $('coupon_code').removeClassName('required-entry');
+        $('remove-coupone').value = "1";
+    } else {
+        $('coupon_code').addClassName('required-entry');
+        $('remove-coupone').value = "0";
+    }
+    //VarienForm.prototype.submit.bind(discountForm)();
+    if(this.validator) {
+        if(this.validator.validate()) {
+            return window.KCO.ajaxFormSubmit(this.form);
+        }
+    }  else {
+        return window.KCO.ajaxFormSubmit(this.form);
+    }
+    return false;
+}
+//]]>
+</script>

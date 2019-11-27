@@ -1,0 +1,21 @@
+<?php
+$orderId = $this->getRealOrderId();
+$order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
+$ordered_items = $order->getAllItems();
+$products = '';
+$sku = array();
+$price = array();
+$qty = array();
+
+$orderObj = Mage::getModel('sales/order')->loadByIncrementId($this->getOrderId());
+$_items = $orderObj->getAllItems();
+
+foreach ($_items as $_item) {
+    $sku[] = $_item->getSku();
+    $qty[] = $_item->getQtyOrdered();
+    $price[] = $_item->getPrice();
+}
+
+?>
+
+<img width="1" height="1" src="https://apprl.com/a/conversion/?store_id=knutgadd&order_id=<?php echo $this->getOrderId();?>&order_value=<?php echo $orderObj->getGrandTotal();?>&currency=<?php echo $orderObj->getBaseCurrencyCode();?>&sku=<?php echo $stringSku=implode(",",$sku);?>&quantity=<?php echo $stringQty=implode("^",$qty);?>&price=<?php echo $stringPrice=implode("^",$price);?>">

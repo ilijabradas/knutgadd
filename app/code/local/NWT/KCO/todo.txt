@@ -1,0 +1,50 @@
+Do not forget about BASE Module 
+
+ - add option for klarna buttons ( button or ul/li) in sidebar, to works with rwd magento theme (sidebar menu)
+ - add custom javascript to remove some buttons (a textarea in config)
+ - add config flag for checkout sidebar position (left/right)
+ - add config flag for checkout sidebar width
+
+ - LOG (Debug)
+ - Add address selector (for registered customers)
+ - [ NEED to be review ] Set customer info (on create order, check __all_ addreses, not only default) |: save address in address book, check if exists, etc.
+ - TRANSLATE backend, review frontend
+ - Min/Max order (config in payment method, now is hidden, validate checkout initcheckout)
+
+
+DONE:
+
+  - implement "VERIFICATION" step, check if shipping amount is changed with the address etc.
+    - Header/license/author
+    - Layout desktop/mobile
+    - add config flag (responsive: yes/no) and add a class
+    - PUSH (cancel reservations for which was not place an order),
+        set "created" if not - cancel resersvation for  old active quote [REVIEW against "hacker"]
+        add index on nwt_reservation
+  - Minicart, ALICE IN WONDERLAND, SKU: hbm003 = show Weird
+  - Shipping name, add courier if method is empty (as Unifaun), see obelix stelaris
+  - !!!Klarna ERROR when no shipping method (shipping is not selected after you place an order and make another one)
+  - Remove Failure action, pages, translations
+  - Set postal code on initcheckout (some shipping method will not give the total if is not set, see UPS)
+  - Check if the quote was changed before create the order
+  - Remove the own terms page (let only CMS select)
+  - Alternative payment
+  - Change klarnakassan to "klarna checkout" in backend / menu
+  - Enable / disable payment method (check default config)
+  - CHECK Totals / tax for different tax configuration, look for REGULATION line
+  - TRANSLATE
+  - Remove Mage::log (also from LIB)
+  - TERMS
+  - VOID
+  - Finish $response[messages]
+  - Add all config flag into system.xml
+  - Layout check (ifconfig)
+  - Add country selector (for store with multiple country)
+  - Capture the payment
+  - NEWSLETTER
+  - AJAX for cart delete
+  - Redirect after update product
+  - Change default shipping method (hardcoded to flatrate_flatrate)
+  - Prefix, CareOf - Adress (Germania)
+
+

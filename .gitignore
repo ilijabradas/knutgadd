@@ -2,6 +2,7 @@
 # Magento Default Files    #
 #--------------------------#
 
+.idea/
 /app/etc/local.xml
 
 /media/*
@@ -36,8 +37,8 @@
 
 /var/*
 !/var/.htaccess
+!var/geoip
 
 !/var/package
 /var/package/*
 !/var/package/*.xml
-

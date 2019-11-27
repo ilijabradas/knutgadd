@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="1.9.1">
+    <cms_index_index>
+        <reference name="after_body_start">
+            <block type="bannerslider/index" name="bannerslider_index" template="bannerslider/index.phtml"/>
+        </reference>
+    </cms_index_index>
+</layout>

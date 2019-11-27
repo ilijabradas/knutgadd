@@ -1,0 +1,651 @@
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ *
+ */
+
+// MIXINS
+.rounded(@radius: 2px) {
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    border-radius: @radius;
+}
+.opacity(@opacity: 0.5) {
+    -moz-opacity: @opacity;
+    -khtml-opacity: @opacity;
+    -webkit-opacity: @opacity;
+    opacity: @opacity;
+    @opperc: @opacity * 100;
+    -ms-filter: ~"progid:DXImageTransform.Microsoft.Alpha(opacity=@{opperc})";
+    filter: ~"alpha(opacity=@{opperc})";
+}
+.box-shadow(@arguments) {
+    -webkit-box-shadow: @arguments;
+    -moz-box-shadow: @arguments;
+    box-shadow: @arguments;
+}
+.box-sizing(@sizing: border-box) {
+    -ms-box-sizing: @sizing;
+    -moz-box-sizing: @sizing;
+    -webkit-box-sizing: @sizing;
+    box-sizing: @sizing;
+}
+.gradientFromTop(@colTop,@colBottom){
+    background: @colTop;
+    background: -moz-linear-gradient(top,  @colTop 0%, @colBottom 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@colTop), color-stop(100%,@colBottom));
+    background: -webkit-linear-gradient(top,  @colTop 0%,@colBottom 100%);
+    background: -o-linear-gradient(top,  @colTop 0%,@colBottom 100%);
+    background: -ms-linear-gradient(top,  @colTop 0%,@colBottom 100%);
+    background: linear-gradient(to bottom,  @colTop 0%,@colBottom 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@colTop, endColorstr=@colBottom,GradientType=0 );
+}
+
+.ease(@time){
+    -webkit-transition: all @time linear;
+    -moz-transition: all @time linear;
+    -o-transition: all @time linear;
+    transition: all @time linear;
+}
+
+
+//HELPER CLASSES
+.hide-this {
+    display: none !important;
+}
+.show-this {
+    display: block !important;
+}
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.pull-left {
+    float: left;
+}
+.pull-right {
+    float: right;
+}
+.kco-left,
+.kco-right {
+    background: #fff;
+}
+
+.kco-right {
+    margin-left: 300px;
+}
+.kco-left {
+    width: 300px;
+    position: relative;
+    float: left;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    .box-sizing;
+    padding: 20px 10px;
+    font-size: 14/12em;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.body-klarna-checkout {
+    .nwtkco-title {
+        h1,h2,h3,h4,h5,h6 {
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            text-transform: none;
+        }
+    }
+}
+.nwtkco-block {
+    margin-bottom: 30px;
+    textarea {
+        .kco-input;
+        min-height: 200px;
+        max-width: 100%;
+        min-width: 100%;
+        width: 100%;
+        font-size: 12/16.3em;
+    }
+    .nwtkco-title {
+        h2 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            font-weight: bold;
+            line-height: 18px;
+            text-indent: 10px;
+            margin-bottom: 0;
+            font-size: 18px;
+            color: rgb(49,57,62);
+            letter-spacing: 0;
+        }
+    }
+    a {
+        color: rgba(0, 137, 207, 1);
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .nwtkco-content {
+        padding-left: 0px;
+        padding-top: 20px;
+        li {
+            list-style-type: none;
+        }
+    }
+    input.radio,
+    input.checkbox {
+        display: none;
+    }
+    input.radio,
+    input.checkbox {
+        &:checked {
+            & + label .tick {
+                background-position: left -22px;
+            }
+        }
+    }
+    label {
+        cursor: pointer;
+        line-height: 20px;
+        display: inline-block;
+        .tick {
+            display: inline-block;
+            vertical-align: top;
+            width: 20px;
+            height: 21px;
+            background-image: url(sprite.kco.png);
+            background-position: left top;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            cursor: pointer;
+            margin-right: 15px;
+        }
+    }
+    ul {
+        li {
+            line-height: 40px;
+        }
+    }
+    .product-details {
+        p.product-name,
+        .product-name {
+            margin: 0;
+            padding-top : 0;
+            a {
+                font-size: 14px;
+                color: rgba(0, 137, 207, 1);
+                text-decoration: none;
+                text-transform : none;
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+.arrow-down {
+    vertical-align: middle;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url('sprite.kco.png') left -42px transparent no-repeat;
+}
+#nwtkco_cart {
+    .nwtkco-title {
+        position: relative;
+    }
+    a.show-all {
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 18px;
+        text-decoration: none;
+        cursor: pointer;
+        span {
+            .arrow-down;
+        }
+    }
+    .mini-products-list {
+        li.item {
+            display: none;
+        }
+    }
+    .nwtkco-content {
+    }
+    &.toggled {
+        .mini-products-list {
+            li.item {
+                display: block;
+            }
+        }
+        a.show-all {
+            span {
+                background: url('sprite.kco.png') right -42px transparent no-repeat;
+            }
+        }
+    }
+}
+.kco-input {
+    box-shadow: 0 1px 3px 0 rgba(122, 119, 119, 0.25) inset;
+    color: #31393e;
+    .box-sizing();
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #bbb;
+    border-radius: 2px;
+    outline: medium none;
+    padding: 10px 10px 8px;
+    width: 100%;
+    font-size: 16/14em;
+    line-height: 21px;
+    height: 41px;
+    &:focus {
+        border: 1px solid #006dba;
+        box-shadow: 0 0 4px 0 #0089d0;
+    }
+    &.validation-failed {
+        background: inherit !important;
+        border: 1px solid #b20000 !important;
+        &:focus {
+            background-color: #fff;
+            box-shadow: 0 0 4px 2px #fbc5c5;
+        }
+    }
+}
+#nwtkco-bigwrap {
+    position: relative;
+}
+.body-klarna-checkout {
+    #nwtkco_klarna {
+        .nwtkco-block {
+            padding:20px;
+            font-size:1.16em;
+            font-family:'Helvetica Neue',Helvetica,Arial,sans-serif
+        }
+    }
+    .nwtkco-content ul,
+    #cart-sidebar {
+        margin: 0;
+        padding: 0;
+    }
+    #nwt_overlay {
+        position:absolute;
+        top:0;
+        left:0;
+        z-index:1000;
+        width:100%;
+        height:100%;
+        background:url('loading.gif') no-repeat 50% 30% #fff;opacity:0.9
+        /*display:none;*/
+    }
+    .mini-products-list {
+        .product-image {
+            width: 30%;
+            border: medium none;
+            float: left;
+            img {
+                max-width: 100%;
+                height: auto;
+                border-radius: 3px;
+            }
+        }
+        .product-details {
+            float: left;
+            .box-sizing();
+            width: 70%;
+            padding-left: 3%;
+            margin: 0;
+            padding-right: 25px;
+        }
+        li.item {
+            position: relative;
+            clear: both;
+            border-bottom : 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0 0 10px 0;
+            margin: 10px 0 0 0;
+//            &.last {
+//                border-bottom: medium none;
+//            }
+            .nwt-btn-remove,
+            .nwt-btn-edit {
+//                text-indent: -9999px;
+                text-align: center;
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 0;
+                vertical-align: middle;
+                .opacity(0.3);
+                &:hover {
+                    .opacity(1);
+                }
+                span {
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+            .nwt-btn-remove {
+                top: 0;
+                background: url('sprite.kco.png') right -21px transparent no-repeat;
+            }
+            .nwt-btn-edit {
+                top: 25px;
+                background: url('sprite.kco.png') right top transparent no-repeat;
+            }
+        }
+        .product-name {
+            font-size: 16/14em;
+            line-height: 1.1em;
+        }
+        .truncated {
+            display: inline-block;
+            .details {
+                padding: 5px 0;
+                text-decoration: underline;
+                font-size: 12/14em;
+            }
+            .truncated_full_value {
+                .item-options {
+                    box-shadow: 0 0 65px rgba(0, 0, 0, 0.03) inset;
+                    top: 100%;
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 4px;
+                    border: 1px solid rgba(0, 137, 207, 0.25);
+                    display: none;
+                    left: -100px;
+                    position: absolute;
+                    z-index: 300;
+                    margin-top: -18px;
+                    width: 300px;
+                    max-height: 300px;
+                    overflow-x: hidden;
+                    overflow-y : scroll;
+                }
+                &.show {
+                    .item-options {
+                        display: block;
+                    }
+                }
+            }
+            .item-options {
+                dt {
+                    font-style: normal;
+                }
+                dt,
+                dd {
+                    display: block;
+                    float: left;
+                    margin: 0;
+                    padding: 0;
+                    .box-sizing();
+                    padding-left: 5px;
+                    padding-right: 5px;
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                }
+                dt {
+                    width: 45%;
+                }
+                dd {
+                    width: 55%;
+                    .price {
+                        font-weight : bold;
+                        color: #0089cf;
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+    }
+    .nwtkco-clear {
+        &,
+        &:before,
+        &:after {
+            clear : both;
+            width: 100%;
+        }
+    }
+    .nwt-KCO-totals {
+        width: 100%;
+        color: lighten(#000,40%);
+        th,
+        td {
+            padding: 2px 5px;
+            text-align: left !important;
+            & + th,
+            & + td {
+                text-align: right !important;
+            }
+        }
+    }
+    #klarnakassan-coupon {
+        .nwtkco-content {
+            padding : 0;
+            .input-box {
+                overflow: hidden;
+                padding: 10px 0 0 0;
+                position: relative;
+            }
+            .nwtkco-btn-remove {
+                position: absolute;
+                z-index: 3;
+                right: 42%;
+                display: block;
+                height: 20px;
+                line-height: 20px;
+                width: 20px;
+                text-align: center;
+                font-size: 18/16em;
+                text-decoration: none;
+                background: url("sprite.kco.png") no-repeat scroll right -21px transparent;
+                text-indent: -9999px;
+                overflow: hidden;
+                text-transform: uppercase;
+                top: 50%;
+                margin-top: -10px;
+                .opacity(0.3);
+
+                &:hover {
+                    .opacity(1);
+                }
+
+            }
+            button {
+                float: right;
+                width: 35%;
+                clear: right;
+            }
+            input {
+                .kco-input;
+                float: left;
+                width: 60%;
+                margin-bottom: 10px;
+            }
+        }
+        .validation-advice {
+            margin: 10px 0 0 0;
+            padding: 0;
+            text-align: center;
+            background: none;
+            background: none repeat scroll 0 0 #31393e;
+            border: 1px solid #31393e;
+            font-size: 13/14em;
+            color: #fff;
+            clear: both;
+            padding: 8px ;
+        }
+    }
+    #klarnakassan-newsletter {
+        .nwtkco-content {
+            padding-left: 0;
+        }
+    }
+    .btn-kco {
+        box-sizing: border-box;
+        text-transform: none;
+        color: #fff;
+        display: inline-block;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 16px;
+        height: 38px;
+        line-height: 17px;
+        min-width: 70px;
+        outline: medium none;
+        padding: 10px 10px 11px;
+        vertical-align: top;
+        .gradientFromTop(#36a2ea, #2282d0);
+        border: 1px solid #0089cf;
+        border-radius: 3px;
+        box-shadow: 0 1px 0 0 #0a6c93, 0 1px 2px 0 rgba(255, 255, 255, 0.5) inset;
+        cursor: pointer;
+        span {
+            margin: 0;
+            padding: 0;
+            display: block;
+        }
+        &:focus,
+        &:hover {
+            .gradientFromTop(#36a2ea, #0070ba);
+            box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.5) inset, 0 1px 1px 0 #0a5d7e;
+        }
+        &:active {
+            background: none repeat scroll 0 0 #36a2ea;
+            border: 1px solid #066ca9;
+            box-shadow: 0 1px 2px 0 rgba(36, 43, 47, 0.46) inset;
+            height: 39px;
+            margin-bottom: -1px;
+        }
+    }
+    #klarnakassan-comment {
+        #kcoCommentSubmit {
+            .ease(0.2s);
+            pointer-events: none;
+            .opacity(0);
+            position: absolute;
+            z-index: 2;
+            bottom: 10px;
+            right: 10px;
+        }
+        textarea {
+            min-height: 75px;
+            .ease(0.2s);
+        }
+        .nwtkco-content {
+            position: relative;
+            &.focused {
+                #kcoCommentSubmit {
+                    .opacity(1);
+                    pointer-events: all;
+                }
+                textarea {
+                    min-height: 200px;
+                }
+            }
+        }
+    }
+}
+.kco-header {
+    background: #fff;
+    padding: 20px 10px;
+    width: 100%;
+    .box-sizing();
+}
+.show-tablet {
+    display: none;
+}
+
+@media screen and (max-width: 768px){
+
+.nwtkco-responsive-theme {
+    .mini-products-list .truncated {
+        display: none;
+    }
+    .kco-left,
+    .kco-right {
+        width: 100%;
+        padding-left: 3%;
+        padding-right: 3%;
+        margin: 0;
+        .box-sizing();
+    }
+    .show-tablet {
+        display: block;
+    }
+    .kco-left {
+        float: none;
+        position: static;
+        .section-toggler {
+            text-align: right;
+        }
+        #nwtToggleSection {
+            cursor: pointer;
+            text-decoration : none;
+            span span {
+                .arrow-down;
+                background-position: right -42px;
+            }
+            .not-toggled {
+                display: none;
+            }
+            .toggled {
+                display: inline;
+            }
+        }
+        #nwt_checkout {
+            height: auto;
+            overflow: visible;
+        }
+        &.nwtkco-hide {
+            #nwt_checkout {
+                height: 200px;
+                overflow: hidden;
+                position: relative;
+                &:after {
+                    content : "";
+                    position: absolute;
+                    height: 200px;
+                    width: 100%;
+                    left: 0;
+                    bottom: 0px;
+                    z-index: 3;
+                    .gradientFromTop(rgba(255,255,255,0), rgba(255,255,255,1));
+                }
+                #nwtkco_cart {
+                    position: relative;
+                }
+            }
+            #nwtToggleSection {
+                .not-toggled {
+                    display: inline;
+                }
+                .toggled {
+                    display: none;
+                }
+                span span {
+                    background-position: left -42px;
+                }
+            }
+        }
+    }
+    #klarna-checkout-container {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .body-klarna-checkout {
+        .mini-products-list {
+            .product-image {
+                width: auto;
+            }
+        }
+    }
+}/* nwtkco-responsive-theme */
+}/* media */

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Nebojsa_Billingcurrency>
+            <version>1.0.0</version>
+        </Nebojsa_Billingcurrency>
+    </modules>
+    <global>
+        <models>
+            <nebojsa_billingcurrency>
+                <class>Nebojsa_Billingcurrency_Model</class>
+            </nebojsa_billingcurrency>
+        </models>
+    </global>
+    <events>
+        <checkout_onepage_controller_success_action>
+            <observers>
+                <BillingCurrency>
+                    <class>nebojsa_billingcurrency/observer</class>
+                    <method>controllerActionPredispatch</method>
+                </BillingCurrency>
+            </observers>
+        </checkout_onepage_controller_success_action>
+    </events>
+</config>

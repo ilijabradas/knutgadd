@@ -1,0 +1,47 @@
+<?php
+$cookie = Mage::getSingleton('core/cookie');
+if ($cookie->get('popup_modal') != 1 && Mage::app()->getStore()->getCode() == 'default') { ?>
+
+<button id="modalOpen" style="display:none;"></button>
+<div id="languageModal" class="modal">
+	<div class="modal-content">
+		<p class="close">X</p><br/>
+		<div class="flags">
+			<div class="title">Choose your language</div>
+			<div class="row_one">
+				<a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ) . 'se'; ?>"><!-- <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/Sweden-Flag.png'; ?>" /> --><span>Swedish</span></a>&nbsp;&nbsp;
+				<!-- <a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ) . 'eu'; ?>"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/European-Union-Flag.png'; ?>" /><span>Europe</span></a> -->
+				<!-- <a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ) . 'cn'; ?>"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/China-Flag.png'; ?>" /><span>China</span></a> -->
+				<a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ); ?>"><!-- <img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/United-States-Flag.png'; ?>" /> --><span>English</span></a>
+			</div>
+<!-- 			<div class="row_two">
+				<a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ) . 'jp'; ?>"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/Japan-Flag.png'; ?>" /><span>Japan</span></a>
+				<a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ) . 'tw'; ?>"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/Taiwan-Flag.png'; ?>" /><span>Taiwan</span></a>
+				<a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ) . 'kr'; ?>"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/Korea-Flag.png'; ?>" /><span>Korea</span></a>
+				<a href="<?php echo Mage::getBaseUrl( Mage_Core_Model_Store::URL_TYPE_WEB, true ); ?>"><img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . 'flags/United-States-Flag.png'; ?>" /><span>USA</span></a>
+			</div> -->
+		</div>
+	</div>
+</div>
+
+<script>
+var modal = document.getElementById('languageModal');
+var btn = document.getElementById("modalOpen");
+var span = document.getElementsByClassName("close")[1];
+btn.onclick = function() {
+	modal.style.display = "block";
+}
+span.onclick = function() {
+	modal.style.display = "none";
+}
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+}
+</script>
+
+<?php
+$cookie->set('popup_modal', '1', strtotime(time()) + 3600, '/');
+}
+?>

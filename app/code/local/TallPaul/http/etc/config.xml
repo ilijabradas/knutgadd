@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Tallpaul_http>
+      <version>0.1.0</version>
+    </Tallpaul_http>
+  </modules>
+  <global>
+   <helpers>
+    <core>
+      <rewrite>
+        <http>Tallpaul_Http_Helper_Cloudflarehttp</http>
+      </rewrite>
+    </core>
+  </helpers>
+</global>
+</config>

@@ -1,0 +1,1750 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @see Mage_Catalog_Block_Product_List
+ */
+/* @var $this Mage_Catalog_Block_Product_List */
+?>
+<?php
+$_productCollection = $this->getLoadedProductCollection();
+$_helper = $this->helper('catalog/output');
+?>
+
+<?php if (!$_productCollection->count()): ?>
+    <p class="note-msg"><?php echo $this->__('There are no products matching the selection.') ?></p>
+<?php else: ?>
+    <div class="category-products">
+        <?php //echo $this->getToolbarHtml() ?>
+        <?php // List mode ?>
+        <?php if ($this->getMode() != 'grid'): ?>
+            <?php $_iterator = 0; ?>
+            <ol class="products-list" id="products-list">
+                <?php foreach ($_productCollection as $_product): ?>
+                    <li class="item<?php if (++$_iterator == sizeof($_productCollection)): ?> last<?php endif; ?>">
+                        <?php // Product Image ?>
+                        <a href="<?php echo $_product->getProductUrl() ?>"
+                           title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                           class="product-image">
+                            <?php $_imgSize = 500; ?>
+                            <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                 src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->keepFrame(false)->resize($_imgSize); ?>"
+                                 alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                        </a>
+                        <div class="product-shop">
+                            <div class="f-fix">
+                                <div class="product-primary">
+                                    <?php $_productNameStripped = $this->stripTags($_product->getName(), null, true); ?>
+                                    <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                                                title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?></a>
+                                    </h2>
+                                    <?php if ($_product->getRatingSummary()): ?>
+                                        <?php echo $this->getReviewsSummaryHtml($_product) ?>
+                                    <?php endif; ?>
+                                    <?php
+                                    if ($this->getChild('name.after')) {
+                                        $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                        foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                            $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                            $_nameAfterChild->setProduct($_product);
+                                            $_nameAfterChild->setProduct($_product);
+                                            echo $_nameAfterChild->toHtml();
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                                <div class="product-secondary">
+                                    <?php echo $this->getPriceHtml($_product, true) ?>
+                                </div>
+                                <div class="actions">
+                                    <?php if ($_product->isSaleable()): ?>
+                                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>"
+                                                class="button btn-cart"
+                                                onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                            <span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                                    <?php else: ?>
+                                        <p class="availability out-of-stock">
+                                            <span><?php echo $this->__('Out of stock') ?></span></p>
+                                    <?php endif; ?>
+                                    <ul class="add-to-links">
+                                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                            <li><a title="<?php echo $this->__('Add to Wishlist') ?>"
+                                                   href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>"
+                                                   class="link-wishlist"><?php echo $this->__('Add to Wishlistt') ?></a>
+                                            </li>
+                                        <?php endif; ?>
+                                        <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
+                                            <li><a title="<?php echo $this->__('Add to Compare') ?>"
+                                                   href="<?php echo $_compareUrl ?>"
+                                                   class="link-compare"><?php echo $this->__('Add to Compare') ?></a>
+                                            </li>
+                                        <?php endif; ?>
+                                    </ul>
+                                </div>
+                                <div class="desc std">
+                                    <?php echo $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?>
+                                    <a href="<?php echo $_product->getProductUrl() ?>"
+                                       title="<?php echo $_productNameStripped ?>"
+                                       class="link-learn"><?php echo $this->__('Learn More') ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ol>
+            <script type="text/javascript">decorateList('products-list', 'none-recursive')</script>
+
+        <?php else: ?>
+
+        <?php // Grid Mode ?>
+
+        <?php $_collectionSize = $_productCollection->count() ?>
+        <?php $_columnCount = $this->getColumnCount(); ?>
+            <div class="category-title">
+                <h1><?php echo Mage::getSingleton('catalog/layer')->getCurrentCategory()->getName() ?></h1>
+            </div>
+            <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
+                <?php $i = 0;
+                foreach ($_productCollection as $_product): ?>
+                    <?php /*if ($i++%$_columnCount==0): ?>
+                     <?php endif*/ ?>
+                    <?php if (Mage::app()->getStore()->getCode() == "tw"): ?>
+
+                        <?php if ($_product->getSku() == "K01019" || $_product->getSku() == "K01018" ||
+                            $_product->getSku() == "K01028" || $_product->getSku() == "K01026" ||
+                            $_product->getSku() == "K02027" || $_product->getSku() == "K01025" ||
+                            $_product->getSku() == "K02013" || $_product->getSku() == "K02012" ||
+                            $_product->getSku() == "K02011" || $_product->getSku() == "K01024" ||
+                            $_product->getSku() == "K01023" || $_product->getSku() == "K01022" ||
+                            $_product->getSku() == "K02014" || $_product->getSku() == "K02016" ||
+                            $_product->getSku() == "K02015") continue; ?>
+
+                        <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                            <a href="<?php echo $_product->getProductUrl() ?>"
+                               title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                               class="product-image">
+                                <?php $_imgSize = 800; ?>
+                                <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                     src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                            </a>
+                            <div class="product-info">
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
+                                </h2>
+                                <?php $attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                <?php if ($attributeValue) { ?>
+                                    <span class="attribute-belt-type"><?php echo $attributeValue ?></span>
+                                <?php } ?>
+                                <?php
+                                if ($this->getChild('name.after')) {
+                                    $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                    foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                        $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                        $_nameAfterChild->setProduct($_product);
+                                        echo $_nameAfterChild->toHtml();
+                                    }
+                                }
+                                ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if ($_product->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                <?php endif; ?>
+                                <div class="shop-now">
+                                    <?php
+                                    $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Add to shopping cart')); ?>
+
+                                    <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
+
+                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart"
+                                                onclick="setLocation('<?php echo $_product->getProductUrl() ?>')">
+                                            <span><span><?php echo $buttonTitle ?></span></span></button>
+
+                                    <?php elseif ($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+
+                                        <a title="<?php echo $buttonTitle ?>" class="button"
+                                           href="<?php echo $_product->getProductUrl() ?>"><?php echo $buttonTitle ?></a>
+                                    <?php else: ?>
+                                        <!-- <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> -->
+
+                                        <!-- SIGN UP FOR NEWS MODAL START -->
+                                        <button id="modalOpen<?php echo $_product->getSku(); ?>" class="button btn-cart"
+                                                style="cursor: pointer;">
+                                            <span><?php echo $this->__('Sign up for this watch') ?></span></button>
+
+                                        <div id="signupModal<?php echo $_product->getSku(); ?>" class="modal"
+                                             style="display: none;">
+                                            <div class="modal-content">
+                                                <header><?php echo $this->__('Sign up for this watch'); ?></header>
+                                                <p id="close<?php echo $_product->getSku(); ?>" class="close">X</p><br/>
+                                                <div class="sign-up-form">
+                                                    <form
+                                                            id="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            name="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            accept-charset="UTF-8"
+                                                            autocomplete="off"
+                                                            enctype="multipart/form-data"
+                                                            method="post"
+                                                            novalidate
+                                                            action="/signupwatch/signupwatch/save">
+
+                                                        <input placeholder="<?php echo $this->__('First Name'); ?>"
+                                                               id="FirstName" name="first_name" type="text"
+                                                               class="required-entry" required>
+
+                                                        <input placeholder="<?php echo $this->__('Last Name'); ?>"
+                                                               id="LastName" name="last_name" type="text"
+                                                               class="required-entry " required>
+
+                                                        <input placeholder="<?php echo $this->__('Email Address'); ?>"
+                                                               id="email" name="email" type="text"
+                                                               class="required-entry validate-email" required>
+
+
+                                                        <textarea name="message" id="message"
+                                                                  placeholder="<?php echo $this->__('Message'); ?>"
+                                                                  class="input-text" cols="5" rows="5"></textarea>
+
+                                                        <div class="code" id="code">
+                                                            <div></div>
+                                                        </div>
+
+                                                        <input type="hidden" id="captcha" value="">
+
+                                                        <input class="sign-up-code" type="text" name="signUpCode"
+                                                               id="signUpCode"
+                                                               placeholder="<?php echo $this->__('Enter the code above here'); ?>"
+                                                               required>
+
+                                                        <div class="read"><?php echo $this->__('Click <a href="%s">here</a> to refresh image.', "#") ?></div>
+
+
+                                                        <input type="hidden" id="itemName" name="watch_name"
+                                                               value="<?php echo $_product->getName(); ?>"/>
+                                                        <?php $watchBeltType = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                                        <?php if ($watchBeltType) { ?>
+                                                            <input type="hidden" id="itemBeltType" name="watch_belttype"
+                                                                   value="<?php echo $watchBeltType; ?>"/>
+                                                        <?php } ?>
+                                                        <input type="hidden" id="itemDate" name="watch_date"
+                                                               value="<?php echo date("F j, Y"); ?>"/>
+                                                        <div class="buttons">
+                                                            <button id="saveForm" class="submit" type="submit"
+                                                            ">
+                                                            <p><?php echo $this->__('Please send me an e-mail when this watch is available for purchase.'); ?></p>
+                                                            </button>
+                                                            <div class="loading"><img
+                                                                        src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif', array('_secure' => true)); ?>">
+                                                            </div>
+                                                            <div class="notifications"></div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            // var signUpNews<?php echo $_product->getSku(); ?> = new VarienForm('signUpNews<?php echo $_product->getSku(); ?>', true);
+                                            //
+                                            function isValidEmailAddress(emailAddress) {
+                                                var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+                                                return pattern.test(emailAddress);
+                                            }
+
+                                            function refreshCaptcha() {
+                                                jQuery('.read a').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    captcha();
+                                                });
+
+                                            }
+
+                                            function captcha() {
+                                                var a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                                                for (var i = 0; i < 4; i++) {
+                                                    var b = a[Math.floor(Math.random() * a.length)];
+                                                    var c = a[Math.floor(Math.random() * a.length)];
+                                                    var d = a[Math.floor(Math.random() * a.length)];
+                                                    var e = a[Math.floor(Math.random() * a.length)];
+                                                }
+                                                var f = b + " " + c + " " + d + " " + e;
+                                                jQuery('#code div').text(f);
+                                                jQuery('#captcha').val(f);
+                                            }
+
+                                            function validCaptcha() {
+                                                var a = removeSpaces(jQuery('#captcha').val());
+                                                var b = removeSpaces(jQuery('#signUpCode').val());
+                                                return a == b ? true : false;
+                                            }
+
+                                            function removeSpaces(value) {
+                                                return value.split(" ").join("");
+                                            }
+
+                                            function getCountriesApi() {
+                                                jQuery.getJSON('https://restcountries.eu/rest/v2', function (data) {
+                                                    var items = [];
+                                                    jQuery.each(data, function (key) {
+                                                        items.push("<option val='" + data[key].alpha3Code + "'>" + data[key].name + "</option>");
+                                                    });
+
+                                                    jQuery("<select />", {
+                                                        "class": "country-list",
+                                                        "name": "country_code",
+                                                        "id": "countryCode",
+                                                        html: items.join("")
+                                                    }).insertAfter(".modal .validate-email");
+                                                });
+                                            }
+
+                                            function getCountryOfOrigin() {
+
+                                                jQuery.getJSON('https://extreme-ip-lookup.com/json/', function (data) {
+                                                    window.data = data;
+
+                                                });
+                                            }
+
+                                            function setCountryOfOrigin() {
+                                                jQuery(document).on('change', '#countryCode', function () {
+                                                    jQuery(this).val(window.data.country);
+
+                                                });
+                                            }
+
+                                            function signUpFormSend() {
+
+                                                jQuery('#saveForm').click(function (e) {
+                                                    e.preventDefault();
+
+                                                    var formActionURL = jQuery(this).parents('form').attr('action');
+                                                    var firstName = jQuery('#FirstName').val();
+                                                    var lastName = jQuery('#LastName').val();
+                                                    var email = jQuery('#email').val();
+                                                    var code = jQuery('#signUpCode').val();
+                                                    var country = jQuery(document).find('#countryCode').val();
+
+                                                    if (email == '' || firstName == '' || lastName == '' || jQuery(document).find('#countryCode').val() == "") {
+                                                        jQuery('.notifications').fadeIn(400).text("<?php echo Mage::helper('signupwatch')->__('Marked fields are required.') ?>");
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (!isValidEmailAddress(email)) {
+                                                        jQuery('.notifications').fadeIn(400).text('Valid Email Address is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (code == '') {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    if (code != '' && validCaptcha() == 0) {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code did not match.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    jQuery('.loading').show();
+                                                    jQuery.ajax({
+                                                        type: 'POST',
+                                                        url: formActionURL,
+                                                        data: document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').serialize()
+                                                    })
+                                                        .success(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            var itemName = jQuery('#itemName').val();
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('You have successfully signed up for the ' + itemName.replace(/\//g, ' ') + '.');
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        })
+                                                        .fail(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('Something went wrong, please try again!');
+
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        });
+
+                                                });
+                                            }
+
+                                            jQuery('#modalOpen<?php echo $_product->getSku(); ?>').on('click', function () {
+
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'block');
+                                                jQuery(document).find('#countryCode').val(window.data.country);
+                                            });
+
+                                            jQuery('#close<?php echo $_product->getSku(); ?>').on('click', function (e) {
+                                                jQuery(document).find('.modal').removeClass('submitted');
+                                                jQuery('.notifications').text('');
+                                                document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                jQuery('.read a').trigger('click');
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'none');
+
+                                            });
+                                            jQuery(document).ready(function () {
+                                                getCountriesApi();
+                                                captcha();
+                                                refreshCaptcha();
+                                                signUpFormSend();
+                                                getCountryOfOrigin();
+                                                // setCountryOfOrigin();
+                                            });
+
+                                        </script>
+
+                                        <?php echo $this->setTemplate('popup/sign-up-news.phtml')->toHtml(); ?>
+                                        <!-- SIGN UP FOR NEWS MODAL END -->
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </li>
+                    <?php elseif (Mage::app()->getStore()->getCode() == "jp"): ?>
+
+                        <?php if ($_product->getSku() == "K01019" || $_product->getSku() == "K01018" ||
+                            $_product->getSku() == "K02010" || $_product->getSku() == "K01008") continue; ?>
+
+                        <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                            <a href="<?php echo $_product->getProductUrl() ?>"
+                               title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                               class="product-image">
+                                <?php $_imgSize = 800; ?>
+                                <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                     src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                            </a>
+                            <div class="product-info">
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
+                                </h2>
+                                <?php $attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                <?php if ($attributeValue) { ?>
+                                    <span class="attribute-belt-type"><?php echo $attributeValue ?></span>
+                                <?php } ?>
+                                <?php
+                                if ($this->getChild('name.after')) {
+                                    $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                    foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                        $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                        $_nameAfterChild->setProduct($_product);
+                                        echo $_nameAfterChild->toHtml();
+                                    }
+                                }
+                                ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if ($_product->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                <?php endif; ?>
+                                <div class="shop-now">
+                                    <?php
+                                    // $body_classes = $this->getLayout()->getBlock('root')->getBodyClass();
+                                    // if (strpos($body_classes, 'category-cult-chrono') !== false):
+                                    // $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Pre-order now'));
+                                    // else:
+                                    $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Add to shopping cart'));
+
+                                    ?>
+                                    <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
+
+                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart"
+                                                onclick="setLocation('<?php echo $_product->getProductUrl() ?>')">
+                                            <span><span><?php echo $buttonTitle ?></span></span></button>
+
+                                    <?php elseif ($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+
+                                        <a title="<?php echo $buttonTitle ?>" class="button"
+                                           href="<?php echo $_product->getProductUrl() ?>"><?php echo $buttonTitle ?></a>
+                                    <?php else: ?>
+                                        <!-- <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> -->
+
+                                        <!-- SIGN UP FOR NEWS MODAL START -->
+                                        <button id="modalOpen<?php echo $_product->getSku(); ?>" class="button btn-cart"
+                                                style="cursor: pointer;">
+                                            <span><?php echo $this->__('Sign up for this watch') ?></span></button>
+
+                                        <div id="signupModal<?php echo $_product->getSku(); ?>" class="modal"
+                                             style="display: none;">
+                                            <div class="modal-content">
+                                                <header><?php echo $this->__('Sign up for this watch'); ?></header>
+                                                <p id="close<?php echo $_product->getSku(); ?>" class="close">X</p><br/>
+                                                <div class="sign-up-form">
+                                                    <form
+                                                            id="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            name="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            accept-charset="UTF-8"
+                                                            autocomplete="off"
+                                                            enctype="multipart/form-data"
+                                                            method="post"
+                                                            novalidate
+                                                            action="/signupwatch/signupwatch/save">
+
+                                                        <input placeholder="<?php echo $this->__('First Name'); ?>"
+                                                               id="FirstName" name="first_name" type="text"
+                                                               class="required-entry" required>
+
+                                                        <input placeholder="<?php echo $this->__('Last Name'); ?>"
+                                                               id="LastName" name="last_name" type="text"
+                                                               class="required-entry " required>
+
+                                                        <input placeholder="<?php echo $this->__('Email Address'); ?>"
+                                                               id="email" name="email" type="text"
+                                                               class="required-entry validate-email" required>
+
+
+                                                        <textarea name="message" id="message"
+                                                                  placeholder="<?php echo $this->__('Message'); ?>"
+                                                                  class="input-text" cols="5" rows="5"></textarea>
+
+                                                        <div class="code" id="code">
+                                                            <div></div>
+                                                        </div>
+
+                                                        <input type="hidden" id="captcha" value="">
+
+                                                        <input class="sign-up-code" type="text" name="signUpCode"
+                                                               id="signUpCode"
+                                                               placeholder="<?php echo $this->__('Enter the code above here'); ?>"
+                                                               required>
+
+                                                        <div class="read"><?php echo $this->__('Click <a href="%s">here</a> to refresh image.', "#") ?></div>
+
+
+                                                        <input type="hidden" id="itemName" name="watch_name"
+                                                               value="<?php echo $_product->getName(); ?>"/>
+                                                        <?php $watchBeltType = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                                        <?php if ($watchBeltType) { ?>
+                                                            <input type="hidden" id="itemBeltType" name="watch_belttype"
+                                                                   value="<?php echo $watchBeltType; ?>"/>
+                                                        <?php } ?>
+                                                        <input type="hidden" id="itemDate" name="watch_date"
+                                                               value="<?php echo date("F j, Y"); ?>"/>
+                                                        <div class="buttons">
+                                                            <button id="saveForm" class="submit" type="submit"
+                                                            ">
+                                                            <p><?php echo $this->__('Please send me an e-mail when this watch is available for purchase.'); ?></p>
+                                                            </button>
+                                                            <div class="loading"><img
+                                                                        src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif', array('_secure' => true)); ?>">
+                                                            </div>
+                                                            <div class="notifications"></div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            // var signUpNews<?php echo $_product->getSku(); ?> = new VarienForm('signUpNews<?php echo $_product->getSku(); ?>', true);
+                                            //
+                                            function isValidEmailAddress(emailAddress) {
+                                                var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+                                                return pattern.test(emailAddress);
+                                            }
+
+                                            function refreshCaptcha() {
+                                                jQuery('.read a').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    captcha();
+                                                });
+
+                                            }
+
+                                            function captcha() {
+                                                var a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                                                for (var i = 0; i < 4; i++) {
+                                                    var b = a[Math.floor(Math.random() * a.length)];
+                                                    var c = a[Math.floor(Math.random() * a.length)];
+                                                    var d = a[Math.floor(Math.random() * a.length)];
+                                                    var e = a[Math.floor(Math.random() * a.length)];
+                                                }
+                                                var f = b + " " + c + " " + d + " " + e;
+                                                jQuery('#code div').text(f);
+                                                jQuery('#captcha').val(f);
+                                            }
+
+                                            function validCaptcha() {
+                                                var a = removeSpaces(jQuery('#captcha').val());
+                                                var b = removeSpaces(jQuery('#signUpCode').val());
+                                                return a == b ? true : false;
+                                            }
+
+                                            function removeSpaces(value) {
+                                                return value.split(" ").join("");
+                                            }
+
+                                            function getCountriesApi() {
+                                                jQuery.getJSON('https://restcountries.eu/rest/v2', function (data) {
+                                                    var items = [];
+                                                    jQuery.each(data, function (key) {
+                                                        items.push("<option val='" + data[key].alpha3Code + "'>" + data[key].name + "</option>");
+                                                    });
+
+                                                    jQuery("<select />", {
+                                                        "class": "country-list",
+                                                        "name": "country_code",
+                                                        "id": "countryCode",
+                                                        html: items.join("")
+                                                    }).insertAfter(".modal .validate-email");
+                                                });
+                                            }
+
+                                            function getCountryOfOrigin() {
+
+                                                jQuery.getJSON('https://extreme-ip-lookup.com/json/', function (data) {
+                                                    window.data = data;
+
+                                                });
+                                            }
+
+                                            function setCountryOfOrigin() {
+                                                jQuery(document).on('change', '#countryCode', function () {
+                                                    jQuery(this).val(window.data.country);
+
+                                                });
+                                            }
+
+                                            function signUpFormSend() {
+
+                                                jQuery('#saveForm').click(function (e) {
+                                                    e.preventDefault();
+
+                                                    var formActionURL = jQuery(this).parents('form').attr('action');
+                                                    var firstName = jQuery('#FirstName').val();
+                                                    var lastName = jQuery('#LastName').val();
+                                                    var email = jQuery('#email').val();
+                                                    var code = jQuery('#signUpCode').val();
+                                                    var country = jQuery(document).find('#countryCode').val();
+
+                                                    if (email == '' || firstName == '' || lastName == '' || jQuery(document).find('#countryCode').val() == "") {
+                                                        jQuery('.notifications').fadeIn(400).text("<?php echo Mage::helper('signupwatch')->__('Marked fields are required.') ?>");
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (!isValidEmailAddress(email)) {
+                                                        jQuery('.notifications').fadeIn(400).text('Valid Email Address is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (code == '') {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    if (code != '' && validCaptcha() == 0) {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code did not match.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    jQuery('.loading').show();
+                                                    jQuery.ajax({
+                                                        type: 'POST',
+                                                        url: formActionURL,
+                                                        data: document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').serialize()
+                                                    })
+                                                        .success(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            var itemName = jQuery('#itemName').val();
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('You have successfully signed up for the ' + itemName.replace(/\//g, ' ') + '.');
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        })
+                                                        .fail(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('Something went wrong, please try again!');
+
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        });
+
+                                                });
+                                            }
+
+                                            jQuery('#modalOpen<?php echo $_product->getSku(); ?>').on('click', function () {
+
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'block');
+                                                jQuery(document).find('#countryCode').val(window.data.country);
+                                            });
+
+                                            jQuery('#close<?php echo $_product->getSku(); ?>').on('click', function (e) {
+                                                jQuery(document).find('.modal').removeClass('submitted');
+                                                jQuery('.notifications').text('');
+                                                document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                jQuery('.read a').trigger('click');
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'none');
+
+                                            });
+                                            jQuery(document).ready(function () {
+                                                getCountriesApi();
+                                                captcha();
+                                                refreshCaptcha();
+                                                signUpFormSend();
+                                                getCountryOfOrigin();
+                                                // setCountryOfOrigin();
+                                            });
+
+                                        </script>
+
+                                        <?php echo $this->setTemplate('popup/sign-up-news.phtml')->toHtml(); ?>
+                                        <!-- SIGN UP FOR NEWS MODAL END -->
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </li>
+                    <?php elseif (Mage::app()->getStore()->getCode() == "se"): ?>
+
+                        <?php if ($_product->getSku() == "K02010" || $_product->getSku() == "K01008" ||
+                            $_product->getSku() == "K01028" || $_product->getSku() == "K01026" ||
+                            $_product->getSku() == "K02027" || $_product->getSku() == "K01025" ||
+                            $_product->getSku() == "K02013" || $_product->getSku() == "K02012" ||
+                            $_product->getSku() == "K02011" || $_product->getSku() == "K01024" ||
+                            $_product->getSku() == "K01023" || $_product->getSku() == "K01022"
+                            ) continue; ?>
+
+                        <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                            <a href="<?php echo $_product->getProductUrl() ?>"
+                               title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                               class="product-image">
+                                <?php $_imgSize = 800; ?>
+                                <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                     src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                            </a>
+                            <div class="product-info">
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
+                                </h2>
+                                <?php $attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                <?php if ($attributeValue) { ?>
+                                    <span class="attribute-belt-type"><?php echo $attributeValue ?></span>
+                                <?php } ?>
+                                <?php
+                                if ($this->getChild('name.after')) {
+                                    $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                    foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                        $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                        $_nameAfterChild->setProduct($_product);
+                                        echo $_nameAfterChild->toHtml();
+                                    }
+                                }
+                                ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if ($_product->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                <?php endif; ?>
+                                <div class="shop-now">
+                                    <?php
+                                    // $body_classes = $this->getLayout()->getBlock('root')->getBodyClass();
+                                    // if (strpos($body_classes, 'category-cult-chrono') !== false):
+                                    // $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Pre-order now'));
+                                    // else:
+                                    $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Add to shopping cart'));
+
+                                    ?>
+                                    <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
+
+                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart"
+                                                onclick="setLocation('<?php echo $_product->getProductUrl() ?>')">
+                                            <span><span><?php echo $buttonTitle ?></span></span></button>
+
+                                    <?php elseif ($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+
+                                        <a title="<?php echo $buttonTitle ?>" class="button"
+                                           href="<?php echo $_product->getProductUrl() ?>"><?php echo $buttonTitle ?></a>
+                                    <?php else: ?>
+                                        <!-- <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> -->
+
+                                        <!-- SIGN UP FOR NEWS MODAL START -->
+                                        <button id="modalOpen<?php echo $_product->getSku(); ?>" class="button btn-cart"
+                                                style="cursor: pointer;">
+                                            <span><?php echo $this->__('Sign up for this watch') ?></span></button>
+
+                                        <div id="signupModal<?php echo $_product->getSku(); ?>" class="modal"
+                                             style="display: none;">
+                                            <div class="modal-content">
+                                                <header><?php echo $this->__('Sign up for this watch'); ?></header>
+                                                <p id="close<?php echo $_product->getSku(); ?>" class="close">X</p><br/>
+                                                <div class="sign-up-form">
+                                                    <form
+                                                            id="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            name="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            accept-charset="UTF-8"
+                                                            autocomplete="off"
+                                                            enctype="multipart/form-data"
+                                                            method="post"
+                                                            novalidate
+                                                            action="/signupwatch/signupwatch/save">
+
+                                                        <input placeholder="<?php echo $this->__('First Name'); ?>"
+                                                               id="FirstName" name="first_name" type="text"
+                                                               class="required-entry" required>
+
+                                                        <input placeholder="<?php echo $this->__('Last Name'); ?>"
+                                                               id="LastName" name="last_name" type="text"
+                                                               class="required-entry " required>
+
+                                                        <input placeholder="<?php echo $this->__('Email Address'); ?>"
+                                                               id="email" name="email" type="text"
+                                                               class="required-entry validate-email" required>
+
+
+                                                        <textarea name="message" id="message"
+                                                                  placeholder="<?php echo $this->__('Message'); ?>"
+                                                                  class="input-text" cols="5" rows="5"></textarea>
+
+                                                        <div class="code" id="code">
+                                                            <div></div>
+                                                        </div>
+
+                                                        <input type="hidden" id="captcha" value="">
+
+                                                        <input class="sign-up-code" type="text" name="signUpCode"
+                                                               id="signUpCode"
+                                                               placeholder="<?php echo $this->__('Enter the code above here'); ?>"
+                                                               required>
+
+                                                        <div class="read"><?php echo $this->__('Click <a href="%s">here</a> to refresh image.', "#") ?></div>
+
+
+                                                        <input type="hidden" id="itemName" name="watch_name"
+                                                               value="<?php echo $_product->getName(); ?>"/>
+                                                        <?php $watchBeltType = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                                        <?php if ($watchBeltType) { ?>
+                                                            <input type="hidden" id="itemBeltType" name="watch_belttype"
+                                                                   value="<?php echo $watchBeltType; ?>"/>
+                                                        <?php } ?>
+                                                        <input type="hidden" id="itemDate" name="watch_date"
+                                                               value="<?php echo date("F j, Y"); ?>"/>
+                                                        <div class="buttons">
+                                                            <button id="saveForm" class="submit" type="submit"
+                                                            ">
+                                                            <p><?php echo $this->__('Please send me an e-mail when this watch is available for purchase.'); ?></p>
+                                                            </button>
+                                                            <div class="loading"><img
+                                                                        src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif', array('_secure' => true)); ?>">
+                                                            </div>
+                                                            <div class="notifications"></div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            // var signUpNews<?php echo $_product->getSku(); ?> = new VarienForm('signUpNews<?php echo $_product->getSku(); ?>', true);
+                                            //
+                                            function isValidEmailAddress(emailAddress) {
+                                                var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+                                                return pattern.test(emailAddress);
+                                            }
+
+                                            function refreshCaptcha() {
+                                                jQuery('.read a').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    captcha();
+                                                });
+
+                                            }
+
+                                            function captcha() {
+                                                var a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                                                for (var i = 0; i < 4; i++) {
+                                                    var b = a[Math.floor(Math.random() * a.length)];
+                                                    var c = a[Math.floor(Math.random() * a.length)];
+                                                    var d = a[Math.floor(Math.random() * a.length)];
+                                                    var e = a[Math.floor(Math.random() * a.length)];
+                                                }
+                                                var f = b + " " + c + " " + d + " " + e;
+                                                jQuery('#code div').text(f);
+                                                jQuery('#captcha').val(f);
+                                            }
+
+                                            function validCaptcha() {
+                                                var a = removeSpaces(jQuery('#captcha').val());
+                                                var b = removeSpaces(jQuery('#signUpCode').val());
+                                                return a == b ? true : false;
+                                            }
+
+                                            function removeSpaces(value) {
+                                                return value.split(" ").join("");
+                                            }
+
+                                            function getCountriesApi() {
+                                                jQuery.getJSON('https://restcountries.eu/rest/v2', function (data) {
+                                                    var items = [];
+                                                    jQuery.each(data, function (key) {
+                                                        items.push("<option val='" + data[key].alpha3Code + "'>" + data[key].name + "</option>");
+                                                    });
+
+                                                    jQuery("<select />", {
+                                                        "class": "country-list",
+                                                        "name": "country_code",
+                                                        "id": "countryCode",
+                                                        html: items.join("")
+                                                    }).insertAfter(".modal .validate-email");
+                                                });
+                                            }
+
+                                            function getCountryOfOrigin() {
+
+                                                jQuery.getJSON('https://extreme-ip-lookup.com/json/', function (data) {
+                                                    window.data = data;
+
+                                                });
+                                            }
+
+                                            function setCountryOfOrigin() {
+                                                jQuery(document).on('change', '#countryCode', function () {
+                                                    jQuery(this).val(window.data.country);
+
+                                                });
+                                            }
+
+                                            function signUpFormSend() {
+
+                                                jQuery('#saveForm').click(function (e) {
+                                                    e.preventDefault();
+
+                                                    var formActionURL = jQuery(this).parents('form').attr('action');
+                                                    var firstName = jQuery('#FirstName').val();
+                                                    var lastName = jQuery('#LastName').val();
+                                                    var email = jQuery('#email').val();
+                                                    var code = jQuery('#signUpCode').val();
+                                                    var country = jQuery(document).find('#countryCode').val();
+
+                                                    if (email == '' || firstName == '' || lastName == '' || jQuery(document).find('#countryCode').val() == "") {
+                                                        jQuery('.notifications').fadeIn(400).text("<?php echo Mage::helper('signupwatch')->__('Marked fields are required.') ?>");
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (!isValidEmailAddress(email)) {
+                                                        jQuery('.notifications').fadeIn(400).text('Valid Email Address is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (code == '') {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    if (code != '' && validCaptcha() == 0) {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code did not match.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    jQuery('.loading').show();
+                                                    jQuery.ajax({
+                                                        type: 'POST',
+                                                        url: formActionURL,
+                                                        data: document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').serialize()
+                                                    })
+                                                        .success(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            var itemName = jQuery('#itemName').val();
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('You have successfully signed up for the ' + itemName.replace(/\//g, ' ') + '.');
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        })
+                                                        .fail(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('Something went wrong, please try again!');
+
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        });
+
+                                                });
+                                            }
+
+                                            jQuery('#modalOpen<?php echo $_product->getSku(); ?>').on('click', function () {
+
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'block');
+                                                jQuery(document).find('#countryCode').val(window.data.country);
+                                            });
+
+                                            jQuery('#close<?php echo $_product->getSku(); ?>').on('click', function (e) {
+                                                jQuery(document).find('.modal').removeClass('submitted');
+                                                jQuery('.notifications').text('');
+                                                document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                jQuery('.read a').trigger('click');
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'none');
+
+                                            });
+                                            jQuery(document).ready(function () {
+                                                getCountriesApi();
+                                                captcha();
+                                                refreshCaptcha();
+                                                signUpFormSend();
+                                                getCountryOfOrigin();
+                                                // setCountryOfOrigin();
+                                            });
+
+                                        </script>
+
+                                        <?php echo $this->setTemplate('popup/sign-up-news.phtml')->toHtml(); ?>
+                                        <!-- SIGN UP FOR NEWS MODAL END -->
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </li>
+
+                    <?php elseif (Mage::app()->getStore()->getCode() == "fr"): ?>
+
+                        <?php if ($_product->getSku() == "K02010" || $_product->getSku() == "K01008" ||
+                            $_product->getSku() == "K01028" || $_product->getSku() == "K01026" ||
+                            $_product->getSku() == "K02027" || $_product->getSku() == "K01025" ||
+                            $_product->getSku() == "K02013" || $_product->getSku() == "K02012" ||
+                            $_product->getSku() == "K02011" || $_product->getSku() == "K01024" ||
+                            $_product->getSku() == "K01023" || $_product->getSku() == "K01022" ||
+                            $_product->getSku() == "K02014" || $_product->getSku() == "K02016" ||
+                            $_product->getSku() == "K02015") continue; ?>
+
+                        <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                            <a href="<?php echo $_product->getProductUrl() ?>"
+                               title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                               class="product-image">
+                                <?php $_imgSize = 800; ?>
+                                <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                     src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                            </a>
+                            <div class="product-info">
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
+                                </h2>
+                                <?php $attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                <?php if ($attributeValue) { ?>
+                                    <span class="attribute-belt-type"><?php echo $attributeValue ?></span>
+                                <?php } ?>
+                                <?php
+                                if ($this->getChild('name.after')) {
+                                    $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                    foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                        $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                        $_nameAfterChild->setProduct($_product);
+                                        echo $_nameAfterChild->toHtml();
+                                    }
+                                }
+                                ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if ($_product->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                <?php endif; ?>
+                                <div class="shop-now">
+                                    <?php
+                                    // $body_classes = $this->getLayout()->getBlock('root')->getBodyClass();
+                                    // if (strpos($body_classes, 'category-cult-chrono') !== false):
+                                    // $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Pre-order now'));
+                                    // else:
+                                    $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Add to shopping cart'));
+
+                                    ?>
+                                    <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
+
+                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart"
+                                                onclick="setLocation('<?php echo $_product->getProductUrl() ?>')">
+                                            <span><span><?php echo $buttonTitle ?></span></span></button>
+
+                                    <?php elseif ($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+
+                                        <a title="<?php echo $buttonTitle ?>" class="button"
+                                           href="<?php echo $_product->getProductUrl() ?>"><?php echo $buttonTitle ?></a>
+                                    <?php else: ?>
+                                        <!-- <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> -->
+
+                                        <!-- SIGN UP FOR NEWS MODAL START -->
+                                        <button id="modalOpen<?php echo $_product->getSku(); ?>" class="button btn-cart"
+                                                style="cursor: pointer;">
+                                            <span><?php echo $this->__('Sign up for this watch') ?></span></button>
+
+                                        <div id="signupModal<?php echo $_product->getSku(); ?>" class="modal"
+                                             style="display: none;">
+                                            <div class="modal-content">
+                                                <header><?php echo $this->__('Sign up for this watch'); ?></header>
+                                                <p id="close<?php echo $_product->getSku(); ?>" class="close">X</p><br/>
+                                                <div class="sign-up-form">
+                                                    <form
+                                                            id="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            name="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            accept-charset="UTF-8"
+                                                            autocomplete="off"
+                                                            enctype="multipart/form-data"
+                                                            method="post"
+                                                            novalidate
+                                                            action="/signupwatch/signupwatch/save">
+
+                                                        <input placeholder="<?php echo $this->__('First Name'); ?>"
+                                                               id="FirstName" name="first_name" type="text"
+                                                               class="required-entry" required>
+
+                                                        <input placeholder="<?php echo $this->__('Last Name'); ?>"
+                                                               id="LastName" name="last_name" type="text"
+                                                               class="required-entry " required>
+
+                                                        <input placeholder="<?php echo $this->__('Email Address'); ?>"
+                                                               id="email" name="email" type="text"
+                                                               class="required-entry validate-email" required>
+
+
+                                                        <textarea name="message" id="message"
+                                                                  placeholder="<?php echo $this->__('Message'); ?>"
+                                                                  class="input-text" cols="5" rows="5"></textarea>
+
+                                                        <div class="code" id="code">
+                                                            <div></div>
+                                                        </div>
+
+                                                        <input type="hidden" id="captcha" value="">
+
+                                                        <input class="sign-up-code" type="text" name="signUpCode"
+                                                               id="signUpCode"
+                                                               placeholder="<?php echo $this->__('Enter the code above here'); ?>"
+                                                               required>
+
+                                                        <div class="read"><?php echo $this->__('Click <a href="%s">here</a> to refresh image.', "#") ?></div>
+
+
+                                                        <input type="hidden" id="itemName" name="watch_name"
+                                                               value="<?php echo $_product->getName(); ?>"/>
+                                                        <?php $watchBeltType = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                                        <?php if ($watchBeltType) { ?>
+                                                            <input type="hidden" id="itemBeltType" name="watch_belttype"
+                                                                   value="<?php echo $watchBeltType; ?>"/>
+                                                        <?php } ?>
+                                                        <input type="hidden" id="itemDate" name="watch_date"
+                                                               value="<?php echo date("F j, Y"); ?>"/>
+                                                        <div class="buttons">
+                                                            <button id="saveForm" class="submit" type="submit"
+                                                            ">
+                                                            <p><?php echo $this->__('Please send me an e-mail when this watch is available for purchase.'); ?></p>
+                                                            </button>
+                                                            <div class="loading"><img
+                                                                        src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif', array('_secure' => true)); ?>">
+                                                            </div>
+                                                            <div class="notifications"></div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            // var signUpNews<?php echo $_product->getSku(); ?> = new VarienForm('signUpNews<?php echo $_product->getSku(); ?>', true);
+                                            //
+                                            function isValidEmailAddress(emailAddress) {
+                                                var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+                                                return pattern.test(emailAddress);
+                                            }
+
+                                            function refreshCaptcha() {
+                                                jQuery('.read a').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    captcha();
+                                                });
+
+                                            }
+
+                                            function captcha() {
+                                                var a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                                                for (var i = 0; i < 4; i++) {
+                                                    var b = a[Math.floor(Math.random() * a.length)];
+                                                    var c = a[Math.floor(Math.random() * a.length)];
+                                                    var d = a[Math.floor(Math.random() * a.length)];
+                                                    var e = a[Math.floor(Math.random() * a.length)];
+                                                }
+                                                var f = b + " " + c + " " + d + " " + e;
+                                                jQuery('#code div').text(f);
+                                                jQuery('#captcha').val(f);
+                                            }
+
+                                            function validCaptcha() {
+                                                var a = removeSpaces(jQuery('#captcha').val());
+                                                var b = removeSpaces(jQuery('#signUpCode').val());
+                                                return a == b ? true : false;
+                                            }
+
+                                            function removeSpaces(value) {
+                                                return value.split(" ").join("");
+                                            }
+
+                                            function getCountriesApi() {
+                                                jQuery.getJSON('https://restcountries.eu/rest/v2', function (data) {
+                                                    var items = [];
+                                                    jQuery.each(data, function (key) {
+                                                        items.push("<option val='" + data[key].alpha3Code + "'>" + data[key].name + "</option>");
+                                                    });
+
+                                                    jQuery("<select />", {
+                                                        "class": "country-list",
+                                                        "name": "country_code",
+                                                        "id": "countryCode",
+                                                        html: items.join("")
+                                                    }).insertAfter(".modal .validate-email");
+                                                });
+                                            }
+
+                                            function getCountryOfOrigin() {
+
+                                                jQuery.getJSON('https://extreme-ip-lookup.com/json/', function (data) {
+                                                    window.data = data;
+
+                                                });
+                                            }
+
+                                            function setCountryOfOrigin() {
+                                                jQuery(document).on('change', '#countryCode', function () {
+                                                    jQuery(this).val(window.data.country);
+
+                                                });
+                                            }
+
+                                            function signUpFormSend() {
+
+                                                jQuery('#saveForm').click(function (e) {
+                                                    e.preventDefault();
+
+                                                    var formActionURL = jQuery(this).parents('form').attr('action');
+                                                    var firstName = jQuery('#FirstName').val();
+                                                    var lastName = jQuery('#LastName').val();
+                                                    var email = jQuery('#email').val();
+                                                    var code = jQuery('#signUpCode').val();
+                                                    var country = jQuery(document).find('#countryCode').val();
+
+                                                    if (email == '' || firstName == '' || lastName == '' || jQuery(document).find('#countryCode').val() == "") {
+                                                        jQuery('.notifications').fadeIn(400).text("<?php echo Mage::helper('signupwatch')->__('Marked fields are required.') ?>");
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (!isValidEmailAddress(email)) {
+                                                        jQuery('.notifications').fadeIn(400).text('Valid Email Address is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (code == '') {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    if (code != '' && validCaptcha() == 0) {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code did not match.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    jQuery('.loading').show();
+                                                    jQuery.ajax({
+                                                        type: 'POST',
+                                                        url: formActionURL,
+                                                        data: document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').serialize()
+                                                    })
+                                                        .success(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            var itemName = jQuery('#itemName').val();
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('You have successfully signed up for the ' + itemName.replace(/\//g, ' ') + '.');
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        })
+                                                        .fail(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('Something went wrong, please try again!');
+
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        });
+
+                                                });
+                                            }
+
+                                            jQuery('#modalOpen<?php echo $_product->getSku(); ?>').on('click', function () {
+
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'block');
+                                                jQuery(document).find('#countryCode').val(window.data.country);
+                                            });
+
+                                            jQuery('#close<?php echo $_product->getSku(); ?>').on('click', function (e) {
+                                                jQuery(document).find('.modal').removeClass('submitted');
+                                                jQuery('.notifications').text('');
+                                                document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                jQuery('.read a').trigger('click');
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'none');
+
+                                            });
+                                            jQuery(document).ready(function () {
+                                                getCountriesApi();
+                                                captcha();
+                                                refreshCaptcha();
+                                                signUpFormSend();
+                                                getCountryOfOrigin();
+                                                // setCountryOfOrigin();
+                                            });
+
+                                        </script>
+
+                                        <?php echo $this->setTemplate('popup/sign-up-news.phtml')->toHtml(); ?>
+                                        <!-- SIGN UP FOR NEWS MODAL END -->
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </li>
+                    <?php else: ?>
+                        <?php if ($_product->getSku() == "K02010" || $_product->getSku() == "K01008" ||
+                            $_product->getSku() == "K01019" || $_product->getSku() == "K01018" ||
+                            $_product->getSku() == "K01028" || $_product->getSku() == "K01026" ||
+                            $_product->getSku() == "K02027" || $_product->getSku() == "K01025" ||
+                            $_product->getSku() == "K02013" || $_product->getSku() == "K02012" ||
+                            $_product->getSku() == "K02011" || $_product->getSku() == "K01024" ||
+                            $_product->getSku() == "K01023" || $_product->getSku() == "K01022"
+                            ) continue; ?>
+                        <li class="item<?php if (($i - 1) % $_columnCount == 0): ?> first<?php elseif ($i % $_columnCount == 0): ?> last<?php endif; ?>">
+                            <a href="<?php echo $_product->getProductUrl() ?>"
+                               title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"
+                               class="product-image">
+                                <?php $_imgSize = 800; ?>
+                                <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                     src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_imgSize); ?>"
+                                     alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>"/>
+                            </a>
+                            <div class="product-info">
+                                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"
+                                                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a>
+                                </h2>
+                                <?php $attributeValue = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                <?php if ($attributeValue) { ?>
+                                    <span class="attribute-belt-type"><?php echo $attributeValue ?></span>
+                                <?php } ?>
+                                <?php
+                                // Provides extra blocks on which to hang some features for products in the list
+                                // Features providing UI elements targeting this block will display directly below the product name
+                                if ($this->getChild('name.after')) {
+                                    $_nameAfterChildren = $this->getChild('name.after')->getSortedChildren();
+                                    foreach ($_nameAfterChildren as $_nameAfterChildName) {
+                                        $_nameAfterChild = $this->getChild('name.after')->getChild($_nameAfterChildName);
+                                        $_nameAfterChild->setProduct($_product);
+                                        echo $_nameAfterChild->toHtml();
+                                    }
+                                }
+                                ?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php if ($_product->getRatingSummary()): ?>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                                <?php endif; ?>
+                                <div class="shop-now">
+                                    <?php
+
+                                    $buttonTitle = Mage::helper('core')->quoteEscape($this->__('Add to shopping cart'));
+                                    ?>
+
+                                    <?php if (!$_product->canConfigure() && $_product->isSaleable()): ?>
+
+                                        <button type="button" title="<?php echo $buttonTitle ?>" class="button btn-cart"
+                                                onclick="setLocation('<?php echo $_product->getProductUrl() ?>')">
+                                            <span><span><?php echo $buttonTitle ?></span></span></button>
+
+                                    <?php elseif ($_product->getStockItem() && $_product->getStockItem()->getIsInStock()): ?>
+
+                                        <a title="<?php echo $buttonTitle ?>" class="button"
+                                           href="<?php echo $_product->getProductUrl() ?>"><?php echo $buttonTitle ?></a>
+                                    <?php else: ?>
+                                        <!-- <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p> -->
+
+                                        <!-- SIGN UP FOR NEWS MODAL START -->
+                                        <button id="modalOpen<?php echo $_product->getSku(); ?>" class="button btn-cart"
+                                                style="cursor: pointer;">
+                                            <span><?php echo $this->__('Sign up for this watch') ?></span></button>
+
+                                        <div id="signupModal<?php echo $_product->getSku(); ?>" class="modal"
+                                             style="display: none;">
+                                            <div class="modal-content">
+                                                <header><?php echo $this->__('Sign up for this watch'); ?></header>
+                                                <p id="close<?php echo $_product->getSku(); ?>" class="close">X</p><br/>
+                                                <div class="sign-up-form">
+                                                    <form
+                                                            id="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            name="signUpNews<?php echo $_product->getSku(); ?>"
+                                                            accept-charset="UTF-8"
+                                                            autocomplete="off"
+                                                            enctype="multipart/form-data"
+                                                            method="post"
+                                                            novalidate
+                                                            action="/signupwatch/signupwatch/save">
+
+                                                        <input placeholder="<?php echo $this->__('First Name'); ?>"
+                                                               id="FirstName" name="first_name" type="text"
+                                                               class="required-entry" required>
+
+                                                        <input placeholder="<?php echo $this->__('Last Name'); ?>"
+                                                               id="LastName" name="last_name" type="text"
+                                                               class="required-entry " required>
+
+                                                        <input placeholder="<?php echo $this->__('Email Address'); ?>"
+                                                               id="email" name="email" type="text"
+                                                               class="required-entry validate-email" required>
+
+
+                                                        <textarea name="message" id="message"
+                                                                  placeholder="<?php echo $this->__('Message'); ?>"
+                                                                  class="input-text" cols="5" rows="5"></textarea>
+
+                                                        <div class="code" id="code">
+                                                            <div></div>
+                                                        </div>
+
+                                                        <input type="hidden" id="captcha" value="">
+
+                                                        <input class="sign-up-code" type="text" name="signUpCode"
+                                                               id="signUpCode"
+                                                               placeholder="<?php echo $this->__('Enter the code above here'); ?>"
+                                                               required>
+
+                                                        <div class="read"><?php echo $this->__('Click <a href="%s">here</a> to refresh image.', "#") ?></div>
+
+
+                                                        <input type="hidden" id="itemName" name="watch_name"
+                                                               value="<?php echo $_product->getName(); ?>"/>
+                                                        <?php $watchBeltType = Mage::getModel('catalog/product')->load($_product->getId())->getData('belt_type') ?>
+                                                        <?php if ($watchBeltType) { ?>
+                                                            <input type="hidden" id="itemBeltType" name="watch_belttype"
+                                                                   value="<?php echo $watchBeltType; ?>"/>
+                                                        <?php } ?>
+                                                        <input type="hidden" id="itemDate" name="watch_date"
+                                                               value="<?php echo date("F j, Y"); ?>"/>
+                                                        <div class="buttons">
+                                                            <button id="saveForm" class="submit" type="submit"
+                                                            ">
+                                                            <p><?php echo $this->__('Please send me an e-mail when this watch is available for purchase.'); ?></p>
+                                                            </button>
+                                                            <div class="loading"><img
+                                                                        src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif', array('_secure' => true)); ?>">
+                                                            </div>
+                                                            <div class="notifications"></div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <script>
+                                            // var signUpNews<?php echo $_product->getSku(); ?> = new VarienForm('signUpNews<?php echo $_product->getSku(); ?>', true);
+                                            //
+                                            function isValidEmailAddress(emailAddress) {
+                                                var pattern = new RegExp(/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/);
+                                                return pattern.test(emailAddress);
+                                            }
+
+                                            function refreshCaptcha() {
+                                                jQuery('.read a').on('click', function (e) {
+                                                    e.preventDefault();
+                                                    captcha();
+                                                });
+
+                                            }
+
+                                            function captcha() {
+                                                var a = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+                                                for (var i = 0; i < 4; i++) {
+                                                    var b = a[Math.floor(Math.random() * a.length)];
+                                                    var c = a[Math.floor(Math.random() * a.length)];
+                                                    var d = a[Math.floor(Math.random() * a.length)];
+                                                    var e = a[Math.floor(Math.random() * a.length)];
+                                                }
+                                                var f = b + " " + c + " " + d + " " + e;
+                                                jQuery('#code div').text(f);
+                                                jQuery('#captcha').val(f);
+                                            }
+
+                                            function validCaptcha() {
+                                                var a = removeSpaces(jQuery('#captcha').val());
+                                                var b = removeSpaces(jQuery('#signUpCode').val());
+                                                return a == b ? true : false;
+                                            }
+
+                                            function removeSpaces(value) {
+                                                return value.split(" ").join("");
+                                            }
+
+                                            function getCountriesApi() {
+                                                jQuery.getJSON('https://restcountries.eu/rest/v2', function (data) {
+                                                    var items = [];
+                                                    jQuery.each(data, function (key) {
+                                                        items.push("<option val='" + data[key].alpha3Code + "'>" + data[key].name + "</option>");
+                                                    });
+
+                                                    jQuery("<select />", {
+                                                        "class": "country-list",
+                                                        "name": "country_code",
+                                                        "id": "countryCode",
+                                                        html: items.join("")
+                                                    }).insertAfter(".modal .validate-email");
+                                                });
+                                            }
+
+                                            function getCountryOfOrigin() {
+
+                                                jQuery.getJSON('https://extreme-ip-lookup.com/json/', function (data) {
+                                                    window.data = data;
+
+                                                });
+                                            }
+
+                                            function setCountryOfOrigin() {
+                                                jQuery(document).on('change', '#countryCode', function () {
+                                                    jQuery(this).val(window.data.country);
+
+                                                });
+                                            }
+
+                                            function signUpFormSend() {
+
+                                                jQuery('#saveForm').click(function (e) {
+                                                    e.preventDefault();
+
+                                                    var formActionURL = jQuery(this).parents('form').attr('action');
+                                                    var firstName = jQuery('#FirstName').val();
+                                                    var lastName = jQuery('#LastName').val();
+                                                    var email = jQuery('#email').val();
+                                                    var code = jQuery('#signUpCode').val();
+                                                    var country = jQuery(document).find('#countryCode').val();
+
+                                                    if (email == '' || firstName == '' || lastName == '' || jQuery(document).find('#countryCode').val() == "") {
+                                                        jQuery('.notifications').fadeIn(400).text("<?php echo Mage::helper('signupwatch')->__('Marked fields are required.') ?>");
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (!isValidEmailAddress(email)) {
+                                                        jQuery('.notifications').fadeIn(400).text('Valid Email Address is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+                                                    if (code == '') {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code is required.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    if (code != '' && validCaptcha() == 0) {
+                                                        jQuery('.notifications').fadeIn(400).text('Security code did not match.');
+                                                        jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                        jQuery(this).parents('.modal').addClass('submitted');
+                                                        return false;
+                                                    }
+
+                                                    jQuery('.loading').show();
+                                                    jQuery.ajax({
+                                                        type: 'POST',
+                                                        url: formActionURL,
+                                                        data: document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').serialize()
+                                                    })
+                                                        .success(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            var itemName = jQuery('#itemName').val();
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('You have successfully signed up for the ' + itemName.replace(/\//g, ' ') + '.');
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        })
+                                                        .fail(function (data) {
+                                                            jQuery(document).find('.modal').removeClass('submitted');
+                                                            jQuery('.loading').hide();
+                                                            jQuery('.notifications').fadeIn(400).text('Something went wrong, please try again!');
+
+                                                            document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                            jQuery('.notifications').delay(3000).fadeOut(2000);
+                                                            jQuery('.read a').trigger('click');
+                                                            setTimeout(function () {
+                                                                jQuery('#close<?php echo $_product->getSku(); ?>').trigger('click');
+                                                            }, 10000);
+                                                        });
+
+                                                });
+                                            }
+
+                                            jQuery('#modalOpen<?php echo $_product->getSku(); ?>').on('click', function () {
+
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'block');
+                                                jQuery(document).find('#countryCode').val(window.data.country);
+                                            });
+
+                                            jQuery('#close<?php echo $_product->getSku(); ?>').on('click', function (e) {
+                                                jQuery(document).find('.modal').removeClass('submitted');
+                                                jQuery('.notifications').text('');
+                                                document.getElementById('signUpNews<?php echo $_product->getSku(); ?>').reset();
+                                                jQuery('.read a').trigger('click');
+                                                jQuery('#signupModal<?php echo $_product->getSku(); ?>').css('display', 'none');
+
+                                            });
+                                            jQuery(document).ready(function () {
+                                                getCountriesApi();
+                                                captcha();
+                                                refreshCaptcha();
+                                                signUpFormSend();
+                                                getCountryOfOrigin();
+                                                // setCountryOfOrigin();
+                                            });
+
+                                        </script>
+
+                                        <?php echo $this->setTemplate('popup/sign-up-news.phtml')->toHtml(); ?>
+                                        <!-- SIGN UP FOR NEWS MODAL END -->
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach ?>
+            </ul>
+            <script type="text/javascript">decorateGeneric($$('ul.products-grid'), ['odd', 'even', 'first', 'last'])</script>
+        <?php endif; ?>
+    </div>
+
+    <div class="toolbar-bottom">
+        <?php echo $this->getToolbarHtml() ?>
+    </div>
+
+    <?php if (!Mage::getSingleton('cms/page')->getIdentifier() == 'home') { ?>
+        <?php
+        $image = Mage::getStoreConfig(Mage_Core_Model_Url::XML_PATH_SECURE_URL) . 'media/catalog/category/' . Mage::getSingleton('catalog/layer')->getCurrentCategory()->getImage();
+        ?>
+        <div class="widget widget-static-block">
+            <table border="0">
+                <tbody>
+                <tr>
+                    <td>
+                        <h3><?php echo Mage::getSingleton('catalog/layer')->getCurrentCategory()->getMetaTitle() ?></h3>
+                        <p><?php echo Mage::getSingleton('catalog/layer')->getCurrentCategory()->getDescription() ?></p>
+                    </td>
+                    <td style="padding: 0;">
+                        <img alt="<?php echo Mage::getSingleton('catalog/layer')->getCurrentCategory()->getUrlKey() ?>"
+                             src="<?php echo $image ?>">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    <?php } ?>
+
+<?php endif; ?>
+<?php
+// Provides a block where additional page components may be attached, primarily good for in-page JavaScript
+if ($this->getChild('after')) {
+    $_afterChildren = $this->getChild('after')->getSortedChildren();
+    foreach ($_afterChildren as $_afterChildName) {
+        $_afterChild = $this->getChild('after')->getChild($_afterChildName);
+        //set product collection on after blocks
+        $_afterChild->setProductCollection($_productCollection);
+        echo $_afterChild->toHtml();
+    }
+}
+?>
+
+<script type="text/javascript">
+    var toolbar = jQuery('.toolbar-bottom');
+
+    jQuery(document).ready(function () {
+        if (jQuery('.pages').length) {
+            toolbar.css('display', 'block');
+        } else {
+            toolbar.css('display', 'none');
+        }
+    });
+</script>

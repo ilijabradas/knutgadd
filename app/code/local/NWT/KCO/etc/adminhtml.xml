@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_Base
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+ -->
+<config>
+
+    <!-- Menu entry -->
+    <menu>
+        <nwt>
+            <children>
+                <nwtkco translate="title" module="nwtkco">
+                    <title>Klarna Checkout Settings</title>
+                    <sort_order>7</sort_order>
+                    <action>adminhtml/system_config/edit/section/nwtkco</action>
+                </nwtkco>
+            </children>
+        </nwt>
+    </menu>
+
+    <!-- ACLs -->
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <nwtkco translate="title" module="nwtkco">
+                                        <title>Klarna Checkout Settings</title>
+                                    </nwtkco>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <nwt>
+                        <children>
+                            <nwtkco translate="title" module="nwtkco">
+                                <title>Klarna Checkout Settings</title>
+                                <sort_order>7</sort_order>
+                            </nwtkco>
+                        </children>
+                    </nwt>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

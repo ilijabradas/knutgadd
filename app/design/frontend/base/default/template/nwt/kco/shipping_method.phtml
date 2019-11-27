@@ -1,0 +1,31 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+
+/**
+ * Shipping methods box template
+ */
+
+    if(!$this->isShow()) return; //when quote is virtual, will not show this block
+?>
+<div class="nwtkco-block" id="nwtkco_shipping_method">
+
+  <div class="nwtkco-title">
+    <h2><?php echo $this->__('Shipping method') ?></h2>
+  </div>
+  
+  <form id="klarnakassan-shipping-method" action="<?php echo  Mage::helper('nwtkco')->getCheckoutUrl('saveShippingMethod');?>" method="post">
+    <div class="nwtkco-content">
+        <?php echo $this->getChildHtml('available') ?>
+    </div>
+  </form>
+</div>
+

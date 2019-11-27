@@ -1,0 +1,417 @@
+<?php
+/**
+ * @methods
+ * - getValue($key, $default)
+ * - getSelected($key, $value)
+ * - getChecked($key)
+ * - getAttributes()
+ * - getMappings()
+ * - getAddMapButtonHtml()
+ * - getRemoveMapButtonHtml()
+ */
+?>
+
+<script type="text/javascript">
+//<![CDATA[
+var profileImportOnly = ['profile_number_of_records', 'profile_decimal_separator'];
+var check=0;
+function showOption(select)
+{
+    select = $(select);
+    for (var i = 0, l = select.options.length; i<l; i++) {
+        $$('.'+select.id+'_'+select.options[i].value).each(function (el) {
+            el.style.display = select.selectedIndex==i ? '' : 'none';
+        });
+    }
+
+    var Selectedvalue = select.value;
+
+    var selectDataFormat = document.getElementById("parse_type");
+    var selectProfileWay=document.getElementById("profile_data_transfer");
+
+     
+    if(selectDataFormat.value!='')
+    {
+    		displayFirstRowSelect(selectDataFormat.value);
+    }
+
+    var entityType = $('profile_entity_type').value;
+		
+    if(Selectedvalue=='import' || Selectedvalue=='export')
+    {
+    		displayBasedOnProfileDirection(Selectedvalue);
+    		//displayBasedOnEntity(entityType);
+    }
+    if(Selectedvalue=='import' || Selectedvalue=='export' || entityType!='')
+    {
+    		//displayBasedOnProfileDirection(Selectedvalue);
+    		displayBasedOnEntity(entityType);
+    }
+
+    var wayType = $('profile_data_transfer').value;
+    if(wayType!='')
+    {
+    		displyBasedOnWayType(wayType);
+    }
+
+   
+    if(selectProfileWay.value!='')
+    {
+    		displayBasedOnWay(selectProfileWay.value);
+    }
+
+
+    /**Check xml content is enable or not(in case of export && product)**/
+		//var isContent = $('enable_content').value;
+		var	direction = $('profile_direction').value;
+		var format = $('parse_type').value;
+		/**if(direction == 'export' && entityType=='product' && format == 'xml')
+		{
+				//$('parse_type_xml').show();
+		}
+		else
+		{
+				//$('parse_type_xml').hide();
+				$('enable_content').value = 0;
+		}
+		if(isContent == 1)
+		{
+				$('xml_content_row').show();
+				//$('product_attr_xml_parsing').show();
+		}
+		else
+		{
+				$('xml_content_row').hide();
+				//$('product_attr_xml_parsing').hide();
+				$('enable_content').value = 0;
+		}**/
+
+		//display attribute for xml format
+		//var Productattr = $('product_attrs').value;
+		var Productattr = '';
+
+    if(Productattr!='')
+    {
+    		
+    		//$('display_att_field').innerHTML = '{'+Productattr+'}';
+    }
+}
+
+function displyBasedOnWayType(wayType)
+{
+		var entityType  = $('profile_entity_type').value;
+
+		var direction = $('profile_direction').value;
+
+		if(wayType=='api' || wayType=='http' || wayType=='mail')
+		{
+				//Element.hide($('save_local_copy_row'));
+				
+				//Element.hide($('save_products_separately_row'));
+
+				if(entityType!='product' && entityType!='customer' && wayType=='api')
+				{
+						Element.hide($('convert_profile_tabs_profiletemplate'));
+				}
+
+		}
+		else 
+		{
+				if(entityType=='product' && direction=='export')
+				{
+						//Element.show($('save_products_separately_row'));
+				}
+				else
+				{
+						//Element.hide($('save_products_separately_row'));
+				}
+				if(direction=='export')
+				{
+						//Element.show($('save_local_copy_row'));
+				}
+				Element.show($('convert_profile_tabs_profiletemplate'));
+		}
+}
+
+function displayBasedOnEntity(entityType)
+{
+		var direction  = $('profile_direction').value;
+
+		
+
+		if(entityType=='product' || entityType=='customer')
+		{
+				Element.show($('__fieldmapping'));
+				if(direction=='export')
+				{
+						Element.show($('profile_direction_export_row'));
+				}
+				if(entityType=='product' && direction=='export')
+				{
+						Element.show($('convert_profile_tabs_profilefilter'));
+						Element.show($('filters-for-product'));
+						
+						Element.show($('products_allready_done_row'));
+		
+				}
+				else
+				{
+						Element.hide($('products_allready_done_row'));
+						Element.hide($('convert_profile_tabs_profilefilter'));
+						
+				}
+		}
+		else
+		{
+
+				if(entityType!='customergroup' && direction=='export')
+				{
+						Element.show($('convert_profile_tabs_profilefilter'));
+				}
+				else
+				{
+						Element.hide($('convert_profile_tabs_profilefilter'));
+				}
+
+				if(entityType=='customergroup')
+				{
+						Element.hide($('__fieldmapping'));
+						Element.hide($('profile_direction_export_row'));
+				}
+				else
+				{
+						Element.show($('__fieldmapping'));
+						if(direction=='export')
+						{
+								Element.show($('profile_direction_export_row'));
+						}
+				}
+
+				Element.hide($('filters-for-product'));
+				Element.hide($('products_allready_done_row'));
+		}
+}
+
+function displayBasedOnWay(value)
+{
+		
+    var selectDataFormat=document.getElementById("parse_type");
+    var selectedProfileDirection=document.getElementById("profile_direction");
+
+    
+    
+    if(value == 'api')
+    {
+    		Element.hide($('parse_type_row'));
+    		Element.hide($('parse_type_csv'));//if we add a new profile with api
+    		if(selectedProfileDirection.value=='export')
+    		{
+						Element.hide($('first-row-display-row1'));
+						Element.hide($('first-row-display-row2'));
+						Element.show($('data-format-display-div'));
+				}
+				else
+				{
+						Element.hide($('data-format-display-div'));
+				}
+    }
+    else
+    {
+    		Element.show($('data-format-display-div'));
+    		Element.show($('first-row-display-row1'));
+				Element.show($('first-row-display-row2'));
+    		Element.show($('parse_type_row'));
+    		if(selectDataFormat.value=='csv')
+    		{
+    				Element.show($('parse_type_csv'));//if we add a new profile with api
+    		}
+    }
+    
+}
+
+function addFieldMapping()
+{
+    var entityType = $('profile_entity_type').value;
+    Element.insert($('map_container_'+entityType), {bottom: $('map_template_'+entityType).innerHTML});
+}
+
+function removeFieldMapping(button)
+{
+    Element.remove(button.parentNode);
+}
+
+function setMapFileField(select)
+{
+    select.parentNode.getElementsByTagName('input')[0].value = select.value;
+}
+
+function exportUrlField()
+{
+    var urlFieldEl = $('profile_add_url_field').up();
+    var entityType = $('profile_entity_type').value;
+    var direction  = $('profile_direction').value;
+    var storeId    = $('profile_store_id').value;
+
+    if (entityType == 'product' && direction == 'export' && storeId > 0) {
+        urlFieldEl.show();
+    }
+    else {
+        urlFieldEl.hide();
+    }
+}
+
+function changeEntityType()
+{
+    changeDirection();
+}
+
+
+function changeDirection()
+{
+   
+    if ($('profile_direction').value == 'import') {
+        profileImportOnly.each(function(id){if ($(id))$(id).up(1).show();});
+    }
+    else {
+        profileImportOnly.each(function(id){if ($(id))$(id).up(1).hide();});
+    }
+   
+}
+
+function displayFirstRowSelect(value)
+{
+		if(value=='xml')
+		{
+				Element.hide($('first-row-display-select'));
+		}
+		else
+		{
+				Element.show($('first-row-display-select'));
+		}
+}
+
+function displayBasedOnProfileDirection(value)
+{
+		var selectobject=document.getElementById("profile_data_transfer");
+		if(value=='import')
+		{
+				selectobject.remove(2);
+				check=1;
+				
+		}
+		else
+		{
+
+				var entityType = $('profile_entity_type').value;
+					
+				
+				if(check==1)
+				{
+						var option = document.createElement("option");
+						option.text = "Http Server";
+						option.value = "http";
+						selectobject.add(option,selectobject[2]);
+						check=0;
+				}
+		}
+}
+
+
+function updateRun(select)
+{
+    if ($('file_list') != null){
+        $('file_list').hide();
+    }
+    var formatType = document.getElementById('parse_type').value;
+   
+
+   	var profileDirection = document.getElementById('profile_direction').value;
+   
+}
+
+Event.observe(window, 'load', function(){
+
+
+		/**Check for Selected Template**/
+		//var selectedTemp = $('oops_profile_temp_id').value;
+		var selectedTemp = '';
+		var format = $('parse_type').value;
+		if(selectedTemp!=0 && format!='xml')
+		{
+				//$('data-format-predefined-div').show();
+				$('data-format-and-fields').hide();
+		}
+		else
+		{
+				if(selectedTemp!=0 && format=='xml')
+				{
+						//$('data-format-predefined-div').show();
+						$('data-format-and-fields').show();
+				}
+				else
+				{
+						//$('data-format-predefined-div').hide();
+						$('data-format-and-fields').show();
+				}
+		}
+		
+
+		
+		var entityType  = $('profile_entity_type').value;
+		displayBasedOnEntity(entityType);
+ 
+		
+    if($('profile_data_transfer')) {
+        updateRun('profile_data_transfer');
+    }
+});
+//]]>
+</script>
+
+<div id="profile-generator" class="entry-edit profile-generator">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Profile Information") ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__("Profile Information") ?></legend>
+				<span class="no-display"><input type="hidden" name="oops_profile" value="1"></span>
+        <span class="field-row">
+            <label for="profile_name"><?php echo $this->__("Name:") ?> <span class="required">*</span></label>
+            <input class="required-entry required-entry input-text" id="profile_name" name="name" value="<?php echo $this->getValue('name') ?>"/>
+        </span>
+        <span class="field-row">
+            <label for="profile_entity_type"><?php echo $this->__("Entity type:") ?></label>
+            <?php $oopsentityTypes = Mage::helper('oopsprofile')->entityTypeArray()?>
+            <select id="profile_entity_type" name="entity_type" onchange="showOption(this);changeEntityType();" class="option-control">
+            		<?php foreach($oopsentityTypes as $key=>$value):?>
+				    				<option value="<?php echo $key?>" <?php echo $this->getSelected('entity_type', $key) ?>><?php echo $value ?></option>
+				    		<?php endforeach;?>
+            </select>
+        </span>
+        <span class="field-row">
+            <label for="profile_direction"><?php echo $this->__("Direction:") ?></label>
+            <select id="profile_direction" name="direction" onchange="showOption(this);changeDirection();" class="option-control">
+                <option value="import" <?php echo $this->getSelected('direction', 'import') ?>><?php echo $this->__("Import") ?></option>
+                <option value="export" <?php echo $this->getSelected('direction', 'export') ?>><?php echo $this->__("Export") ?></option>
+            </select>
+        </span>
+        <span class="field-row" id="profile_enable_row">
+            <label for="profile_enable"><?php echo $this->__("Disable Profile:") ?></label>
+            <select id="profile_enable" name="profile_enable" onchange="showOption(this);" class="option-control">
+                <option value="0" <?php echo $this->getOopsSelected('profile_enable', '0') ?>><?php echo $this->__("No") ?></option>
+                <option value="1" <?php echo $this->getOopsSelected('profile_enable', '1') ?>><?php echo $this->__("Yes") ?></option>
+            </select>
+        </span>
+        <span class="field-row profile_direction_export" id="products_allready_done_row">
+            <label for="products_allready_done"><?php echo $this->__("Considerate Products already done:") ?></label>
+            <select id="products_allready_done" name="products_allready_done" onchange="showOption(this);" class="option-control">
+            		<option value="1" <?php echo $this->getOopsSelected('products_allready_done', '1') ?>><?php echo $this->__("Yes") ?></option>
+                <option value="0" <?php echo $this->getOopsSelected('products_allready_done', '0') ?>><?php echo $this->__("No") ?></option>
+            </select>
+            <small>
+                    <?php echo $this->__(" (considerate just new products or considerate all products after installation of extension)") ?>
+            </small>
+        </span>
+    </fieldset>
+
+</div>

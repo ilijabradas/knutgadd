@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/bootstrap/bootstrap.css</stylesheet>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/bootstrap/bootstrap.js</name>
+            </action>
+
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/banner.js</name>
+            </action>
+        </reference>
+
+        <reference name="after_body_start">
+            <block type="core/template" name="nebojsa.blackfriday.banner" template="nebojsa_blackfriday/banner.phtml"/>
+        </reference>
+    </default>
+</layout>

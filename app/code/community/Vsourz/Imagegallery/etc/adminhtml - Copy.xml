@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<config>
+	<menu>
+		<imagegallery module="imagegallery">
+			<title>Image Gallery</title>
+			<sort_order>100</sort_order>
+			<children>
+				<imagecategory module="imagegallery">
+					<title>Manage Categories</title>
+					<action>imagegallery/adminhtml_category</action>
+				</imagecategory>
+				<imagedetail module="imagegallery">
+					<title>Manage Images</title>
+					<action>imagegallery/adminhtml_image</action>
+				</imagedetail>
+			</children>
+		</imagegallery>
+	</menu>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<imagegallery>
+						<title>Image Gallery</title>
+						<sort_order>6</sort_order>
+					</imagegallery>
+					<system>
+						<children>
+							<config>
+								<children>
+									<imagegallery translate="title" module="imagegallery">
+										<title>imagegallery</title>
+										<sort_order>10</sort_order>
+									</imagegallery>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+			</admin>
+		</resources>
+	</acl>
+</config>

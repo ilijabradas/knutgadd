@@ -1,0 +1,411 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <creation translate="label" module="afipredirect">
+            <label>Creation Extensions</label>
+            <sort_order>300</sort_order>
+        </creation>
+    </tabs>
+	<sections>
+        <afipredirect translate="label" module="afipredirect">
+            <label>Visitor Country IP Redirect</label>
+            <tab>creation</tab>
+			<frontend_type>text</frontend_type>
+            <sort_order>600</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+			 
+            <groups>
+            	<settings>
+            		<label>Settings</label>
+            		<sort_order>1</sort_order>
+            		<show_in_default>1</show_in_default>
+            		<show_in_website>1</show_in_website>
+            		<show_in_store>1</show_in_store>
+					<comment><![CDATA[<p>The aim of this extension is to redirect your store visitors to an anoteher URL based on their country.</p><div style="padding: 5px 10px; color: red; background-color: #FFF9E9; border: 1px dashed red;"><strong>If rules are set up not right - you might end up in infinite redirect loop.</strong></div>]]></comment>
+            		<fields>
+						<enable>
+            				<label>Extension Enabled</label>
+							<comment>
+								<![CDATA[Enable or Disable this extension.]]>
+							</comment>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>1</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</enable>
+						<log_redirects>
+            				<label>Log redirects?</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>1</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+							<comment>
+								<![CDATA[See afipredirect.log in you logs directory to see which users have been redirected.]]>
+							</comment>
+						</log_redirects>
+                        <country_lookup_service translate="label comment">
+                            <label>Country lookup service</label>
+                            <comment>
+								<![CDATA[To find out which country the visitor is from, we use remote lookup services.]]>
+							</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>afipredirect_adminhtml/system_config_source_countrylookupproviders</source_model>
+                            <backend_model>afipredirect_adminhtml/system_config_source_countrylookupproviders</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </country_lookup_service>
+						<jsredirect>
+            				<label>Use Javascript redirect?</label>
+							<comment>
+								<![CDATA[Matched users will be redirected with Javascript. If above option is set to NO - then there will he a PHP redirect.]]>
+							</comment>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>60</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</jsredirect>
+                        <exlude_ips translate="label comment">
+                            <label>Exclude IP addresses</label>
+                            <comment>
+								<![CDATA[Comma separated IP addresses. Visitors, with these IP addresses will be exluded from redirect. Most likely you would want to put your IP here.]]>
+							</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </exlude_ips>
+                        <exlude_search_engines translate="label comment">
+                            <label>Exclude search engines</label>
+                            <comment>
+								<![CDATA[Exclude search engine bots like Googlebot, Baiduspider, ia_archiver, R6_FeedFetcher, NetcraftSurveyAgent, Sogou web spider, bingbot, Yahoo! Slurp, facebookexternalhit, PrintfulBot, msnbot, Twitterbot, UnwindFetchor, urlresolver, Butterfly, TweetmemeBot from redirect.]]>
+							</comment>
+                            <frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>62</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </exlude_search_engines>
+                        <is_test_mode translate="label comment">
+                            <label>Test mode</label>
+                            <comment>
+								<![CDATA[If extension is enabled and test mode activated, in front end you will be able to see where the visitor will be redirected to. This is not recommended on a production environment.]]>
+							</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </is_test_mode>
+                        <test_mode_ip translate="label comment">
+                            <label>Test IP address</label>
+                            <comment>Enter a test visitor IP address.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <is_test_mode>1</is_test_mode>
+                            </depends>
+                        </test_mode_ip>
+            		</fields>
+            	</settings>
+            	<redirect>
+            		<label>Redirect #1</label>
+            		<sort_order>2</sort_order>
+            		<show_in_default>1</show_in_default>
+            		<show_in_website>1</show_in_website>
+            		<show_in_store>1</show_in_store>
+            		<fields>
+						<redirect_enabled>
+            				<label>Redirect enabled</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>10</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_enabled>
+						<redirect_once>
+            				<label>Redirect only once?</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>11</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+							<comment>
+								<![CDATA[If set to YES, visitor who comes for the first time are redirected. Next time they come, no redirect is performed. If set to NO, users are redirect all the time. You might want to set this value to YES, if you want the visitors to be redirected to specific store language (f.e. www.domain.com/nl), and allow them to chose other language and return to home page etc.]]>
+							</comment>
+						</redirect_once>
+
+						<source_country>
+            				<label>Visitor country</label>
+							<comment>
+								<![CDATA[If a user is from any of these countries...]]>
+							</comment>
+            				<frontend_type>multiselect</frontend_type>
+            				<source_model>adminhtml/system_config_source_country</source_model>
+            				<sort_order>40</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</source_country>
+						<redirect_land_url>
+            				<label>Land URL</label>
+							<comment>
+								<![CDATA[..and he landed on this URL (example http://www.domain.com/category-page, if left blank, redirect will be performed on all website urls)...]]>
+							</comment>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>45</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_land_url>
+						<destination_website>
+            				<label>Redirect to URL</label>
+							<comment>
+								<![CDATA[..redirect him to this URL (example http://www.google.com).]]>
+							</comment>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>50</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</destination_website>
+
+            		</fields>
+            	</redirect>            	
+				<redirect2>
+            		<label>Redirect #2</label>
+            		<sort_order>20</sort_order>
+            		<show_in_default>1</show_in_default>
+            		<show_in_website>1</show_in_website>
+            		<show_in_store>1</show_in_store>
+            		<fields>
+						<redirect_enabled>
+            				<label>Redirect enabled</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>10</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_enabled>
+						<redirect_once>
+            				<label>Redirect only once?</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>11</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_once>
+
+						<source_country>
+            				<label>Visitor country</label>
+            				<frontend_type>multiselect</frontend_type>
+            				<source_model>adminhtml/system_config_source_country</source_model>
+            				<sort_order>40</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</source_country>
+						<redirect_land_url>
+            				<label>Land URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>45</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_land_url>
+						<destination_website>
+            				<label>Redirect to URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>50</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</destination_website>
+
+            		</fields>
+            	</redirect2>            	
+				<redirect3>
+            		<label>Redirect #3</label>
+            		<sort_order>30</sort_order>
+            		<show_in_default>1</show_in_default>
+            		<show_in_website>1</show_in_website>
+            		<show_in_store>1</show_in_store>
+            		<fields>
+						<redirect_enabled>
+            				<label>Redirect enabled</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>10</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_enabled>
+						<redirect_once>
+            				<label>Redirect only once?</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>11</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_once>
+
+						<source_country>
+            				<label>Visitor country</label>
+            				<frontend_type>multiselect</frontend_type>
+            				<source_model>adminhtml/system_config_source_country</source_model>
+            				<sort_order>40</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</source_country>
+						<redirect_land_url>
+            				<label>Land URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>45</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_land_url>
+						<destination_website>
+            				<label>Redirect to URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>50</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</destination_website>
+
+            		</fields>
+            	</redirect3>            	
+				<redirect4>
+            		<label>Redirect #4</label>
+            		<sort_order>40</sort_order>
+            		<show_in_default>1</show_in_default>
+            		<show_in_website>1</show_in_website>
+            		<show_in_store>1</show_in_store>
+            		<fields>
+						<redirect_enabled>
+            				<label>Redirect enabled</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>10</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_enabled>
+						<redirect_once>
+            				<label>Redirect only once?</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>11</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_once>
+
+						<source_country>
+            				<label>Visitor country</label>
+            				<frontend_type>multiselect</frontend_type>
+            				<source_model>adminhtml/system_config_source_country</source_model>
+            				<sort_order>40</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</source_country>
+						<redirect_land_url>
+            				<label>Land URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>45</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_land_url>
+						<destination_website>
+            				<label>Redirect to URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>50</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</destination_website>
+
+            		</fields>
+            	</redirect4>            	
+				<redirect5>
+            		<label>Redirect #5</label>
+            		<sort_order>50</sort_order>
+            		<show_in_default>1</show_in_default>
+            		<show_in_website>1</show_in_website>
+            		<show_in_store>1</show_in_store>
+            		<fields>
+						<redirect_enabled>
+            				<label>Redirect enabled</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>10</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_enabled>
+						<redirect_once>
+            				<label>Redirect only once?</label>
+            				<frontend_type>select</frontend_type>
+            				<source_model>adminhtml/system_config_source_yesno</source_model>
+            				<sort_order>11</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_once>
+
+						<source_country>
+            				<label>Visitor country</label>
+            				<frontend_type>multiselect</frontend_type>
+            				<source_model>adminhtml/system_config_source_country</source_model>
+            				<sort_order>40</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</source_country>
+						<redirect_land_url>
+            				<label>Land URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>45</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</redirect_land_url>
+						<destination_website>
+            				<label>Redirect to URL</label>
+            				<frontend_type>text</frontend_type>
+            				<sort_order>50</sort_order>
+            				<show_in_default>1</show_in_default>
+            				<show_in_website>1</show_in_website>
+            				<show_in_store>1</show_in_store>
+						</destination_website>
+
+            		</fields>
+            	</redirect5>
+            </groups>
+        </afipredirect>
+    </sections>
+</config>

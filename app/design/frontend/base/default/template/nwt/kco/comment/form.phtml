@@ -1,0 +1,35 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * Klarna Checkout Order comments template
+ */
+if(!Mage::helper('nwtkco')->getCommentField()){
+    return;
+}
+?>
+<div id="nwtkco_customercomment" class="nwtkco-block nwtkco-block-discount">
+    <div class="nwtkco-title">
+        <h2><?php echo $this->__('Order Comment'); ?></h2>
+    </div>
+    <?php $customerComment = Mage::getSingleton('checkout/session')->getQuote()->getCustomerNote(); ?>
+    <form method="post" action="<?php echo Mage::helper('nwtkco')->getCheckoutUrl('saveComment');?>" id="klarnakassan-comment">
+        <div class="nwtkco-content <?php //if($customerComment){echo "focused";}; ?>">
+            <input type="hidden" value="0" id="remove-coupone" name="remove">
+            <div class="input-box">
+                <textarea value="" placeholder="<?php echo $this->__('Enter a comment for this order'); ?>" name="kco_customer_comment" id="kco_order_comment_textarea" class="input-text" onfocus="KCO.commentAreaInteract(this)"><?php echo $customerComment;?></textarea>
+            </div>
+            <button onclick="window.KCO.ajaxFormSubmit($('klarnakassan-comment'))" id="kcoCommentSubmit" type="button" title="<?php echo $this->__('Save'); ?>" class="button btn-kco"><?php echo $this->__('Save'); ?></button>
+        </div>
+    </form>
+</div>

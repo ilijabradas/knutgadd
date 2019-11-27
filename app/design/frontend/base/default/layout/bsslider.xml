@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<!--
+ * Sreedarsh Bsslider
+ *
+ * @category      Sreedarsh
+ * @package       Sreedarsh_Bsslider
+ *
+ -->  
+<layout version="1.0.2">   
+    
+<!--    <cms_index_index>
+        <reference name="head">           
+            <action method="addCss">
+                <template>css/bootstrap.min.css</template>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/jquery.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/bootstrap.min.js</name>
+            </action>
+        </reference>
+    </cms_index_index>    -->
+    
+    <bsslider_index_index>   
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>   
+        </reference>   
+        <reference name="content">   
+            <block type="bsslider/index" name="bsslider_index" template="bsslider/slider.phtml"/>   
+        </reference>   
+    </bsslider_index_index>   
+</layout>   
+	

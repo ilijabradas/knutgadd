@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Nebojsa_BlackFriday>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Nebojsa_BlackFriday>
+    </modules>
+</config>

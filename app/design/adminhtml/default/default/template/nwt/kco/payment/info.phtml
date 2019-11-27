@@ -1,0 +1,20 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+
+/**
+ * Payment information template (backend)
+ */
+?>
+<p><?php echo $this->escapeHtml($this->getMethod()->getTitle()) ?></p>
+<p><strong><?php echo $this->__('Klarna Order ID:') ?></strong> <span class="nobr"><?php echo $this->escapeHtml($this->getInfo()->getKlarnaReservation()) ?></span></p>
+
+

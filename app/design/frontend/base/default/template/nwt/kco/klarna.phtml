@@ -1,0 +1,39 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * Klarna Iframe template
+ */
+?>
+<div id="nwtkco_klarna" class="kco-right">
+
+    <?php echo $this->getChildHtml(); ?>
+
+<?php if($kOrder = $this->getKlarnaOrder()): ?>
+    <!--<?php echo $kOrder['id']; ?>-->
+    <div><?php echo $kOrder['gui']['snippet'] ?></div>
+<?php else: ?>
+<div class="nwtkco-block">
+    <div class="nwtkco-title">
+        <h2><?php echo $this->__('Klarna Checkout'); ?></h2>
+    </div>
+    <div class="nwtkco-content">
+        <h2 class="error">Klarna Checkout is unavailable</h2>
+        <p>
+            <br />&raquo; <a href="<?php echo Mage::helper('nwtkco')->getCheckoutUrl();?>"><?php echo $this->__('Retry');?></a> <em>or</em>
+            <br />&raquo; use <a href="<?php echo Mage::helper('checkout/url')->getCheckoutUrl();?>">Default CHECKOUT</a>
+        </p>
+    </div>
+</div>
+<?php endif; ?>
+</div>

@@ -1,0 +1,45 @@
+<!--@subject Welcome, {{var customer.name}}! @-->
+<!--@vars
+{"store url=\"\"":"Store Url",
+"var logo_url":"Email Logo Image Url",
+"htmlescape var=$customer.name":"Customer Name",
+"store url=\"customer/account/\"":"Customer Account Url",
+"var customer.email":"Customer Email",
+"htmlescape var=$customer.password":"Customer Password"}
+@-->
+
+<!--@styles
+@-->
+
+{{template config_path="design/email/header"}}
+{{inlinecss file="email-inline.css"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td class="action-content">
+            <h1>Välkommen till {{var store.getFrontendName()}}.</h1>
+            <p>För att logga in när du besöker vår sida klickar du på <a href="{{store url="customer/account/"}}">Logga in</a> eller <a href="{{store url="customer/account/"}}">Mitt konto</a> överst på alla sidor, skriv sedan in din e-postadress och ditt lösenord.</p>
+            <p class="highlighted-text">
+                Använd följande värden när du ska logga in:<br/>
+                <strong>E-post</strong>: {{var customer.email}}<br/>
+                <strong>Lösenord</strong>: {{htmlescape var=$customer.password}}
+            </p>
+            <p>När du loggar in på ditt konto kan du göra följande:</p>
+            <ul>
+                <li>Fortsätta till kassan snabbare när du gör ett köp </li>
+                <li>Se orderstatus</li>
+                <li>Se tidigare ordrar</li>
+                <li>Ändra din kontoinformation</li>
+                <li>Ändra ditt lösenord </li>
+                <li>Lagra alternativa adresser (för leveranser till familjemedlemmar och vänner!) </li>
+            </ul>
+            <p>
+                Om du har några frågor, vänligen kontakta oss på
+                <a href="mailto:{{var store_email}}">{{var store_email}}</a>
+                {{depend store_phone}} eller via telefon <a href="tel:{{var phone}}">{{var store_phone}}</a>{{/depend}}.
+            </p>
+        </td>
+    </tr>
+</table>
+
+{{template config_path="design/email/footer"}}

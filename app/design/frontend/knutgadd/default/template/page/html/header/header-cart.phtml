@@ -1,0 +1,32 @@
+<?php
+$_cartQty = $this->getSummaryCount(); //get total items in cart
+if(empty($_cartQty)) {
+    $_cartQty = 0;
+}
+?>
+
+
+<span class="quantity">
+    <?php
+    if($_cartQty == 0) {
+        echo $this->__('<span>0</span> items in cart',$_cartQty);
+    }
+
+    if($_cartQty == 1) {
+        echo $this->__('<span>1</span> item in cart',$_cartQty);
+    }
+
+    if($_cartQty > 1) {
+        echo $this->__('<span>%s</span> items in cart',$_cartQty);
+    }
+
+    ?>
+</span>
+<a href="<?php echo $this->helper('checkout/cart')->getCartUrl(); ?>" class="header-minicart">
+<?php
+if(Mage::getBlockSingleton('page/html_header')->getIsHomePage()) { ?>
+    <img src="<?php echo $this->getSkinUrl('images/header-cart-small-white.png');?>" alt="cart" width="25" height="25">
+<?php } else { ?>
+    <img src="<?php echo $this->getSkinUrl('images/header-cart-small.png');?>" alt="cart" width="25" height="25">
+<?php } ?>
+</a>

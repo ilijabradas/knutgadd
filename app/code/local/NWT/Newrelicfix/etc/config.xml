@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+ /**
+ * NWT_Newrelic
+ *
+ * @package     NWT_Newrelicfix (NewRelic Fix)
+ * @author      Fredrik Blanco fredrik@nordicwebteam.se
+ * @copyright   Copyright (c) 2014 Nordic Web Team
+ *
+ */
+ -->
+<config>
+    <modules>
+        <NWT_Newrelicfix>
+            <version>0.1.0</version>
+        </NWT_Newrelicfix>
+    </modules>
+    <admin>
+        <routers>
+            <adminhtml>
+            <args>
+                <modules>
+                 <NWT_Newrelicfix before="Mage_Adminhtml_System_Email_TemplateController">NWT_Newrelicfix_Adminhtml</NWT_Newrelicfix>
+                </modules>
+            </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+ -->
+<layout version="0.1.0">
+
+    <default>
+
+        <reference name="top.links">
+            <block type="nwtkco/links" name="nwtkco_links">
+                <!-- remove checkout links and add klarnakassan (only if configured) -->
+                <action method="addKlarnakassanLink" />
+           </block>
+        </reference>
+
+        <reference name="cart_sidebar.extra_actions">
+             <block type="nwtkco/cart_shortcut" name="checkout.cart.methods.klarnakassan.sidebar" before="-" template="nwt/kco/cart/sidebar.phtml" />
+        </reference>
+
+<!--
+        <reference name="head">
+            <block type="core/template" name="nwtkco_script" template="nwt/kco/head.phtml" />
+        </reference>
+-->
+
+    </default>
+
+    <catalog_product_view>
+        <reference name="product.info.extrahint">
+            <block type="core/template" name="klarna.widget" template="nwt/kco/widget.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <checkout_cart_index>
+
+        <reference name="checkout.cart.top_methods">
+            <block type="nwtkco/cart_shortcut" name="checkout.cart.methods.klarnakassan.top" before="-" template="nwt/kco/cart/shortcut.phtml" />
+        </reference>
+
+        <reference name="checkout.cart.methods">
+           <block type="nwtkco/cart_shortcut" name="checkout.cart.methods.klarnakassan.bottom" before="-" template="nwt/kco/cart/shortcut.phtml" />
+        </reference>
+
+    </checkout_cart_index>
+
+
+    <!-- change url for product update cart -->
+    <checkout_cart_configure translate="label">
+        <reference name="product.info">
+            <block type="nwtkco/cart_item_configure" name="checkout.cart.item.configure.block"></block>
+        </reference>
+    </checkout_cart_configure>
+
+    <nwtkco>
+
+        <remove name="right" />
+        <remove name="left" />
+        <!--<remove name="content" />-->
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="addBodyClass"><class>body-klarna-checkout</class></action>
+        </reference>
+
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>nwt/kco/main.css</name><params/></action>
+            <action method="addItem"><type>skin_js</type><name>nwt/kco/checkout.js</name><params/></action>
+        </reference>
+
+        <reference name="content">
+            <action method="unsetChildren" />
+            <block type="core/template" name="nwtkco_messages" template="nwt/kco/messages.phtml"/>
+            <block type="nwtkco/header" name="nwtkco_header" template="nwt/kco/header.phtml" />
+            <block type="core/template" name="nwtkco_kco" template="nwt/kco/nwtkco.phtml">
+                <!-- KCO LEFT -->
+                <block type="nwtkco/checkout" name="nwtkco_checkout" template = "nwt/kco/checkout.phtml" translate="label">
+                    <label>Klarna Checkout Sidebar</label>
+
+                    <block type="nwtkco/country" name="nwtkco_country" template="nwt/kco/country.phtml" />
+
+                    <block type="checkout/onepage_shipping_method" name="nwtkco_shipping_method" as="shipping_method" template="nwt/kco/shipping_method.phtml">
+                        <block type="checkout/onepage_shipping_method_available" name="nwtkco_shipping_method.available" as="available" template="nwt/kco/shipping_method/available.phtml"/>
+                    </block>
+                    <block type="checkout/cart" name="nwtkco_cart" template="nwt/kco/cart.phtml">
+                        <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>nwt/kco/cart/item/default.phtml</template></action>
+                        <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>nwt/kco/cart/item/default.phtml</template></action>
+                        <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>nwt/kco/cart/item/default.phtml</template></action>
+                        <action method="addItemRender"><type>bundle</type><block>bundle/checkout_cart_item_renderer</block><template>nwt/kco/cart/item/default.phtml</template></action>
+                        <action method="addItemRender"><type>downloadable</type><block>downloadable/checkout_cart_item_renderer</block><template>nwt/kco/cart/item/default.phtml</template></action>
+
+                        <block type="checkout/cart_totals" name="nwtkco_totals" as="totals" template="nwt/kco/cart/totals.phtml"/>
+                    </block>
+                    <block type="core/template" name="nwtkco_customercomment" template="nwt/kco/comment/form.phtml" />
+
+                    <block type="core/template" name="nwtkco_discount" template="nwt/kco/discount.phtml">
+                        <block type="checkout/cart_coupon" name="checkout.cart.coupon" as="coupon" template="nwt/kco/discount/coupon.phtml" />
+                    </block>
+
+                    <block type="core/template" name="nwtkco_newsletter" template="nwt/kco/newsletter.phtml"/>
+                </block>
+                <!-- KCO RIGHT -->
+                <block type="nwtkco/klarna"  name="nwtkco_klarna" template="nwt/kco/klarna.phtml" />
+            </block>
+        </reference>
+    </nwtkco>
+
+    <nwtkco_checkout_index>
+        <label>Klarna Checkout</label>
+        <update handle="nwtkco" />
+    </nwtkco_checkout_index>
+
+
+    <nwtkco_checkout_thankyou>
+        <label>Klarna Checkout Success Page</label>
+
+        <remove name="right" />
+        <remove name="left" />
+        <!--<remove name="content" />-->
+
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+            <action method="addBodyClass"><class>body-klarna-checkout</class></action>
+        </reference>
+
+        <reference name="head">
+            <action method="addItem"><type>skin_css</type><name>nwt/kco/main.css</name><params/></action>
+        </reference>
+
+        <!-- use own ga -->
+        <!--
+        <reference name="google_analytics">
+            <action method="setTemplate"><template>nwt/kco/ga.phtml</template></action>
+        </reference>
+        -->
+
+        <reference name="content">
+            <action method="unsetChildren"></action>
+            <block type="core/template" name="nwtkco_messages" template="nwt/kco/messages.phtml"/>
+            <block type="nwtkco/thankyou" name="nwtkco_kco" template="nwt/kco/success.phtml">
+                <block type="nwtkco/klarna"  name="klarnacheckout" as="klarnacheckout" template="nwt/kco/klarna.phtml" />
+            </block>
+        </reference>
+
+    </nwtkco_checkout_thankyou>
+
+
+</layout> 

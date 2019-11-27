@@ -1,0 +1,30 @@
+<div id="nwtkco-bigwrap" class="nwtkco-<?php echo Mage::helper('nwtkco')->responsiveTheme()?'responsive':'fixed';?>-theme">
+
+    <div class="kco-left nwtkco-hide">
+
+        <?php if ($this->getOrderId()):?>
+            <p><?php echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
+            <?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+                <p>
+                    <?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+                </p>
+            <?php endif;?>
+
+        <?php elseif($this->isTest()): ?>
+
+            <?php echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.'); ?>
+            <p><br /><br /><strong style="color:red">This is a test page...</strong></p>
+            
+        <?php endif;?>
+        
+        <div class="buttons-set">
+            <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+        </div>
+        
+    </div>
+    
+    <!-- Klarna -->
+    <?php echo $this->getChildHtml(); ?>
+    <!-- /Klarna -->
+    
+</div>

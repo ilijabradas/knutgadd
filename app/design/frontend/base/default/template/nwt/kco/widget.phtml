@@ -1,0 +1,35 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ */
+
+/**
+ * Klarna product widget template
+ * shown in product page (show payment rate, conditions)
+ */
+?>
+<?php
+    if(!Mage::helper('nwtkco')->isEnabled()) return;
+
+    $locale = str_replace('-','_',Mage::helper('nwtkco')->getDefaultLocale()); //klarna shit, in API use sv-se, here sv_se
+    $product = Mage::registry('current_product');
+    $style = Mage::helper('nwtkco')->getKlarnaWidget();
+    $eid = Mage::helper('nwtkco')->getEid();
+    if(!$product || !$style || !$eid || !$locale) return;
+
+?>
+<div style="width:210px; height:70px"
+     class="klarna-widget klarna-part-payment"
+     data-eid="<?php echo $eid == 14 ? 3107 : $eid ; //bullshit - Our test EID doesn't work with the widget, using another ?>"
+     data-locale="<?php echo $locale; ?>"
+     data-price="<?php echo round($product->getFinalPrice(), '2') ;?>"
+     data-layout="<?php echo $style; ?>">
+</div>
+<script async src="//cdn.klarna.com/1.0/code/client/all.js"></script>

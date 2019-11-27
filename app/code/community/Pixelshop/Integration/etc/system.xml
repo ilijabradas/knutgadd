@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<config>
+	<sections>
+		<pixelshop>
+			<label>Pixelshop Integration</label>
+			<tab>general</tab>
+			<class>pixelshop</class>
+			<frontend_type>text</frontend_type>
+			<sort_order>1100</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			
+			<groups>
+				<pixelshop translate="label" module="pixelshop">
+					<label>Pixelshop Integration</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<api_key translate="label">
+							<label>API Key</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>Enter the API Key provided by Pixelshop.</comment>
+						</api_key>
+						<pixelshop_id translate="label">
+							<label>Pixelshop ID</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>25</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<comment>You can find your id after the slash in the branded page - https://pixelshop.me/pixelshop_id</comment>
+						</pixelshop_id>
+					</fields>
+				</pixelshop>
+			</groups>
+		</pixelshop>
+	</sections>
+</config>

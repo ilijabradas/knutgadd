@@ -1,0 +1,127 @@
+<?php 
+$delimiterTypes = Mage::helper('oopsprofile')->delimiterTypeArray();
+$enclosureTypes = Mage::helper('oopsprofile')->enclosureTypeArray();
+?>
+
+<div id="data-format-and-fields">
+		<div id="data-format-display-div">
+				<div class="entry-edit-head">
+						<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Data Format") ?></h4>
+				</div>
+				<fieldset>
+						<legend><?php echo $this->__("Data Format") ?></legend>
+						<span class="field-row" id="parse_type_row">
+								<label for="parse_type"><?php echo $this->__("Type:") ?></label>
+								<?php $formatTypes = Mage::helper('oopsprofile')->formatTypeArray()?>
+								<select id="parse_type" name="gui_data[parse][type]" onchange="showOption(this);" class="option-control" style="width:207px;">
+										<?php foreach($formatTypes as $key=>$value):?>
+												<option value="<?php echo $key?>" <?php echo $this->getSelected('gui_data/parse/type', $key) ?>><?php echo $value ?></option>
+										<?php endforeach;?>
+								</select>
+						</span>
+
+						
+						<div class="parse_type_csv" id="parse_type_csv">
+								<span class="field-row">
+								    <label for="parse_delimiter"><?php echo $this->__("Value Delimiter:") ?></label>
+										<select id="parse_delimiter" name="gui_data[parse][csv][delimiter]" onchange="showOption(this)" class="option-control" style="width:207px;">
+												<?php foreach($delimiterTypes as $key=>$value):?>
+														<option value="<?php echo $key?>" <?php echo $this->getSelected('gui_data/parse/csv/delimiter', $key) ?>><?php echo $value ?></option>
+												<?php endforeach;?>
+										</select>
+								</span>
+								<span class="field-row">
+								    <label for="parse_enclose"><?php echo $this->__("Enclose Values In:") ?></label>
+										<select id="parse_enclose" name="gui_data[parse][csv][enclose]" onchange="showOption(this)" class="option-control" style="width:207px;">	
+												<option value='"' <?php echo $this->getSelected('gui_data/parse/csv/enclose', '"') ?>><?php echo '"' ?></option>		    		
+												<option value="'" <?php echo $this->getSelected('gui_data/parse/csv/enclose', "'") ?>><?php echo "'" ?></option>		    							    		
+										</select>
+								</span>
+						</div>
+						<div class="parse_type_txt">
+								<span class="field-row">
+								    <label for="parse_delimiter"><?php echo $this->__("Value Delimiter:") ?></label>
+										<select id="parse_delimiter" name="gui_data[parse][txt][delimiter]" onchange="showOption(this)" class="option-control" style="width:207px;">
+												<?php foreach($delimiterTypes as $key=>$value):?>
+														<option value="<?php echo $key?>" <?php echo $this->getSelected('gui_data/parse/txt/delimiter', $key) ?>><?php echo $value ?></option>
+												<?php endforeach;?>
+										</select>
+								</span>
+								<span class="field-row">
+								    <label for="parse_enclose"><?php echo $this->__("Enclose Values In:") ?></label>
+										<select id="parse_enclose" name="gui_data[parse][txt][enclose]" onchange="showOption(this)" class="option-control" style="width:207px;">
+												<option value='"' <?php echo $this->getSelected('gui_data/parse/txt/enclose', '"') ?>><?php echo '"' ?></option>	
+												<option value="'" <?php echo $this->getSelected('gui_data/parse/txt/enclose', "'") ?>><?php echo "'" ?></option>		    				
+										</select>
+								</span>
+						</div>
+						<span class="field-row" id="first-row-display-select">
+								<label for="parse_fieldnames" id="first-row-display-row1"><?php echo $this->__("Original Magento attribute names in first row:") ?></label>
+								<span class="with-tip" id="first-row-display-row2">
+								    <select id="parse_fieldnames" name="gui_data[parse][fieldnames]" onchange="showFeildMapping();showOption(this)" class="option-control" style="width:207px;">
+								        <option value="" <?php echo $this->getSelected('gui_data/parse/fieldnames', false) ?>><?php echo $this->__("No") ?></option>
+								        <option value="true" <?php echo $this->getSelected('gui_data/parse/fieldnames', true) ?>><?php echo $this->__("Yes") ?></option>
+								    </select>
+								    <small class="profile_direction_import">
+								        <span class="parse_fieldnames_">
+								            <?php echo $this->__("(When 'No', only mapped fields will be imported. When mapping, use 'column1', 'column2', etc.)") ?>
+								        </span>
+								    </small>
+								</span>
+						</span>
+						<div class="profile_direction_export" id="profile_direction_export_row">
+								<span class="field-row">
+								    <label for="map_only_specified"><?php echo $this->__("Export:") ?></label>
+								    <select id="map_only_specified" name="gui_data[map][only_specified]" onchange="showFeildMapping();showOption(this)">
+								        <option value="" <?php echo $this->getSelected('gui_data/map/only_specified', false) ?>><?php echo $this->__("All fields") ?></option>
+								        <option value="true" <?php echo $this->getSelected('gui_data/map/only_specified', true) ?>><?php echo $this->__("Only mapped fields") ?></option>
+								    </select>
+								</span>
+						</div>
+				</fieldset>
+		</div>
+
+		<div id="__fieldmapping">
+		<div class="entry-edit-head">
+		<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__("Field Mapping") ?></h4>
+		</div>
+		<fieldset>
+				<legend><?php echo $this->__("Field Mapping") ?></legend>
+				<?php $oopsentityAttrTypes = Mage::helper('oopsprofile')->entityAttrTypeArray()?>
+				<?php foreach ($oopsentityAttrTypes as $_entityType): ?>
+				    <div class="profile_entity_type_<?php echo $_entityType ?>">
+				        <div id="map_template_<?php echo $_entityType ?>" style="display:none">
+				            <span class="field-row">
+				                <?php echo $this->__("In Database:") ?> <select name="gui_data[map][<?php echo $_entityType ?>][db][]" onchange="setMapFileField(this)">
+				                    <?php
+				                        $fieldMappingInDatabase = $this->getAttributes($_entityType);
+				                        asort($fieldMappingInDatabase);
+				                        foreach ($fieldMappingInDatabase as $_value=>$_label): ?>
+				                        <option value="<?php echo $_value ?>"><?php echo $_label ?></option>
+				                    <?php endforeach ?>
+				                </select>
+				                &lt;--&gt;
+				                <?php echo $this->__("In File:") ?> <input class="input-text" name="gui_data[map][<?php echo $_entityType ?>][file][]"/>
+				                <?php echo $this->getRemoveMapButtonHtml() ?>
+				            </span>
+				        </div>
+				        <div id="map_container_<?php echo $_entityType ?>">
+				            <?php foreach ($this->getMappings($_entityType) as $_i=>$_dbField): ?>
+				                <span class="field-row">
+				                    <?php echo $this->__("In Database:") ?> <select name="gui_data[map][<?php echo $_entityType ?>][db][]">
+				                    <?php foreach ($this->getAttributes($_entityType) as $_value=>$_label): ?>
+				                        <option value="<?php echo $_value ?>" <?php echo $this->getSelected('gui_data/map/'.$_entityType.'/db/'.$_i, $_value) ?>><?php echo $_label ?></option>
+				                    <?php endforeach ?>
+				                    </select>
+				                    &lt;--&gt;
+				                    <?php echo $this->__("In File:") ?> <input class="input-text" name="gui_data[map][<?php echo $_entityType ?>][file][]" value="<?php echo $this->getValue('gui_data/map/'.$_entityType.'/file/'.$_i) ?>"/>
+				                    <?php echo $this->getRemoveMapButtonHtml() ?>
+				                </span>
+				            <?php endforeach ?>
+				        </div>
+				    </div>
+				<?php endforeach ?>
+				<?php echo $this->getAddMapButtonHtml() ?>
+		</fieldset>
+		</div>
+</div>

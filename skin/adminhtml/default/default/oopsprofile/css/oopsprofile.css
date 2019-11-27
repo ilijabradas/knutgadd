@@ -1,0 +1,33 @@
+/**Oops profile**/
+.oopsprofile-generator select { width:207px; }
+.oopsprofile-generator input.input-text { width:200px; }
+
+.oopsprofile-generator .field-row  button.delete {vertical-align:middle; }
+.oopsprofile-generator fieldset button.add {display:inline; margin:0; }
+
+/**category Mapping**/
+.category-mapping.entry-edit .field-row label{width:240px;}
+.category-mapping.entry-edit .field-row input.input-text{width:205px;}
+
+.category-mapping.entry-edit ul.ui-widget{float:left;width:100%;}
+.category-mapping.entry-edit ul.ui-widget li{float:left;width:95%;}
+.category-mapping.entry-edit ul{float:left;width:100%;background:#f0f0f0;}
+.category-mapping.entry-edit ul li{float:left;width:95%;margin:0;}
+.category-mapping.entry-edit .category-mapping{float:left;width:95%;border:1px solid #cccccc;padding:2px;margin:1px 0;}
+.category-mapping.entry-edit .category-name{float:left;width:20%;}
+.category-mapping.entry-edit .category-map{float:left;width:80%;}
+
+.category-mapping.entry-edit .category-map input{
+float:left;
+width: 350px;
+border: 1px solid #DDDDDD;
+background: #F6F6F6;
+padding: 1px 3px 1px 3px;
+color: #2f2f2f;
+font-size: 12px;
+}
+.category-mapping.entry-edit .category-map input:focus,.category-mapping.entry-edit .category-map input:hover{
+background: #fff;
+border-color: #aaa #c8c8c8 #c8c8c8 #aaa;
+}
+

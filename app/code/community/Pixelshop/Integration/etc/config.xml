@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Pixelshop_Integration>
+			<version>1.0.0</version>
+		</Pixelshop_Integration>
+	</modules>
+	
+	<default>
+		<pixelshop>
+			<pixelshop>
+				<active>0</active>
+				<api_key></api_key>
+			</pixelshop>
+			<general>
+            	<default_sort_by><![CDATA[position]]></default_sort_by>
+            </general>
+		</pixelshop>
+	</default>
+
+	<global>
+		<blocks>
+            <pixelshop>
+                <class>Pixelshop_Integration_Block</class>
+            </pixelshop>
+        </blocks>
+
+		<helpers>
+			<pixelshop>
+				<class>Pixelshop_Integration_Helper</class>
+			</pixelshop>
+		</helpers>
+		
+		<models>
+			<pixelshop>
+				<class>Pixelshop_Integration_Model</class>
+			</pixelshop>
+		</models>
+	</global>
+
+	<admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <pixelshop after="Mage_Adminhtml">Pixelshop_Integration_Adminhtml</pixelshop>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <pixelshop>
+                    <file>pixelshop.xml</file>
+                </pixelshop>
+            </updates>
+        </layout>
+
+        <acl>
+			<resources>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<pixelshop translate="title" module="pixelshop">
+											<title>Pixelshop Integration</title>
+										</pixelshop>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+    </adminhtml>
+
+	<frontend>
+		<layout>
+			<updates>
+				<pixelshop>
+					<file>pixelshop.xml</file>
+				</pixelshop>
+			</updates>
+		</layout>
+	</frontend>
+</config>

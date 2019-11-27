@@ -1,0 +1,45 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * Klarna Checkout (mini) Cart template
+ */
+?>
+<?php
+    $toggled = Mage::helper('nwtkco')->showCartItems();
+?>
+<div class="nwtkco-block nwtkco-block-cart <?php echo $toggled ? 'toggled' :'';?>" id="nwtkco_cart">
+    <div class="nwtkco-title">
+        <h2><?php echo $this->__('Cart') ?></h2>
+        <a class="show-all" onclick="KCO.toggleProducts(this)"><?php echo $this->getItemsSummaryQty(); ?> <?php echo $this->__('products'); ?> <span></span></a>
+    </div>
+    <div class="nwtkco-content block-items" id="nwtkco-cart-items">
+    <?php $_items = $this->getItems() ?>
+    <?php if(count($_items)): ?>
+        <ol id="cart-sidebar" class="mini-products-list">
+        <?php foreach($_items as $_item): ?>
+            <?php echo $this->getItemHtml($_item) ?>
+        <?php endforeach; ?>
+        </ol>
+<!--        --><?php //if(count($_items)>1): ?>
+<!--            <a class="show-all" onclick="KCO.toggleProducts(this)"></a>-->
+<!--        --><?php //endif; ?>
+    <?php else: ?>
+        <p class="empty"><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+    <?php endif ?>
+    </div>
+    <div class="nwtkco-content block-totals">
+        <?php echo $this->getChildHtml('totals'); ?>
+    </div>
+</div>
+

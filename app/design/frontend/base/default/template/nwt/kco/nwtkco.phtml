@@ -1,0 +1,34 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ * 
+ *
+ */
+
+/**
+ * NWT-Klarna checkout "big" wrapper template
+ * Contains checkout sidebar & klarna iframe
+ */
+?>
+<div id="nwtkco-bigwrap" class="nwtkco-<?php echo Mage::helper('nwtkco')->responsiveTheme()?'responsive':'fixed';?>-theme">
+<?php
+    echo $this->getChildHtml();
+?>
+</div>
+<div class="nwtkco-clear"></div>
+<script type="text/javascript">
+//<![CDATA[
+    var KCO = new KlarnakassanCheckout({
+        failure: '<?php echo $this->getUrl('checkout/cart') ?>',
+        ctrlkey: '<?php echo Mage::helper('nwtkco')->getKlarnaCheckout()->getQuoteSignature(); ?>',
+        ctrlcookie: '<?php echo Mage::helper('nwtkco')->getCartCtrlKeyCookieName();?>',
+        cartcookie: '<?php echo Mage::helper('nwtkco')->getShowCartItemsCookieName();?>'
+    });
+//]]>
+</script>

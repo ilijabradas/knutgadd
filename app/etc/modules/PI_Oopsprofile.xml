@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<config>
+    <modules>
+        <PI_Oopsprofile>
+            <active>false</active>
+            <codePool>community</codePool>
+        </PI_Oopsprofile>
+    </modules>
+</config>

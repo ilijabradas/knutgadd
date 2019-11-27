@@ -1,0 +1,108 @@
+<style type="text/css">
+
+/*INSTPIRATION/DEDICATION PAGE*/
+
+.inspiration {
+	margin-top: 30px;
+}
+
+.inspiration h1 {
+	color: #636363 !important;
+	text-align: center;
+	margin: 40px 0;
+}
+
+.cms-inspiration .std h1 {
+	color: #504d56;
+	text-align: center;
+	font-size: 140%;
+	margin-top: 24px;
+}
+
+.inspiration .item .date {
+	font-family: 'Tonis-Italic';
+	font-size: 24px;
+	text-transform: capitalize;
+	font-weight: bold;
+	color: #636363 !important;
+	text-align: center;
+	display: block;
+	padding-bottom: 10px;
+}
+
+.inspiration .item .image-left {
+	width: 49%;
+	float: left;
+}
+
+.inspiration .item .image-right {
+	width: 49%;
+	float: right;
+}
+
+.inspiration .content {
+	display: block;
+	clear: both;
+	text-align: justify;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px !important;
+	line-height: 22px;
+	margin-bottom: 40px;
+	padding-top: 16px;
+}
+
+.inspiration .content p {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px !important;
+}
+
+.inspiration .title {
+	display: block;
+	clear: both;
+}
+
+@media screen and (max-width: 1023px) {
+	.inspiration {
+		padding: 0 10px;
+	}
+	.inspiration .content {
+		font-size: 16px !important;
+	}
+	.inspiration .content p {
+		font-size: 16px !important;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.inspiration {
+		margin-top: 0;
+	}
+	.inspiration .content {
+		font-size: 14px !important;
+	}
+	.inspiration .content p {
+		font-size: 14px !important;
+	}
+}
+
+</style>
+
+<?php
+$articles = $this->getLayout()->getBlockSingleton('GreenPackages_News_Block_Detalle')->getLoadedNewsCollection();
+?>
+
+<div class="inspiration">
+	<!-- <h1><?php //echo $this->__('Inspiration'); ?></h1> -->
+	<?php foreach ($articles as $article) { ?>
+	<?php if ($article['status'] == 1) { ?>
+	<div class="item">
+		<!-- <div class="date"><?php //echo date('M d', strtotime($article['created_at'])); ?></div> -->
+		<!-- <div class="date"><?php //echo $article['title']; ?></div> -->
+		<img class="image-left" src="<?php echo $article['image_one']; ?>">
+		<img class="image-right" src="<?php echo $article['image_two']; ?>">
+		<!-- <div class="title"><?php //echo $article['title']; ?></div> -->
+		<div class="content"><?php echo $article['texto']; ?></div>
+	</div>
+	<?php } ?>
+	<?php ; } ?>
+</div>

@@ -1,0 +1,53 @@
+<?php
+function fetchData($url){
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+	$result = curl_exec($ch);
+	curl_close($ch);
+	return $result;
+}
+
+$result = fetchData("https://api.instagram.com/v1/users/1534086686/media/recent/?access_token=1534086686.1677ed0.a7028ff1aa444f75a6f7ae56a073d76c");
+$result = json_decode($result, true);
+$image_default = "/media/wysiwyg/Instagram-Asia/social_mob.jpg";
+?>
+
+<div class="homepage-instgram">
+	<div class="instagram-wrapper">
+		<div class="instagram-content">
+			<div class="instagram-title"><h2><?php echo $this->__('Be Social') ?></h2></div>
+			<div class="instagram-grid">
+				<?php if(!isset($result['data'])) { ?>
+				<div class="item">
+					<div class="item-inner">
+						<div class="box-img">
+							<img style="width: 100%;" alt="knutgadd instagram" src="<?php echo $image_default; ?>" />
+						</div>
+					</div>
+				</div>
+				<?php } else { ?>
+				<?php $i=0; foreach ($result['data'] as $post):
+				$image   = $post['images']['standard_resolution']['url'];
+				$caption = $post['caption']['text'];
+				$text    = substr($caption, 0, strpos($caption, '#'));
+				$likes   = $post['likes']['count'];
+				$link    = $post['link'];
+				?>
+				<div class="item">
+					<div class="item-inner">
+
+						<div class="box-img">
+							<img alt="knutgadd instagram" src="<?php echo $image; ?>" />
+						</div>
+
+					</div>
+				</div>
+				<?php $i++; if ($i == 4) break; ?>
+			<?php endforeach; ?>
+			<?php } ?>
+		</div>
+	</div>
+</div>
+</div>

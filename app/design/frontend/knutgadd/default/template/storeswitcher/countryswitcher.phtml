@@ -1,0 +1,201 @@
+<?php
+$helper = Mage::helper('webinerds_countryselector');
+$countries = $helper->getSwitchableCountries();
+$africa = $helper->getAfricaCountries();
+$europe = $helper->getEuropeCountries();
+$asiaPacific = $helper->getAsiaPacificCountries();
+$northAmerica = $helper->getNorthAmericaCountries();
+$southAmerica = $helper->getSouthAmericaCountries();
+?>
+<div class="row">
+    <div class="form-language">
+        <label for="select-country-north-am"><?php echo $this->__('North America') ?></label>
+        <select id="select-country-north-am" class="replacemeselect select-nav" title="<?php echo $this->__('North America') ?>" onchange="window.location.href=this.value">
+            <option><?php echo $this->__('SELECT COUNTRY') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('US') ?>" data-image="<?php echo $helper->getFlagPath('US'); ?>"><?php echo $this->__('United States') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('CA') ?>" data-image="<?php echo $helper->getFlagPath('CA'); ?>"><?php echo $this->__('Canada') ?></option>
+            <?php foreach ($northAmerica as $country): ?>
+                <option value="<?php echo $helper->getCountryUrl($country['value']) ?>" data-image="<?php echo $helper->getFlagPath($country['value']); ?>"><?php echo $country['label'] ?></option>
+            <?php endforeach; ?>
+        </select>
+        <div class="background">
+            <div class="north-am"></div>
+        </div>
+    </div>
+
+	<div class="form-language">
+	    <label for="select-country-europe"><?php echo $this->__('Europe') ?></label>
+	    <select id="select-country-europe" class="replacemeselect select-nav" title="<?php echo $this->__('Europe') ?>" onchange="window.location.href=this.value">
+            <option><?php echo $this->__('SELECT COUNTRY') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('de') ?>" data-image="<?php echo $helper->getFlagPath('de'); ?>"><?php echo $this->__('Germany') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('fr') ?>" data-image="<?php echo $helper->getFlagPath('fr'); ?>"><?php echo $this->__('France') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('uk') ?>" data-image="<?php echo $helper->getFlagPath('uk'); ?>"><?php echo $this->__('United Kingdom') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('es') ?>" data-image="<?php echo $helper->getFlagPath('es'); ?>"><?php echo $this->__('Spain') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('it') ?>" data-image="<?php echo $helper->getFlagPath('it'); ?>"><?php echo $this->__('Italy') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('se') ?>" data-image="<?php echo $helper->getFlagPath('se'); ?>"><?php echo $this->__('Sweden') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('no') ?>" data-image="<?php echo $helper->getFlagPath('no'); ?>"><?php echo $this->__('Norway') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('dk') ?>" data-image="<?php echo $helper->getFlagPath('dk'); ?>"><?php echo $this->__('Denmark') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('pl') ?>" data-image="<?php echo $helper->getFlagPath('pl'); ?>"><?php echo $this->__('Poland') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('nl') ?>" data-image="<?php echo $helper->getFlagPath('nl'); ?>"><?php echo $this->__('Netherlands') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ch') ?>" data-image="<?php echo $helper->getFlagPath('ch'); ?>"><?php echo $this->__('Switzerland') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('at') ?>" data-image="<?php echo $helper->getFlagPath('at'); ?>"><?php echo $this->__('Austria') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('be') ?>" data-image="<?php echo $helper->getFlagPath('be'); ?>"><?php echo $this->__('Belgium') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('fi') ?>" data-image="<?php echo $helper->getFlagPath('fi'); ?>"><?php echo $this->__('Finland') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('lt') ?>" data-image="<?php echo $helper->getFlagPath('lt'); ?>"><?php echo $this->__('Lithuania') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ie') ?>" data-image="<?php echo $helper->getFlagPath('ie'); ?>"><?php echo $this->__('Ireland') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('cz') ?>" data-image="<?php echo $helper->getFlagPath('cz'); ?>"><?php echo $this->__('Czech Republic') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('gr') ?>" data-image="<?php echo $helper->getFlagPath('gr'); ?>"><?php echo $this->__('Greece') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('pt') ?>" data-image="<?php echo $helper->getFlagPath('pt'); ?>"><?php echo $this->__('Portugal') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ro') ?>" data-image="<?php echo $helper->getFlagPath('ro'); ?>"><?php echo $this->__('Romania') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('hu') ?>" data-image="<?php echo $helper->getFlagPath('hu'); ?>"><?php echo $this->__('Hungary') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('hr') ?>" data-image="<?php echo $helper->getFlagPath('hr'); ?>"><?php echo $this->__('Croatia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('cy') ?>" data-image="<?php echo $helper->getFlagPath('cy'); ?>"><?php echo $this->__('Cyprus') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ee') ?>" data-image="<?php echo $helper->getFlagPath('ee'); ?>"><?php echo $this->__('Estonia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('sk') ?>" data-image="<?php echo $helper->getFlagPath('sk'); ?>"><?php echo $this->__('Slovakia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ua') ?>" data-image="<?php echo $helper->getFlagPath('ua'); ?>"><?php echo $this->__('Ukraine') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('si') ?>" data-image="<?php echo $helper->getFlagPath('si'); ?>"><?php echo $this->__('Slovenia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('rs') ?>" data-image="<?php echo $helper->getFlagPath('rs'); ?>"><?php echo $this->__('Serbia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('lu') ?>" data-image="<?php echo $helper->getFlagPath('lu'); ?>"><?php echo $this->__('Luxembourg') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ba') ?>" data-image="<?php echo $helper->getFlagPath('ba'); ?>"><?php echo $this->__('Bosnia and Herzegovina') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('is') ?>" data-image="<?php echo $helper->getFlagPath('is'); ?>"><?php echo $this->__('Iceland') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('lv') ?>" data-image="<?php echo $helper->getFlagPath('lv'); ?>"><?php echo $this->__('Latvia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('by') ?>" data-image="<?php echo $helper->getFlagPath('by'); ?>"><?php echo $this->__('Belarus') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('al') ?>" data-image="<?php echo $helper->getFlagPath('al'); ?>"><?php echo $this->__('Albania') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('bg') ?>" data-image="<?php echo $helper->getFlagPath('bg'); ?>"><?php echo $this->__('Bulgaria') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mt') ?>" data-image="<?php echo $helper->getFlagPath('mt'); ?>"><?php echo $this->__('Malta') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mk') ?>" data-image="<?php echo $helper->getFlagPath('mk'); ?>"><?php echo $this->__('Macedonia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('me') ?>" data-image="<?php echo $helper->getFlagPath('me'); ?>"><?php echo $this->__('Montenegro') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ge') ?>" data-image="<?php echo $helper->getFlagPath('ge'); ?>"><?php echo $this->__('Georgia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('li') ?>" data-image="<?php echo $helper->getFlagPath('li'); ?>"><?php echo $this->__('Liechtenstein') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mc') ?>" data-image="<?php echo $helper->getFlagPath('mc'); ?>"><?php echo $this->__('Monaco') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('am') ?>" data-image="<?php echo $helper->getFlagPath('am'); ?>"><?php echo $this->__('Armenia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('sm') ?>" data-image="<?php echo $helper->getFlagPath('sm'); ?>"><?php echo $this->__('San Marino') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('az') ?>" data-image="<?php echo $helper->getFlagPath('az'); ?>"><?php echo $this->__('Azerbaijan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ad') ?>" data-image="<?php echo $helper->getFlagPath('ad'); ?>"><?php echo $this->__('Andorra') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('md') ?>" data-image="<?php echo $helper->getFlagPath('md'); ?>"><?php echo $this->__('Moldova') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('va') ?>" data-image="<?php echo $helper->getFlagPath('va'); ?>"><?php echo $this->__('Vatican City') ?></option>
+<!--	        --><?php //foreach ($europe as $country): ?>
+<!--	            <option value="--><?php //echo $helper->getCountryUrl($country['value']) ?><!--" data-image="--><?php //echo $helper->getFlagPath($country['value']); ?><!--">--><?php //echo $country['label'] ?><!--</option>-->
+<!--	        --><?php //endforeach; ?>
+	    </select>
+			<div class="background">
+				<div class="europe"></div>
+			</div>
+	</div>
+
+	<div class="form-language">
+	    <label for="select-country-asia"><?php echo $this->__('Asia + The Pacific') ?></label>
+	    <select id="select-country-asia" class="replacemeselect select-nav" title="<?php echo $this->__('Asia + The Pacific') ?>" onchange="window.location.href=this.value">
+            <option><?php echo $this->__('SELECT COUNTRY') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('jp') ?>" data-image="<?php echo $helper->getFlagPath('jp'); ?>"><?php echo $this->__('Japan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('tw') ?>" data-image="<?php echo $helper->getFlagPath('tw'); ?>"><?php echo $this->__('Taiwan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('my') ?>" data-image="<?php echo $helper->getFlagPath('my'); ?>"><?php echo $this->__('Malaysia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('hk') ?>" data-image="<?php echo $helper->getFlagPath('hk'); ?>"><?php echo $this->__('Hong Kong') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('cn') ?>" data-image="<?php echo $helper->getFlagPath('cn'); ?>"><?php echo $this->__('China') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('sg') ?>" data-image="<?php echo $helper->getFlagPath('sg'); ?>"><?php echo $this->__('Singapore') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('au') ?>" data-image="<?php echo $helper->getFlagPath('au'); ?>"><?php echo $this->__('Australia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('id') ?>" data-image="<?php echo $helper->getFlagPath('id'); ?>"><?php echo $this->__('Indonesia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('nz') ?>" data-image="<?php echo $helper->getFlagPath('nz'); ?>"><?php echo $this->__('New Zealand') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('kr') ?>" data-image="<?php echo $helper->getFlagPath('kr'); ?>"><?php echo $this->__('Korea, South') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ru') ?>" data-image="<?php echo $helper->getFlagPath('ru'); ?>"><?php echo $this->__('Russian Federation') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('tr') ?>" data-image="<?php echo $helper->getFlagPath('tr'); ?>"><?php echo $this->__('Turkey') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('th') ?>" data-image="<?php echo $helper->getFlagPath('th'); ?>"><?php echo $this->__('Thailand') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ph') ?>" data-image="<?php echo $helper->getFlagPath('ph'); ?>"><?php echo $this->__('Philippines') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('vn') ?>" data-image="<?php echo $helper->getFlagPath('vn'); ?>"><?php echo $this->__('Vietnam') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ae') ?>" data-image="<?php echo $helper->getFlagPath('ae'); ?>"><?php echo $this->__('United Arab Emirates') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('in') ?>" data-image="<?php echo $helper->getFlagPath('in'); ?>"><?php echo $this->__('India') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('sa') ?>" data-image="<?php echo $helper->getFlagPath('sa'); ?>"><?php echo $this->__('Saudi Arabia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('il') ?>" data-image="<?php echo $helper->getFlagPath('il'); ?>"><?php echo $this->__('Israel') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('lb') ?>" data-image="<?php echo $helper->getFlagPath('lb'); ?>"><?php echo $this->__('Lebanon') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('bn') ?>" data-image="<?php echo $helper->getFlagPath('bn'); ?>"><?php echo $this->__('Brunei') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('kz') ?>" data-image="<?php echo $helper->getFlagPath('kz'); ?>"><?php echo $this->__('Kazakhstan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ir') ?>" data-image="<?php echo $helper->getFlagPath('ir'); ?>"><?php echo $this->__('Iran') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('pk') ?>" data-image="<?php echo $helper->getFlagPath('pk'); ?>"><?php echo $this->__('Pakistan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('kw') ?>" data-image="<?php echo $helper->getFlagPath('kw'); ?>"><?php echo $this->__('Kuwait') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('jo') ?>" data-image="<?php echo $helper->getFlagPath('jo'); ?>"><?php echo $this->__('Jordan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('qa') ?>" data-image="<?php echo $helper->getFlagPath('qa'); ?>"><?php echo $this->__('Qatar') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('bh') ?>" data-image="<?php echo $helper->getFlagPath('bh'); ?>"><?php echo $this->__('Bahrain') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('kh') ?>" data-image="<?php echo $helper->getFlagPath('kh'); ?>"><?php echo $this->__('Cambodia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('iq') ?>" data-image="<?php echo $helper->getFlagPath('iq'); ?>"><?php echo $this->__('Iraq') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('bd') ?>" data-image="<?php echo $helper->getFlagPath('bd'); ?>"><?php echo $this->__('Bangladesh') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('lk') ?>" data-image="<?php echo $helper->getFlagPath('lk'); ?>"><?php echo $this->__('Sri Lanka') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mm') ?>" data-image="<?php echo $helper->getFlagPath('mm'); ?>"><?php echo $this->__('Burma') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mn') ?>" data-image="<?php echo $helper->getFlagPath('mn'); ?>"><?php echo $this->__('Mongolia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('om') ?>" data-image="<?php echo $helper->getFlagPath('om'); ?>"><?php echo $this->__('Oman') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('np') ?>" data-image="<?php echo $helper->getFlagPath('np'); ?>"><?php echo $this->__('Nepal') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('kg') ?>" data-image="<?php echo $helper->getFlagPath('kg'); ?>"><?php echo $this->__('Kyrgyzstan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('la') ?>" data-image="<?php echo $helper->getFlagPath('la'); ?>"><?php echo $this->__('Laos') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('uz') ?>" data-image="<?php echo $helper->getFlagPath('uz'); ?>"><?php echo $this->__('Uzbekistan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mv') ?>" data-image="<?php echo $helper->getFlagPath('mv'); ?>"><?php echo $this->__('Maldives') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('sy') ?>" data-image="<?php echo $helper->getFlagPath('sy'); ?>"><?php echo $this->__('Syria') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('af') ?>" data-image="<?php echo $helper->getFlagPath('af'); ?>"><?php echo $this->__('Afghanistan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ye') ?>" data-image="<?php echo $helper->getFlagPath('ye'); ?>"><?php echo $this->__('Yemen') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('tj') ?>" data-image="<?php echo $helper->getFlagPath('tj'); ?>"><?php echo $this->__('Tajikistan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('bt') ?>" data-image="<?php echo $helper->getFlagPath('bt'); ?>"><?php echo $this->__('Bhutan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('tm') ?>" data-image="<?php echo $helper->getFlagPath('tm'); ?>"><?php echo $this->__('Turkmenistan') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('fj') ?>" data-image="<?php echo $helper->getFlagPath('fj'); ?>"><?php echo $this->__('Fiji') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ki') ?>" data-image="<?php echo $helper->getFlagPath('ki'); ?>"><?php echo $this->__('Kiribati') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('kp') ?>" data-image="<?php echo $helper->getFlagPath('kp'); ?>"><?php echo $this->__('Korea, North') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('mh') ?>" data-image="<?php echo $helper->getFlagPath('mh'); ?>"><?php echo $this->__('Marshall Islands') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('fm') ?>" data-image="<?php echo $helper->getFlagPath('fm'); ?>"><?php echo $this->__('Micronesia') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('nr') ?>" data-image="<?php echo $helper->getFlagPath('nr'); ?>"><?php echo $this->__('Nauru') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('pw') ?>" data-image="<?php echo $helper->getFlagPath('pw'); ?>"><?php echo $this->__('Palau') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('pg') ?>" data-image="<?php echo $helper->getFlagPath('pg'); ?>"><?php echo $this->__('Papua New Guinea') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('ws') ?>" data-image="<?php echo $helper->getFlagPath('ws'); ?>"><?php echo $this->__('Samoa') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('sb') ?>" data-image="<?php echo $helper->getFlagPath('sb'); ?>"><?php echo $this->__('Solomon Islands') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('to') ?>" data-image="<?php echo $helper->getFlagPath('to'); ?>"><?php echo $this->__('Tonga') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('tv') ?>" data-image="<?php echo $helper->getFlagPath('tv'); ?>"><?php echo $this->__('Tuvalu') ?></option>
+            <option value="<?php echo $helper->getCountryUrl('vu') ?>" data-image="<?php echo $helper->getFlagPath('vu'); ?>"><?php echo $this->__('Vanuatu') ?></option>
+<!--	        --><?php //foreach ($asiaPacific as $country): ?>
+<!--	            <option value="--><?php //echo $helper->getCountryUrl($country['value']) ?><!--" data-image="--><?php //echo $helper->getFlagPath($country['value']); ?><!--">--><?php //echo $country['label'] ?><!--</option>-->
+<!--	        --><?php //endforeach; ?>
+	    </select>
+			<div class="background">
+				<div class="asia"></div>
+			</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="form-language">
+        <label for="select-country-africa"><?php echo $this->__('Africa') ?></label>
+        <select id="select-country-africa" class="replacemeselect select-nav" title="<?php echo $this->__('Africa') ?>" onchange="window.location.href=this.value">
+            <option><?php echo $this->__('SELECT COUNTRY') ?></option>
+            <?php foreach ($africa as $country): ?>
+                <option value="<?php echo $helper->getCountryUrl($country['value']) ?>" data-image="<?php echo str_replace('\\', '/',$helper->getFlagPath($country['value'])); ?>"><?php echo $country['label'] ?></option>
+            <?php endforeach; ?>
+        </select>
+        <div class="background">
+            <div class="africa"></div>
+        </div>
+    </div>
+
+	<div class="form-language">
+	    <label for="select-country-south-am"><?php echo $this->__('South America') ?></label>
+	    <select id="select-country-south-am" class="replacemeselect select-nav" title="<?php echo $this->__('South America') ?>" onchange="window.location.href=this.value">
+		      <option><?php echo $this->__('SELECT COUNTRY') ?></option>
+	        <?php foreach ($southAmerica as $country): ?>
+	            <option value="<?php echo $helper->getCountryUrl($country['value']) ?>" data-image="<?php echo $helper->getFlagPath($country['value']); ?>"><?php echo $country['label'] ?></option>
+	        <?php endforeach; ?>
+	    </select>
+			<div class="background">
+				<div class="south-am"></div>
+			</div>
+	</div>
+
+	<div class="form-language">
+		<a href="/" id="global"><?php echo $this->__('Go to global site') ?></a>
+	</div>
+</div>
+<script type="text/javascript">
+		$j('#select-country-africa').msDropdown();
+		$j('#select-country-europe').msDropdown();
+		$j('#select-country-asia').msDropdown();
+		$j('#select-country-north-am').msDropdown();
+		$j('#select-country-south-am').msDropdown();
+
+        jQuery(".select-nav").change(function()
+        {
+            document.location.href = jQuery(this).val();
+        });
+</script>

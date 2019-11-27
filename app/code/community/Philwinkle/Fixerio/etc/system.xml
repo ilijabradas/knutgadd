@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <currency translate="label" module="directory">
+            <groups>
+                <fixerio translate="label">
+                    <label>Fixer.io</label>
+                    <sort_order>40</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                        <timeout translate="label">
+                            <label>Connection Timeout in Seconds</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </timeout>
+                        <access_key translate="label">
+                            <label>API Access Key from fixer.io</label>
+                            <comment><![CDATA[Sign up for a free account at <a href="https://fixer.io/signup/free" target="_blank">Fixer.io</a>]]></comment>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </access_key>
+                    </fields>
+                </fixerio>
+            </groups>
+        </currency>
+    </sections>
+</config>

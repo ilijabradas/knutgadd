@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Webinerds_AdditionalCmsPageLayouts>
+            <codePool>false</codePool>
+            <active>true</active>
+        </Webinerds_AdditionalCmsPageLayouts>
+    </modules>
+</config>

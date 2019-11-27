@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_multishipping_success>
+        <reference name="checkout_success">
+            <block type="checkout/multishipping_success" name="webinerds.tracking.success" template="webinerds/tracking.phtml"/>
+        </reference>
+    </checkout_multishipping_success>
+    <checkout_onepage_success>
+        <reference name="checkout.success">
+            <block type="checkout/onepage_success" name="webinerds.tracking.success" template="webinerds/tracking.phtml"/>
+        </reference>
+    </checkout_onepage_success>
+</layout>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!--
+ * Sreedarsh Bsslider
+ *
+ * @category      Sreedarsh
+ * @package       Sreedarsh_Bsslider
+ *
+ -->
+ 
+<config>
+    <modules>
+        <Sreedarsh_Bsslider>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Sreedarsh_Bsslider>
+    </modules>
+</config>

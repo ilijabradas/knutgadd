@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<DavNeb_CustomLayouts>
+			<codePool>local</codePool>
+			<depends>
+				<Mage_Page />
+			</depends>
+			<active>true</active>
+		</DavNeb_CustomLayouts>
+	</modules>
+</config>

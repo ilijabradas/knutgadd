@@ -1,0 +1,591 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_Base
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+ -->
+<config>
+   <sections>
+        <payment>
+            <groups>
+                <nwtkco translate="label" module="nwtkco">
+                    <label>Klarna Checkout (by NordicWebTeam)</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>15</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[
+                                If this is enabled, Klarna Checkout will be listed as payment method in default (onepage) checkout and, if is choose, the user will be redirected to the Klarna Checkout page.<br>
+                                Klarna checkout will use this method even this method is disabled.
+                            ]]></comment>
+                        </active>
+
+                        <title translate="label">
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>14</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+
+                        <order_status translate="label">
+                            <label>New Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_newprocessing</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_status>
+
+                        <sort_order translate="label">
+                            <label>Sort Order</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>70</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <frontend_class>validate-number</frontend_class>
+                        </sort_order>
+                        <!-- TODO
+                        <min_order_total translate="label">
+                            <label>Minimum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </min_order_total>
+                        <max_order_total translate="label">
+                            <label>Maximum Order Total</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>101</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_order_total>
+                        -->
+                    </fields>
+                </nwtkco>
+            </groups>
+        </payment>
+
+        <nwtkco translate="label" module="nwtkco">
+            <label>Klarna Checkout</label>
+            <tab>nwt</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>7</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <settings translate="label">
+                    <label>General Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+
+
+
+                        <test_mode translate="label">
+                            <label>Test Mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </test_mode>
+
+                        <eid translate="label">
+                            <label>EID</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </eid>
+                        <shared_secret translate="label">
+                            <label>Shared Secret</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shared_secret>
+
+                        <allowspecific translate="label">
+                            <label>Applicable Countries</label>
+                            <frontend_type>allowspecific</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>adminhtml/system_config_source_payment_allspecificcountries</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Check your Klarna account to find out allowed countries.</comment>
+                        </allowspecific>
+
+                        <specificcountry translate="label">
+                            <label>Specific Countries</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>55</sort_order>
+                            <source_model>nwtkco/adminhtml_system_config_source_country</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <can_be_empty>1</can_be_empty>
+                            <comment><![CDATA[Assure that selected countries are in <strong>Allow Countries</strong> list (<em>System &raquo; Configuration &raquo; General &raquo; General</em>)]]></comment>
+                        </specificcountry>
+
+                        <terms_url translate="label">
+                            <label>Url for Terms page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_cms_page</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[When purchase country is DE, assure that your (terms) page contains an anchor "cancellation_right" (<em>&lt;a name=&quot;cancelation_right&quot;&gt;Cancelation Right&lt;/a&gt;</a></em>) which will be used by Klarna as "Cancellation Right" url<br>See <strong>NOTE</strong> from <a href="https://developers.klarna.com/en/klarna-checkout/render-the-checkout-snippet" target="_blank">Configure the checkout order</a></a>]]></comment>
+                        </terms_url>
+
+
+
+                        <heading_order translate="label">
+                            <label>Default (checkout) values</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_order>
+
+                        <title translate="label">
+                            <label>Page Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>152</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+
+                        <thankyou_title translate="label">
+                            <label>Succes/Thankyou page Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>153</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Let empty to use default (above) title</comment>
+                        </thankyou_title>
+
+                        <country translate="label">
+                            <label>Country</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>nwtkco/adminhtml_system_config_source_country</source_model>
+                            <sort_order>155</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Only if multiple countries are allowed. If this is invalid, the first allowed country will be used</comment>
+                        </country>
+                        <shipping_method translate="label">
+                            <label>Shipping Method</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>nwtkco/adminhtml_system_config_source_shipping_allowedmethods</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Only if multiple shipping method are found. If this is invalid, the first (by position) shipping method will be used.</comment>
+                        </shipping_method>
+
+                        <show_cart_items translate="label">
+                            <label>Show (expand) cart items</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>165</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_cart_items>
+
+                        <newsletter_subscribe translate="label">
+                            <label>Subscribe Newsletter Checked</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </newsletter_subscribe>
+
+                        <register_customer translate="label">
+                            <label>Register Guest Customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>175</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </register_customer>
+
+
+
+                        <national_identification_number_mandatory translate="label">
+                            <label>Is National Identification Number Mandatory</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If NO, Klarna will not allow customer to place order without national identification number</comment>
+                        </national_identification_number_mandatory>
+
+			<minimum_age_required translate="label">
+                            <label>Validate minimum age</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>185</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+			    <comment>For this you required a SSL connection and  a public IP (cannot be test from internal server, Klarna will send a validation request to https://your.server/kco/checkout/validation). Also, assure that you have configured secure URL into General/WEB (try to manual access https://your.server/kco/checkout/ to see if it works)</comment>
+			</minimum_age_required>
+			<minimum_age translate="label">
+                            <label>Minimum age</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Leave empty for no restriction (if this is set, then, into Klarna checkout, national identification number will be also mandatory</comment>
+			    <depends><minimum_age_required>1</minimum_age_required></depends>
+			</minimum_age>
+		
+
+                         <allow_separate_shipping_address translate="label">
+                            <label>Allow a seperate shipping address</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Do you want to allow a seperate shipping address? Activate this function then!</comment>
+                        </allow_separate_shipping_address>                       
+
+
+                        <disable_autofocus translate="label">
+                            <label>Disable form auto focus</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If you wish to disable the form auto focus in the checkout. Some eShops using Klarna Checkout have shipping options or coupon codes at the top of their checkout page. If the form focus causes the page to scroll down when the Checkout iframe loads, then customers may not notice the shipping or coupon options. In this case, you may want to disable the form focus.</comment>
+                        </disable_autofocus>
+
+                        <heading_buttons translate="label">
+                            <label>Klarna Checkout button (CART)</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_buttons>
+
+
+                        <add_klarnakassan_button translate="label">
+                            <label>Add Klarna Checkout button</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>301</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[into <strong>shopping cart</strong> (and minicart, if standard)]]></comment>
+                        </add_klarnakassan_button>
+
+                        <cart_label translate="label">
+                            <label>KCO button label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>302</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><add_klarnakassan_button>1</add_klarnakassan_button></depends>
+                        </cart_label>
+
+                        <remove_cart_checkout_buttons translate="label">
+                            <label>Remove Other Checkout Buttons</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>303</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends><add_klarnakassan_button>1</add_klarnakassan_button></depends>
+                        </remove_cart_checkout_buttons>
+
+                        <heading_links translate="label">
+                            <label>Klarna Checkout link (TOP.LINKS)</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>310</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_links>
+
+                        <add_klarnakassan_link translate="label">
+                            <label>Add Klarna Checkout link </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>311</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[into <strong>top.links</strong> block (the block with Login, My account etc.)]]></comment>
+                        </add_klarnakassan_link>
+
+                        <klarnakassan_label translate="label">
+                            <label>KCO link label</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>312</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Text for klarnakassan link / button</comment>
+                            <depends><add_klarnakassan_link>1</add_klarnakassan_link></depends>
+                        </klarnakassan_label>
+
+                        <remove_checkout_links translate="label">
+                            <label>Remove Other Checkout Link(s)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>313</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Remove <strong>checkout</strong> and <strong>checkout/onepage</strong> links from top.links block]]></comment>
+                            <depends><add_klarnakassan_link>1</add_klarnakassan_link></depends>
+                        </remove_checkout_links>
+
+                        <checkout_links translate="label">
+                            <label>Additional Checkout Link(s) to be removed</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>314</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Comma separated;<br><strong>checkout</strong> and <strong>checkout/onepage</strong> will be automatically removed]]></comment>
+                            <depends><add_klarnakassan_link>1</add_klarnakassan_link><remove_checkout_links>1</remove_checkout_links></depends>
+                        </checkout_links>
+
+
+                        <heading_design translate="label">
+                            <label>KCO design</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>320</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_design>
+
+
+                        <header_text>
+                            <label>Header</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>330</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>This will be shown just over the Klarna iframe (you can add here alternative checkout). </comment>
+                        </header_text>
+                        <klarna_widget>
+                            <label>Klarna Payment Widget</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>nwtkco/adminhtml_system_config_source_styles</source_model>
+                            <sort_order>340</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Set Klarna Payment Widget style to be shown in product page (or disable entirely)</comment>
+                        </klarna_widget>
+
+                        <responsive_theme translate="label">
+                            <label>Responsive theme</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>350</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Set NO if you don't have a responsive theme]]></comment>
+                        </responsive_theme>
+
+                        <heading_colors translate="label">
+                            <label>KCO Colors</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>361</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_colors>
+
+
+                        <kco_color_button translate="label">
+                            <label>Color on the button</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>365</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Only hexadecimal values are allowed. The default color scheme will show if no values are set. Example: <b>#FCFF00</b>]]></comment>
+                        </kco_color_button>
+
+                        <kco_color_button_text translate="label">
+                            <label>Color on the button text</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>370</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Only hexadecimal values are allowed. The default color scheme will show if no values are set. Example: <b>#FCFF00</b>]]></comment>
+                        </kco_color_button_text>        
+
+                        <kco_color_checkbox translate="label">
+                            <label>Color on the checkbox</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>375</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Only hexadecimal values are allowed. The default color scheme will show if no values are set. Example: <b>#FCFF00</b>]]></comment>
+                        </kco_color_checkbox> 
+
+                        <kco_color_checkbox_checkmark translate="label">
+                            <label>Color on the checkmark in the checkbox</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>380</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Only hexadecimal values are allowed. The default color scheme will show if no values are set. Example: <b>#FCFF00</b>]]></comment>
+                        </kco_color_checkbox_checkmark>                                 
+
+                        <kco_color_header translate="label">
+                            <label>Color on the header</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>385</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Only hexadecimal values are allowed. The default color scheme will show if no values are set. Example: <b>#FCFF00</b>]]></comment>
+                        </kco_color_header>
+
+
+                        <kco_color_links translate="label">
+                            <label>Color on the links</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>390</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Only hexadecimal values are allowed. The default color scheme will show if no values are set. Example: <b>#FCFF00</b>]]></comment>
+                        </kco_color_links>
+                                                                                    
+
+                        <heading_others translate="label">
+                            <label>Other settings</label>
+                            <frontend_model>adminhtml/system_config_form_field_heading</frontend_model>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </heading_others>
+
+
+                        <shipping_sku translate="label">
+                            <label>Shipping code (in klarna order)</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>500</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>shipping_fee by default (if empty)</comment>
+                        </shipping_sku>
+
+                        <send_parent translate="label">
+                            <label>Send parent if children calculated (bundle product)</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>510</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>If yes, bundle product (with price 0, just for customer information) will be also send to the specter, else, only children will be send.</comment>
+                        </send_parent>
+
+                        <comment_field translate="label">
+                            <label>Order Comments</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>520</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Show a textarea in which customers can comment before purchase]]></comment>
+                        </comment_field>
+
+
+                        <shipping_details_success translate="label">
+                            <label>Shipping details in confirmation page</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>525</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Max 70 characters long. Will be shown in the confirmation page. Leave it empty if you dont want it.]]></comment>
+                        </shipping_details_success> 
+
+                    </fields>
+                </settings>
+            </groups>
+        </nwtkco>
+    </sections>
+
+</config>

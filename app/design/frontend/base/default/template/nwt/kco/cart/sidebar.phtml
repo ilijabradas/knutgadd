@@ -1,0 +1,31 @@
+<?php
+/**
+ * Klarna Checkout extension
+ *
+ * @category    NWT
+ * @package     NWT_KCO
+ * @copyright   Copyright (c) 2015 Nordic Web Team ( http://nordicwebteam.se/ )
+ * @license     http://nordicwebteam.se/licenses/nwtcl/1.0.txt  NWT Commercial License (NWTCL 1.0)
+ * 
+ *
+ */
+
+/**
+ * Klarna Checkout button template, used in sidebar
+ */
+?>
+<?php if ($this->isPossibleKlarnaCheckout()):?>
+    <?php $label = Mage::helper('nwtkco')->getCartLabel(); ?>
+    <button id="kcoButton" type="button" title="<?php echo $label; ?>" class="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $label; ?></span></span></button>
+
+    <?php if(Mage::helper('nwtkco')->removeCartCheckoutButtons()): ?>
+    <style>
+        .sidebar .block-cart .actions button {display:none}
+        #kcoButton {display:block}
+    </style>
+    <?php else: ?>
+        <br /><br />
+    <?php endif; ?>
+
+<?php endif; ?>
+

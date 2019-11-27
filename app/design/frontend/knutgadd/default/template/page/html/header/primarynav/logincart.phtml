@@ -1,0 +1,13 @@
+<ul class="shopping-bag">
+<?php if (!$this->helper('customer')->isLoggedIn()): ?>
+    <li class="loginLink"><a href="<?php echo Mage::helper('customer')->getLoginUrl(); ?>"><span class="label">Login</span></a></li>
+<?php else : ?>
+		<h3  id="customer-navigation-title">Login</h3>
+		<ul id="customer-navigation">
+			<li><a href="/customer/account">My Account</a></li>
+			<li><a href="<?php echo Mage::helper('customer')->getLogoutUrl(); ?>">Logout</a></li>
+		</ul>
+<?php endif; ?>
+    <li>/</li>
+    <li><a class="skip-link skip-cart no-count" href="/checkout/cart" data-target-element="#header-cart"> <span class="label">Cart</span> </a></li>
+</ul>
